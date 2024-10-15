@@ -23,6 +23,6 @@ export const projects = [
       githubUrl: 'https://github.com/yourusername/project2',
       liveUrl: 'https://project2.com',
     },
-    // Add more projects as needed
+    
   ];
 

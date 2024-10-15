@@ -4,9 +4,10 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
+import { Mesh } from 'three';
 
 function RotatingStars() {
-  const starsRef = useRef<any>();
+  const starsRef = useRef<Mesh>(null); // Define starsRef type as Mesh
 
   useFrame(() => {
     if (starsRef.current) {
@@ -27,4 +28,3 @@ export default function Background() {
     </div>
   );
 }
-
