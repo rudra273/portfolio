@@ -8,9 +8,10 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-white">RM</Link>
           <div className="space-x-4">
+            <Link href="/about" className="text-white hover:text-gray-300">About</Link>
             <Link href="/projects" className="text-white hover:text-gray-300">Projects</Link>
             <Link href="/blog" className="text-white hover:text-gray-300">Blog</Link>
-            <Link href="/contact" className="text-white hover:text-gray-300">Contact Me</Link>
+            <Link href="/contact" className="text-white hover:text-gray-300">Contact</Link>
           </div>
         </div>
       </div>

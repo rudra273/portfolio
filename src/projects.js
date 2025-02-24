@@ -19,7 +19,7 @@ export const projects = [
       fullDescription: 'Detailed description of Project 2. Explain the purpose of this project, the technologies used, and any interesting features or challenges.',
       image: '/projects/stock-dashboard/stock.jpeg',
       images: ['/projects/project2/image1.jpg', '/projects/project2/image2.jpg'],
-      techStack: ['Django', 'Next.js', 'PostgreSQL', 'Docker', 'Kubernetes', 'Prometheus', 'Grafana'],
+      techStack: ['Django', 'Next.js', 'PostgreSQL', 'Kubernetes'],
       githubUrl: 'https://github.com/yourusername/project2',
       liveUrl: 'https://project2.com',
     },

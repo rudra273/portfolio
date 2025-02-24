@@ -1,26 +1,3 @@
-/* src/app/globals.css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 10, 25, 47;
-  --background-end-rgb: 10, 25, 47;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
- */
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -47,4 +24,119 @@ body {
 
 .font-roboto {
   font-family: var(--font-roboto);
+} 
+
+
+@keyframes floatingAnimation {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
+
+.float-section {
+  animation: floatingAnimation 4s ease-in-out infinite;
+}
+
+/* Add different animation delays for more natural effect */
+.float-section:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.float-section:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.float-section:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+/* circular container */
+ 
+.circular-container {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.orbit-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orbit-section {
+  position: absolute;
+  width: 60vw;
+  max-width: 800px;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0% 50%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+/* invisble effect  */
+/* 
+@keyframes floatUp {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes floatDown {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.float-section {
+  opacity: 0;
+}
+
+.float-up {
+  animation: floatUp 0.8s ease forwards;
+}
+
+.float-down {
+  animation: floatDown 0.8s ease forwards;
+}
+
+.float-section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.float-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.float-section:nth-child(2) { transition-delay: 0.2s; }
+.float-section:nth-child(3) { transition-delay: 0.3s; }
+.float-section:nth-child(4) { transition-delay: 0.4s; } */
