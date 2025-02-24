@@ -13,7 +13,7 @@ const Footer = () => {
   
             {/* Right Column - Contact */}
             <div className="text-center md:text-right">
-              <p className="text-gray-300 font-poppins mb-2">Let's Connect</p>
+              <p className="text-gray-300 font-poppins mb-2">Let&apos;s Connect</p>
               <a
                 href="mailto:rudramohanty45@gmail.com"
                 className="inline-block px-8 py-3 border border-gray-600 hover:border-white hover:text-white transition-all duration-300"
