@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import Button from '@/components/Button';
 
 const careerTimeline = [
     { date: '2022', title: 'Graduation', role: 'Completed B.Tech in CSE', position: 'down' },
@@ -20,6 +22,7 @@ export default function AboutPage() {
               height={250}
               className="rounded-full opacity-60 hover:opacity-100 transition-opacity duration-300"
               />
+              
           </div>
         {/* Right Column: About Me Text */}
           <div className="text-white bg-black/80 backdrop-blur-sm p-6 rounded-lg">
@@ -54,6 +57,14 @@ export default function AboutPage() {
         </div>  
       </section>
 
+      <div className="flex justify-center mb-4">
+        <Link 
+          href="https://drive.google.com/file/d/1_MHQ4po0Yb_a2wmL3KM13WuK-PYNYcjU/view?usp=sharing"
+          target="_blank"
+        >
+          <Button>View CV</Button>
+        </Link>
+      </div>
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black opacity-90 text-white">
             <div className="container mx-auto">
                 <h2 className="text-2xl font-semibold text-center mb-12">Journey</h2>
@@ -85,6 +96,7 @@ export default function AboutPage() {
                 </div>
             </div>
         </section>
+    
 
     </div>
   );

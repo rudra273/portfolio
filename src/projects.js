@@ -26,3 +26,10 @@ export const projects = [
     
   ];
 
+export const allTechStacks = Array.from(new Set(projects.map(project => project.techStack).flat()));
+
+// create const like where i can add value like frontend, backend, fullstack, etc
+// and then filter the projects based on that value
+// and then display the projects based on that value in the projects page
+
+// create another const of all the unique tech stact list in projects page and by selecting that tech stack we can filter the projects based on that tech stack

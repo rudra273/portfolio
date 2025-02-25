@@ -1,3 +1,5 @@
+import Button from '@/components/Button'; 
+
 const Footer = () => {
     return (
       <footer className="py-12 px-4 mt-16">
@@ -14,12 +16,10 @@ const Footer = () => {
             {/* Right Column - Contact */}
             <div className="text-center md:text-right">
               <p className="text-gray-300 font-poppins mb-2">Let&apos;s Connect</p>
-              <a
-                href="mailto:rudramohanty45@gmail.com"
-                className="inline-block px-8 py-3 border border-gray-600 hover:border-white hover:text-white transition-all duration-300"
-              >
-                rudramohanty45@gmail.com
-              </a>
+                <a
+                href="mailto:rudramohanty45@gmail.com">
+                <Button>rudramohanty45@gmail.com</Button>
+                </a>
             </div>
           </div>
   

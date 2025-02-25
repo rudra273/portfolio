@@ -27,6 +27,7 @@ body {
 } 
 
 
+/* for the floating animation in the main page */
 @keyframes floatingAnimation {
   0% {
     transform: translateY(0px);
@@ -56,87 +57,14 @@ body {
   animation-delay: 1.5s;
 }
 
-/* circular container */
- 
-.circular-container {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  perspective: 1000px;
+
+
+/* for the text blinking cursor animation  */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.orbit-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.animate-blink {
+  animation: blink 1s infinite;
 }
-
-.orbit-section {
-  position: absolute;
-  width: 60vw;
-  max-width: 800px;
-  left: 50%;
-  top: 50%;
-  transform-origin: 0% 50%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 2rem;
-}
-
-/* invisble effect  */
-/* 
-@keyframes floatUp {
-  0% {
-    transform: translateY(100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes floatDown {
-  0% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.float-section {
-  opacity: 0;
-}
-
-.float-up {
-  animation: floatUp 0.8s ease forwards;
-}
-
-.float-down {
-  animation: floatDown 0.8s ease forwards;
-}
-
-.float-section {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, opacity;
-}
-
-.float-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.float-section:nth-child(2) { transition-delay: 0.2s; }
-.float-section:nth-child(3) { transition-delay: 0.3s; }
-.float-section:nth-child(4) { transition-delay: 0.4s; } */

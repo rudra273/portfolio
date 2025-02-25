@@ -1,4 +1,5 @@
-// src/components/ProjectCard.tsx
+// // src/components/ProjectCard.tsx
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -24,7 +25,14 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   return (
     <div className="bg-space-blue bg-opacity-50 rounded-lg overflow-hidden shadow-lg">
-      <Image src={image} alt={title} width={400} height={200} className="w-full object-cover" />
+      <div className="aspect-video relative">
+        <Image 
+          src={image} 
+          alt={title} 
+          fill
+          className="object-cover"
+        />
+      </div>
       <div className="p-6">
         <Link href={`/projects/${id}`}>
           <h3 className="text-2xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">{title}</h3>
@@ -39,7 +47,7 @@ export default function ProjectCard({
         </div>
         <div className="flex justify-between">
           <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
-            <FaGithub className="mr-2 font-poppins" /> View Source
+            <FaGithub className="mr-2" /> View Source
           </Link>
           <Link href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
             <FaExternalLinkAlt className="mr-2" /> View Website
