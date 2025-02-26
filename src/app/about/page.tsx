@@ -67,7 +67,7 @@ export default function AboutPage() {
       </div>
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black opacity-90 text-white">
             <div className="container mx-auto">
-                <h2 className="text-2xl font-semibold text-center mb-12">Journey</h2>
+                <h2 className="text-2xl font-semibold text-center mb-12 font-roboto">Journey</h2>
                 <div className="relative flex flex-col items-center">
                     <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-gray-500" />
                     

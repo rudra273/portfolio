@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import Button from '@/components/Button'; 
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -23,8 +24,8 @@ export default function ContactPage() {
 
   return (
     <div className="w-full">
-      <section className="flex flex-col justify-center items-center text-center px-2 py-20">
-        <h1 className="text-4xl md:text-6xl text-white font-light font-roboto">Contact Me</h1>
+      <section className="flex flex-col justify-center items-center text-center px-2 pt-20">
+        <h1 className="text-4xl md:text-4xl text-white font-light font-roboto">Contact Me</h1>
       </section>
 
       <section className="py-8 px-2 sm:px-4">
@@ -72,12 +73,12 @@ export default function ContactPage() {
                 placeholder="Your message"
               ></textarea>
             </div>
-            <button
+            <Button
               type="submit"
-              className="w-full text-white px-4 py-2 font-poppins border border-white hover:bg-white hover:text-gray-800 transition duration-300"
+              className="w-full"
             >
               Send Message
-            </button>
+            </Button>
           </form>
         </div>
       </section>

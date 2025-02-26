@@ -9,6 +9,7 @@ import Footer from '@/components/Footer'
 import Skills from '@/components/Skills'
 import Button from '@/components/Button'; 
 
+const FEATURED_PROJECT_IDS = ['1', '3'];
 
 export default function Home() {
   const [titleIndex, setTitleIndex] = useState(0);
@@ -69,21 +70,23 @@ export default function Home() {
         <Skills />
       </section>
 
-      <section className="py-16 px-2 sm:px-4 float-section transition-all duration-500 ease-in-out">
-        <div className="max-w-[90%] mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center font-roboto">Top Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projects.slice(0, 2).map((project) => (
+    <section className="py-16 px-2 sm:px-4 float-section transition-all duration-500 ease-in-out">
+      <div className="max-w-[90%] mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center font-roboto">Top Projects</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects
+            .filter(project => FEATURED_PROJECT_IDS.includes(project.id))
+            .map((project) => (
               <ProjectCard key={project.id} {...project} />
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link href="/projects">
-              <Button>View All Projects</Button>
-            </Link>
-          </div>
+          ))}
         </div>
-      </section>
+        <div className="text-center mt-8">
+          <Link href="/projects">
+            <Button>View All Projects</Button>
+          </Link>
+        </div>
+      </div>
+    </section>
 
       <section className="py-16 px-2 sm:px-4 float-section transition-all duration-500 ease-in-out ">
         <Footer />

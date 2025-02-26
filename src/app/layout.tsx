@@ -1,10 +1,14 @@
 // src/app/layout.tsx
+
 import type { Metadata } from 'next'
 import { Poppins, Roboto } from 'next/font/google'
+import { usePathname } from 'next/navigation'
 import './globals.css'
 import Background from '@/components/Background'
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
+import CometAnimation from '@/components/CometAnimation'
+
 
 const poppins = Poppins({ 
   weight: ['400', '700'],
@@ -32,6 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} ${roboto.variable} font-sans`}>
         <Background />
+        <CometAnimation />
         <Navbar />
         <Sidebar />
         <main className="w-full">
@@ -41,3 +46,4 @@ export default function RootLayout({
     </html>
   )
 }
+
