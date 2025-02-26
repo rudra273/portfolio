@@ -1,7 +1,7 @@
 // // src/app/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import ProjectCard from '@/components/ProjectCard'
 import { projects } from '@/projects'
@@ -16,11 +16,11 @@ export default function Home() {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   
-  const titles = [
+  const titles = useMemo(() => [
     "Software Developer",
     "Backend Developer", 
     "DevOps Engineer"
-  ];
+  ], []); 
 
   useEffect(() => {
     const typingSpeed = isDeleting ? 50 : 100;

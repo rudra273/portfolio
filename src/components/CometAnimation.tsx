@@ -28,6 +28,8 @@ const CometAnimation: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const container = containerRef.current;
+
     // **Scene Setup**
     const scene = new THREE.Scene();
 
@@ -327,10 +329,18 @@ const CometAnimation: React.FC = () => {
     requestAnimationFrame(animate);
 
     // **Cleanup**
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //     if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
+  //       containerRef.current.removeChild(renderer.domElement);
+  //     }
+  //     scene.clear();
+  //   };
+  // }, []);
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
       scene.clear();
     };

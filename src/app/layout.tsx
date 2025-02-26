@@ -1,8 +1,6 @@
 // src/app/layout.tsx
-
 import type { Metadata } from 'next'
 import { Poppins, Roboto } from 'next/font/google'
-import { usePathname } from 'next/navigation'
 import './globals.css'
 import Background from '@/components/Background'
 import Navbar from '@/components/Navbar'
