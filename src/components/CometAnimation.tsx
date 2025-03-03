@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
-// Define the Comet interface for type safety
 interface Comet {
   mesh: THREE.Group;
   trail: THREE.Points;
@@ -19,7 +18,7 @@ interface Comet {
   initialR: number;
   initialTheta: number;
   angularSpeed: number;
-  trailLength: number; // Added to resolve scope issue
+  trailLength: number; 
 }
 
 const CometAnimation: React.FC = () => {
@@ -328,15 +327,7 @@ const CometAnimation: React.FC = () => {
     // Start animation
     requestAnimationFrame(animate);
 
-    // **Cleanup**
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //     if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
-  //       containerRef.current.removeChild(renderer.domElement);
-  //     }
-  //     scene.clear();
-  //   };
-  // }, []);
+    // Clean up
     return () => {
       window.removeEventListener('resize', handleResize);
       if (container && container.contains(renderer.domElement)) {

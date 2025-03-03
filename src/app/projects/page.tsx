@@ -1,5 +1,4 @@
-// // src/app/projects/page.tsx
-
+// src/app/projects/page.tsx
 "use client";
 import ProjectCardHorizontal from '@/components/ProjectCardHorizontal'
 import { projects, allTechStacks, projectCategories } from '@/projects'
@@ -34,7 +33,7 @@ export default function ProjectsPage() {
   return (
     <div className="w-full py-20">
       <div className="max-w-[95%] mx-auto px-2 sm:px-4">
-        <h1 className="text-4xl font-bold text-white mb-8 text-left font-roboto">All Projects</h1>
+        <h1 className="text-2xl font-bold text-white mb-8 text-left font-roboto">All Projects</h1>
 
         {/* Category Filters */}
         <div className="mb-6">
@@ -77,8 +76,10 @@ export default function ProjectsPage() {
         </div>
 
         <div className="flex flex-col gap-8">
-          {filteredProjects.map((project) => (
-            <ProjectCardHorizontal key={project.id} {...project} />
+          {filteredProjects.slice().reverse().map((project) => (
+            <div key={project.id} className="transition-transform duration-200 hover:scale-[1.02]">
+              <ProjectCardHorizontal {...project} />
+            </div>
           ))}
         </div>
       </div>

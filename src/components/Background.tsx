@@ -1,5 +1,4 @@
 // // src/components/Background.tsx
-
 'use client';
 
 import React, { useRef } from 'react';

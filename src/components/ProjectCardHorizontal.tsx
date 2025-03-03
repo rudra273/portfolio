@@ -21,26 +21,36 @@ export default function ProjectCardHorizontal({
   githubUrl,
   liveUrl,
 }: ProjectCardProps) {
+  const truncatedDescription = description.split(' ').slice(0, 25).join(' ');
+  const showEllipsis = description.split(' ').length > 25;
+
   return (
     <div className="flex flex-col md:flex-row bg-space-blue bg-opacity-50 rounded-md overflow-hidden shadow-lg border border-gray-700">
       <div className="relative md:w-2/5 w-full aspect-video">
-      <Link href={`/projects/${id}`}>
-        <Image 
-          src={image} 
-          alt={title} 
-          fill
-          className="object-cover rounded-tl-md rounded-tr-md md:rounded-tr-none md:rounded-bl-md"
-        />
-      </Link>
+        <Link href={`/projects/${id}`}>
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover rounded-tl-md rounded-tr-md md:rounded-tr-none md:rounded-bl-md"
+          />
+        </Link>
       </div>
-      <div className="p-6 md:w-3/5 flex flex-col justify-between">
+
+      <div className="p-6 md:w-3/5 flex flex-col justify-between bg-black bg-opacity-50 backdrop-blur-sm">
         <div>
           <Link href={`/projects/${id}`}>
-            <h3 className="text-2xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">
+            <h3 className="text-xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">
               {title}
             </h3>
-            <p className="text-gray-300 mb-4 font-poppins">{description}</p>
           </Link>
+          <p className="text-gray-300 mb-2 font-poppins">
+            {truncatedDescription}
+            <Link href={`/projects/${id}`} className="text-blue-400 hover:text-blue-300 ml-1">
+              {showEllipsis ? '... Read more' : ' Read more'}
+            </Link>
+          </p>
+
           <div className="flex flex-wrap gap-2 mb-4">
             {techStack.map((tech) => (
               <span

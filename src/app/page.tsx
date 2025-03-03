@@ -19,7 +19,8 @@ export default function Home() {
   const titles = useMemo(() => [
     "Software Developer",
     "Backend Developer", 
-    "DevOps Engineer"
+    "MLOps Engineer",
+    "DevOps Engineer",
   ], []); 
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export default function Home() {
 
     <section className="py-16 px-2 sm:px-4 float-section transition-all duration-500 ease-in-out">
       <div className="max-w-[90%] mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center font-roboto">Top Projects</h2>
+        <h2 className="text-3xl md:text-2xl font-bold mb-8 text-center font-roboto">Top Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects
             .filter(project => FEATURED_PROJECT_IDS.includes(project.id))
@@ -80,6 +81,7 @@ export default function Home() {
               <ProjectCard key={project.id} {...project} />
           ))}
         </div>
+        
         <div className="text-center mt-8">
           <Link href="/projects">
             <Button>View All Projects</Button>

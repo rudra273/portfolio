@@ -1,12 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/Button';
+import { careerTimeline } from '@/career'
 
-const careerTimeline = [
-    { date: '2022', title: 'Graduation', role: 'Completed B.Tech in CSE', position: 'down' },
-    { date: 'Feb 2023', title: 'Testyantra Software Solutions', role: 'Associate Software Developer', position: 'up' },
-    { date: 'Feb 2024', title: 'Sigmoid', role: 'Associate DevOps Engineer', position: 'down' },
-  ];
 
 export default function AboutPage() {
   return (
@@ -26,7 +22,7 @@ export default function AboutPage() {
           </div>
         {/* Right Column: About Me Text */}
           <div className="text-white bg-black/80 backdrop-blur-sm p-6 rounded-lg">
-            <h1 className="text-3xl md:text-2xl font-semibold mb-4 font-roboto">About Me</h1>
+            <h1 className="text-3xl md:text-2xl font-semibold mb-4 font-roboto text-blue-500">About Me</h1>
             <div className="text-gray-300 leading-relaxed font-poppins text-sm" >
                 <p>
                 I am currently based in Bangalore, working as a DevOps Engineer. With a strong foundation 

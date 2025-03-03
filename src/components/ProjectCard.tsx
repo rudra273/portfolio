@@ -1,5 +1,4 @@
 // // src/components/ProjectCard.tsx
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -34,10 +33,15 @@ export default function ProjectCard({
             className="object-cover"
           />
         </div>
+      </Link>
+
+      <div className="bg-black bg-opacity-50 backdrop-blur-sm">
+
         <div className="p-6">
-          <h3 className="text-2xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">{title}</h3>
-          <p className="text-gray-300 mb-4 font-poppins">{description}</p>
-          
+          <Link href={`/projects/${id}`} className="block">
+            <h3 className="text-xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">{title}</h3>
+            <p className="text-gray-300 mb-4 font-poppins">{description}</p>
+          </Link>
           <div className="flex flex-wrap gap-2 mb-4">
             {techStack.map((tech) => (
               <span key={tech} className="bg-gray-700 text-white px-2 py-1 rounded text-sm font-poppins">
@@ -46,17 +50,20 @@ export default function ProjectCard({
             ))}
           </div>
         </div>
-      </Link>
-      <div className="px-6 pb-6">
-        <div className="flex justify-between">
-          <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
-            <FaGithub className="mr-2" /> View Source
-          </Link>
-          <Link href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
-            <FaExternalLinkAlt className="mr-2" /> View Website
-          </Link>
+
+        <div className="px-6 pb-6">
+          <div className="flex justify-between">
+            <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
+              <FaGithub className="mr-2" /> View Source
+            </Link>
+            <Link href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
+              <FaExternalLinkAlt className="mr-2" /> View Website
+            </Link>
+          </div>
         </div>
+
       </div>
+
     </div>
   );
 }
