@@ -53,16 +53,16 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      <section className="h-screen flex flex-col justify-center items-center text-center px-2">
+
+      <section className="h-screen flex flex-col justify-center items-center text-center px-2" aria-label="Introduction">
         <h1 className="text-4xl md:text-6xl text-white mb-4 font-light font-roboto">
           RUDRAPRATAP MOHANTY
         </h1>
         
-        {/* Animated typing effect for titles */}
         <div className="h-8">
-          <p className="text-xl md:text-2xl text-gray-300 font-poppins inline-block relative">
+          <p className="text-xl md:text-2xl text-gray-300 font-poppins inline-block relative" aria-live="polite">
             {displayText}
-            <span className="absolute right-0 top-0 h-full w-[2px] bg-gray-300 animate-blink"></span>
+            <span className="absolute right-0 top-0 h-full w-[2px] bg-gray-300 animate-blink" aria-hidden="true"></span>
           </p>
         </div>
       </section>

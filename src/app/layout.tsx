@@ -6,6 +6,7 @@ import Background from '@/components/Background'
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
 import CometAnimation from '@/components/CometAnimation'
+import JsonLd from '@/components/JsonLd'
 
 
 const poppins = Poppins({ 
@@ -20,10 +21,35 @@ const roboto = Roboto({
   variable: '--font-roboto',
 })
 
+
 export const metadata: Metadata = {
-  title: 'Rudrapratap Mohanty - Portfolio',
-  description: 'Software Developer Portfolio',
+  title: 'Rudrapratap Mohanty | Software Developer & MLOps Engineer',
+  description: 'Portfolio of Rudrapratap Mohanty, a Software Developer specialized in Backend, MLOps, and DevOps Engineering. View projects and skills.',
+  keywords: 'Software Developer, Backend Developer, MLOps Engineer, DevOps Engineer, Rudrapratap Mohanty',
+  openGraph: {
+    title: 'Rudrapratap Mohanty | Software Developer',
+    description: 'Software Developer Portfolio showcasing projects in Backend, MLOps, and DevOps',
+    url: 'https://your-domain.com',
+    siteName: 'Rudrapratap Mohanty Portfolio',
+    images: [
+      {
+        url: '/profile/rudra.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Rudrapratap Mohanty',
+      }
+    ],
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
+
 
 export default function RootLayout({
   children,
@@ -32,6 +58,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <JsonLd />
+      </head>
       <body className={`${poppins.variable} ${roboto.variable} font-sans`}>
         <Background />
         <CometAnimation />
