@@ -59,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="google-site-verification" content="N3K_Su1-aKnUQGsKvImh-bsmeSeox79i4cuKihgibto" />
         <JsonLd />
       </head>
       <body className={`${poppins.variable} ${roboto.variable} font-sans`}>
