@@ -9,7 +9,7 @@ import Footer from '@/components/Footer'
 import Skills from '@/components/Skills'
 import Button from '@/components/Button'; 
 
-const FEATURED_PROJECT_IDS = ['1', '3'];
+const FEATURED_PROJECT_IDS = ['4', '5'];
 
 export default function Home() {
   const [titleIndex, setTitleIndex] = useState(0);

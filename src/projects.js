@@ -70,6 +70,31 @@ export const projects = [
     githubUrl: 'https://github.com/rudra273/text-to-sql',
     liveUrl: 'https://text-to-sql-demo.com',
   },
+  {
+    id: '5',
+    title: 'Stock Advisory',
+    description: 'An advanced stock advisory application that leverages AI agents for technical analysis, news sentiment analysis, and in-depth research on specific stocks. The platform integrates multiple LLMs, including GPT and Gemini, to provide actionable insights and a comprehensive dashboard experience.',
+    image: '/projects/stock-adv/technical.png',
+    images: [
+      '/projects/stock-adv/stock.png',
+      '/projects/stock-adv/technical.png',
+      '/projects/stock-adv/dashboard.png',
+      '/projects/stock-adv/financial.png',
+      '/projects/stock-adv/research.png',
+      '/projects/stock-adv/home.png',
+      '/projects/stock-adv/topmovers.png'
+    ],
+    features: [
+      'AI-powered technical analysis agent for real-time stock trend detection and signal generation',
+      'News sentiment analysis agent that aggregates and interprets financial news to assess market sentiment',
+      'Research agent for deep-dive analysis on specific stocks, including financials and company news',
+      'Unified dashboard with interactive visualizations, top movers, and actionable insights powered by multiple LLMs (GPT, Gemini, etc.)'
+    ],
+    techStack: ['Python', 'LangChain', 'GPT', 'Gemini', 'redis', 'FastAPI', 'Next.js', 'PostgreSQL'],
+    categories: ['LLM', 'Data Analysis', 'Full Stack'],
+    githubUrl: 'https://github.com/rudra273/stock-adv',
+    liveUrl: 'https://stock-adv-demo.com',
+  },
 ];
 
 
@@ -82,5 +107,6 @@ export const projectCategories = [
   'DevOps',
   'MLOps',
   'Data Analysis',
-  'LLM'
+  'LLM',
+  'Cloud',
 ];
