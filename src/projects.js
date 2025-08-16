@@ -19,23 +19,6 @@ export const projects = [
     liveUrl: 'https://project1.com',
   },
   {
-    id: '2',
-    title: 'Stock Dashboard',
-    description: 'Built with Django, Next.js, and Chart.js, lets users add stocks to their portfolio and view dynamic KPIs, charts, and dashboards for efficient stock tracking and analysis.',
-    image: '/projects/stock-dashboard/portfolio.png',
-    images: ['/projects/stock-dashboard/portfolio.png', '/projects/stock-dashboard/dashboard.png', '/projects/stock-dashboard/chart.png', '/projects/stock-dashboard/portfolio-report.png'],
-    features: [
-      'Portfolio management system for adding and tracking stocks',
-      'Dynamic KPIs and metrics for performance analysis',
-      'Interactive charts and visualization with Chart.js',
-      'Comprehensive dashboard for efficient stock tracking and analysis'
-    ],
-    techStack: ['Django', 'Next.js', 'PostgreSQL', 'Kubernetes', 'Prometheus', 'Grafana'],
-    categories: ['Full Stack', 'DevOps'],
-    githubUrl: 'https://github.com/rudra273/STOCK',
-    liveUrl: 'https://project2.com',
-  },
-  {
     id: '3',
     title: 'Code Assistant',
     description: 'A versatile code assistant that leverages multiple LLMs including local Ollama models to help developers write better code. Features include multi-file context support and intelligent code suggestions.',
@@ -67,7 +50,7 @@ export const projects = [
     ],
     techStack: ['Python', 'LangChain', 'SQLAlchemy', 'FastAPI'],
     categories: ['LLM'], 
-    githubUrl: 'https://github.com/rudra273/text-to-sql',
+    githubUrl: 'https://github.com/rudra273/sql-gen-app',
     liveUrl: 'https://text-to-sql-demo.com',
   },
   {
@@ -90,10 +73,32 @@ export const projects = [
       'Research agent for deep-dive analysis on specific stocks, including financials and company news',
       'Unified dashboard with interactive visualizations, top movers, and actionable insights powered by multiple LLMs (GPT, Gemini, etc.)'
     ],
-    techStack: ['Python', 'LangChain', 'GPT', 'Gemini', 'redis', 'FastAPI', 'Next.js', 'PostgreSQL'],
+    techStack: ['Python', 'LangChain', 'redis', 'FastAPI', 'Next.js', 'PostgreSQL'],
     categories: ['LLM', 'Data Analysis', 'Full Stack'],
-    githubUrl: 'https://github.com/rudra273/stock-adv',
+    githubUrl: 'https://github.com/rudra273/stock_advisory',
     liveUrl: 'https://stock-adv-demo.com',
+  },
+  {
+    id: '6',
+    title: 'Hisab-Kitab',
+    description: 'Hisab-Kitab is a personal finance app that displays your transaction KPIs, daily dashboards, and enables chat with an LLM about your finances. The Android client collects transaction data via SMS, which the backend filters and transforms for analysis. Users can view dashboards and interact with an LLM-powered chat that uses tools to generate SQL queries and fetch transaction summaries.',
+    image: '/projects/hisab-kitab/dashboard1.png',
+    images: [
+      '/projects/hisab-kitab/dashboard1.png',
+      '/projects/hisab-kitab/chat.png',
+      '/projects/hisab-kitab/dashboard.png'
+    ],
+    features: [
+      'Android client collects transaction data via SMS',
+      'Backend filters and transforms SMS data for analysis',
+      'Daily transaction dashboards and KPIs',
+      'LLM-powered chat that executes tools to generate SQL queries and summarize transactions',
+      'Interactive financial insights and summaries'
+    ],
+    techStack: ['Python', 'FastAPI', 'LangChain', 'PostgreSQL'],
+    categories: ['LLM', 'Data Analysis'],
+    githubUrl: 'https://github.com/rudra273/hisab-kitab',
+    liveUrl: '',
   },
 ];
 
@@ -101,12 +106,11 @@ export const projects = [
 export const allTechStacks = Array.from(new Set(projects.map(project => project.techStack).flat()));
 
 export const projectCategories = [
-  'Frontend',
+  'LLM',
+  'MLOps',
   'Backend',
   'Full Stack',
   'DevOps',
-  'MLOps',
   'Data Analysis',
-  'LLM',
   'Cloud',
 ];

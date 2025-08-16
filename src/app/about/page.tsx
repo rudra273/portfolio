@@ -55,7 +55,7 @@ export default function AboutPage() {
 
       <div className="flex justify-center mb-4">
         <Link 
-          href="https://drive.google.com/file/d/1_MHQ4po0Yb_a2wmL3KM13WuK-PYNYcjU/view?usp=sharing"
+          href="https://drive.google.com/drive/folders/1BWzQhsPt2WGACNzpWYfq_etNg2654N7Y?usp=drive_link"
           target="_blank"
         >
           <Button>View CV</Button>
