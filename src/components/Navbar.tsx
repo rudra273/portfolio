@@ -12,7 +12,6 @@ export default function Navbar() {
             <Link href="/" className="text-white hover:text-gray-300">Home</Link>
             <Link href="/about" className="text-white hover:text-gray-300">About</Link>
             <Link href="/projects" className="text-white hover:text-gray-300">Projects</Link>
-            <Link href="/blog" className="text-white hover:text-gray-300">Blog</Link>
             <Link href="/contact" className="text-white hover:text-gray-300">Contact</Link>
           </div>
         </div>
