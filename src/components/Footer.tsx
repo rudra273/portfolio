@@ -22,7 +22,6 @@ const Footer = () => {
       {/* Main CTA Content */}
       <div className="text-center z-10 relative flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto">
         <div className="inline-flex items-center px-4 py-1.5 rounded-full mb-8 border border-accent-cyan/20 bg-accent-cyan/5">
-          <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 animate-pulse" />
           <span className="text-accent-cyan/70 font-space text-xs tracking-[0.2em] uppercase">
             Communication Channel Open
           </span>

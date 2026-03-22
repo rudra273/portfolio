@@ -10,6 +10,12 @@ import Footer from '@/components/Footer'
 import Skills from '@/components/Skills'
 import Button from '@/components/Button'
 
+// Social Icons
+import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
+import { SiLeetcode } from 'react-icons/si'
+import { MdEmail } from 'react-icons/md'
+
 const FEATURED_PROJECT_IDS = ['4', '5'];
 
 /* ─── Scroll-pinned section ─── */
@@ -181,6 +187,21 @@ export default function Home() {
             <Link href="/contact">
               <Button variant="ghost">Enter the Singularity</Button>
             </Link>
+          </motion.div>
+
+          {/* Hero Social Icons */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 0.8 }}
+            className="flex items-center justify-center gap-6 mt-12 mb-4"
+          >
+            <Link href="https://www.linkedin.com/in/rudrapratap-mohanty-2b57041b5" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><FaLinkedin /></Link>
+            <Link href="https://github.com/rudra273" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><FaGithub /></Link>
+            <Link href="https://leetcode.com/rudra273/" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><SiLeetcode /></Link>
+            <Link href="mailto:rudramohanty45@gmail.com" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><MdEmail /></Link>
+            <Link href="https://twitter.com/your-x-handle" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><FaXTwitter /></Link>
+            <Link href="https://www.instagram.com/rudra.273" target="_blank" className="text-white/40 hover:text-accent-cyan text-xl hover:scale-110 transition-all"><FaInstagram /></Link>
           </motion.div>
 
           {/* Scroll indicator */}
