@@ -1,99 +1,142 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '@/components/Button';
-import { careerTimeline } from '@/career'
-
+import { careerTimeline } from '@/career';
 
 export default function AboutPage() {
   return (
-    <div>
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-[20%_80%] gap-8 items-center">
-        {/* Left Column: Profile Photo */}
-          <div className="flex justify-center">
-            <Image
-              src="/profile/rudra.jpg"
-              alt="Rudrapratap Mohanty"
-              width={250}
-              height={250}
-              className="rounded-full opacity-60 hover:opacity-100 transition-opacity duration-300"
-              />
+    <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative min-h-screen w-full overflow-x-hidden">
+      <div className="max-w-5xl mx-auto space-y-16 relative z-10">
+        
+        {/* ═══ ABOUT SECTION ═══ */}
+        <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
+          {/* HUD decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-accent-cyan/20 rounded-br-2xl" />
+          <div className="absolute top-4 right-6 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan/60 animate-pulse" />
+            <span className="text-accent-cyan/40 font-space text-[10px] tracking-[0.2em] uppercase">
+              Sys:Profile
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-10 items-start">
+            {/* Left Column: Profile Photo */}
+            <div className="flex flex-col items-center gap-6">
+              <div className="relative w-[180px] h-[180px] rounded-full p-2 border border-accent-cyan/30 bg-accent-cyan/5">
+                <Image
+                  src="/profile/rudra.jpg"
+                  alt="Rudrapratap Mohanty"
+                  fill
+                  className="rounded-full object-cover scale-[0.95] opacity-80 hover:scale-100 hover:opacity-100 transition-all duration-500"
+                />
+                {/* Spin decoration */}
+                <div className="absolute inset-[-4px] rounded-full border border-t-accent-cyan/50 border-r-transparent border-b-accent-purple/30 border-l-transparent animate-spin-slow pointer-events-none" />
+              </div>
+
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-accent-cyan/20 to-transparent my-2" />
               
-          </div>
-        {/* Right Column: About Me Text */}
-          <div className="text-white bg-black/80 backdrop-blur-sm p-6 rounded-lg">
-            <h1 className="text-3xl md:text-2xl font-semibold mb-4 font-roboto text-blue-500">About Me</h1>
-            <div className="text-gray-300 leading-relaxed font-poppins text-sm" >
-                <p>
-                I am currently based in Bangalore, working as a DevOps Engineer. With a strong foundation 
-                in software development, I specialize in backend engineering and DevOps, ensuring seamless 
-                deployment and scalability of applications. My expertise includes backend frameworks like Django 
-                and FastAPI, where I have built high-performance APIs and microservices. On the DevOps side, 
-                I have hands-on experience with Kubernetes, automating deployments, and setting up CI/CD pipelines 
-                for efficient software delivery. I am actively working on MLOps, leveraging AWS and GCP to streamline 
-                model deployment and lifecycle management. Additionally, I have experience working with databases 
-                such as PostgreSQL and MongoDB, ensuring efficient data storage and retrieval. Currently, I am 
-                expanding my knowledge in LLM engineering, diving deeper into AI and NLP advancements.
-                </p>
+              <Link 
+                href="https://drive.google.com/drive/folders/1BWzQhsPt2WGACNzpWYfq_etNg2654N7Y?usp=drive_link"
+                target="_blank"
+                className="w-full"
+              >
+                <button className="w-full py-2.5 rounded-lg border border-accent-cyan/30 bg-accent-cyan/5 hover:bg-accent-cyan/10 text-accent-cyan font-space text-xs tracking-widest uppercase transition-all duration-300">
+                  Access Data Log (CV)
+                </button>
+              </Link>
+            </div>
 
-                <br />
-
+            {/* Right Column: About Text */}
+            <div className="flex flex-col">
+              <h1 className="text-3xl md:text-4xl font-bold font-space text-white mb-6 tracking-wide">
+                Identity Verification
+              </h1>
+              
+              <div className="space-y-4 font-poppins text-white/60 text-sm leading-relaxed">
                 <p>
-                Beyond my professional work, I am deeply passionate about technology and creativity. I enjoy 
-                freelancing in my free time, working on passion projects and collaborating with clients to build 
-                innovative solutions. Previously, I was a Python trainer, mentoring aspiring developers and sharing 
-                my expertise in problem-solving. I love tackling algorithmic challenges on LeetCode, constantly 
-                improving my coding skills. Outside of tech, I have a deep fascination with space and astronomy, 
-                often exploring the mysteries of the universe. Photography is another creative outlet for me—I 
-                love capturing the beauty of nature, preserving moments through my lens. My diverse interests fuel 
-                my curiosity and drive, shaping both my professional and personal journey.
+                  I am currently based in Bangalore, working as an <span className="text-accent-cyan font-medium">MLOps Engineer</span>. With a strong foundation 
+                  in software development, I specialize in backend engineering, cloud infrastructure, and operationalizing Machine Learning models.
                 </p>
+                <p>
+                  My expertise spans backend frameworks like Django and FastAPI, where I have built high-performance APIs and microservices. I am heavily focused on the intersection of DevOps and AI, leveraging Kubernetes, AWS, and GCP to streamline model deployment, scaling, and lifecycle management.
+                </p>
+                <p>
+                  Currently, I am immersed in the world of LLM engineering, <span className="text-accent-purple font-medium">building agentic AI systems using LangChain and LangGraph</span>. Integrating these advanced NLP workflows into robust, scalable architectures is where I do my most exciting work.
+                </p>
+                <p>
+                  Beyond my professional work, I am deeply passionate about technology and creativity. I love tackling algorithmic challenges on LeetCode to keep my problem-solving sharp. Outside of tech, I have a deep fascination with <span className="text-accent-cyan font-medium">space and astronomy</span>, 
+                  often exploring the mysteries of the universe.
+                </p>
+              </div>
             </div>
           </div>
-        </div>  
-      </section>
+        </div>
 
-      <div className="flex justify-center mb-4">
-        <Link 
-          href="https://drive.google.com/drive/folders/1BWzQhsPt2WGACNzpWYfq_etNg2654N7Y?usp=drive_link"
-          target="_blank"
-        >
-          <Button>View CV</Button>
-        </Link>
+        {/* ═══ JOURNEY TIMELINE ═══ */}
+        <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
+          {/* HUD decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-accent-purple/20 rounded-br-2xl" />
+          <div className="absolute top-4 right-6 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-accent-purple/60 animate-pulse" />
+            <span className="text-accent-purple/40 font-space text-[10px] tracking-[0.2em] uppercase">
+              Sys:Timeline
+            </span>
+          </div>
+
+          <div className="text-center mb-16">
+            <p className="text-accent-purple/50 font-space text-xs tracking-[0.3em] uppercase mb-3">
+              Expedition Log
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white font-space tracking-wide">
+              Career Trajectory
+            </h2>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative flex flex-col items-center max-w-3xl mx-auto">
+            {/* The absolute center glowing line */}
+            <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[1px] bg-gradient-to-b from-transparent via-accent-purple/40 to-transparent" />
+            
+            {careerTimeline.map((item, index) => (
+              <div key={index} className="w-full mb-12 relative group">
+                <div className="grid grid-cols-2 gap-8 relative items-center">
+                  
+                  {/* Glowing node point on the timeline */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-black border-2 border-accent-purple/60 z-10 transition-transform duration-300 group-hover:scale-125 group-hover:bg-accent-purple/20 group-hover:border-accent-cyan shadow-[0_0_15px_rgba(157,78,221,0.5)]" />
+                  </div>
+                  
+                  {/* Left or Right Positioned Content */}
+                  <div className={`col-span-1 ${item.position === 'up' ? 'col-start-1 text-right' : 'col-start-2 text-left'}`}>
+                    <div className={`inline-block w-full max-w-[280px] glass-card p-5 border border-white/5 group-hover:border-accent-purple/30 group-hover:-translate-y-1 transition-all duration-300 ${item.position === 'up' ? 'mr-6' : 'ml-6'}`}>
+                      <p className="text-[10px] font-space text-accent-cyan/80 tracking-widest uppercase mb-2">
+                        {item.date}
+                      </p>
+                      <h3 className="text-sm md:text-base font-bold text-white font-space leading-tight mb-1">
+                        {item.title}
+                      </h3>
+                      <p className="text-white/40 font-poppins text-xs leading-relaxed">
+                        {item.role}
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+            
+            {/* End of timeline marker */}
+            <div className="flex flex-col items-center mt-8 relative z-10">
+              <div className="w-2 h-2 rounded-full bg-accent-cyan/80 animate-pulse shadow-[0_0_10px_rgba(102,252,241,0.5)] mb-4" />
+              <p className="text-accent-cyan/50 font-space text-[10px] tracking-[0.3em] uppercase">
+                Awaiting Next Transmission...
+              </p>
+            </div>
+          </div>
+        </div>
+        
       </div>
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black opacity-90 text-white">
-            <div className="container mx-auto">
-                <h2 className="text-2xl font-semibold text-center mb-12 font-roboto">Journey</h2>
-                <div className="relative flex flex-col items-center">
-                    <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-gray-500" />
-                    
-                    {careerTimeline.map((item, index) => (
-                        <div key={index} className="w-full mb-16">
-                            <div className="grid grid-cols-2 gap-4 relative">
-                                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full z-10" />
-                                
-                                <div className={`col-span-1 ${item.position === 'up' ? 'col-start-1' : 'col-start-2'}`}>
-                                    <div className={`${item.position === 'up' ? 'text-right mr-8' : 'text-left ml-8'}`}>
-                                        <div className="bg-gray-800 rounded-lg shadow-lg inline-block w-full max-w-[250px] text-center 
-                                            hover:bg-gray-700 transition-colors duration-300 p-4">
-                                            <p className="text-xs font-bold text-gray-300">{item.date}</p>
-                                            <h3 className="text-sm font-semibold mt-1">{item.title}</h3>
-                                            <p className="text-gray-400 text-xs mt-1">{item.role}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="flex flex-col items-center mt-4">
-                    <div className="w-3 h-3 bg-white rounded-full mb-3" />
-                    <p className="text-gray-400 text-sm font-light italic">And The Journey Continues...</p>
-                </div>
-            </div>
-        </section>
-    
-
     </div>
   );
 }
