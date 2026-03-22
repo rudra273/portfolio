@@ -1,9 +1,9 @@
 // src/app/page.tsx
 'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import ProjectCard from '@/components/ProjectCard'
 import { projects } from '@/projects'
 import Footer from '@/components/Footer'
@@ -12,53 +12,41 @@ import Button from '@/components/Button'
 
 const FEATURED_PROJECT_IDS = ['4', '5'];
 
-/* ── Parallax wrapper ── */
-function ParallaxSection({
+/* ─── Scroll-pinned section ─── */
+function ScrollSection({
   children,
-  speed = 0.3,
+  scrollStart,
+  scrollEnd,
   className = '',
 }: {
   children: React.ReactNode
-  speed?: number
+  scrollStart: number
+  scrollEnd: number
   className?: string
 }) {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [80 * speed, -80 * speed])
+  const { scrollYProgress } = useScroll()
 
-  return (
-    <motion.div ref={ref} style={{ y }} className={className}>
-      {children}
-    </motion.div>
+  // Map the overall scroll progress to this section's local range
+  const sectionProgress = useTransform(
+    scrollYProgress,
+    [scrollStart, scrollStart + 0.02, scrollEnd - 0.02, scrollEnd],
+    [0, 1, 1, 0]
   )
-}
-
-/* ── Scroll reveal ── */
-function RevealOnScroll({
-  children,
-  className = '',
-  delay = 0,
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-}) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const opacity = useTransform(sectionProgress, [0, 1], [0, 1])
+  const scale = useTransform(sectionProgress, [0, 1], [0.92, 1])
+  const y = useTransform(sectionProgress, [0, 1], [60, 0])
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.4, 0.25, 1] }}
-      className={className}
+    <div
+      className={`sticky top-0 min-h-screen flex items-center justify-center px-4 sm:px-6 pointer-events-none ${className}`}
     >
-      {children}
-    </motion.div>
+      <motion.div
+        style={{ opacity, scale, y }}
+        className="w-full max-w-6xl pointer-events-auto"
+      >
+        {children}
+      </motion.div>
+    </div>
   )
 }
 
@@ -66,15 +54,6 @@ export default function Home() {
   const [titleIndex, setTitleIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
-  const heroRef = useRef(null)
-
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
-  const heroOpacity = useTransform(heroScroll, [0, 0.5], [1, 0])
-  const heroScale = useTransform(heroScroll, [0, 0.5], [1, 0.9])
-  const heroY = useTransform(heroScroll, [0, 0.5], [0, -60])
 
   const titles = useMemo(
     () => ['AI / ML Engineer', 'Backend Developer', 'MLOps Engineer'],
@@ -107,21 +86,32 @@ export default function Home() {
   }, [displayText, isDeleting, titleIndex, titles])
 
   return (
-    <div className="w-full overflow-hidden">
-      {/* ═══ HERO ═══ */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center px-4">
-        <motion.div
-          style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-          className="text-center max-w-4xl z-10"
-        >
+    <div style={{ height: '500vh' }} className="relative">
 
+      {/* ═══ HERO — 0% to 22% scroll ═══ */}
+      <ScrollSection scrollStart={0} scrollEnd={0.22}>
+        <div className="text-center relative z-10">
+          {/* Decorative orbit ring */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-[500px] h-[500px] rounded-full border border-accent-cyan/5 animate-spin-slow" />
+          </div>
 
-          {/* Name */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full mb-8 hud-border"
+          >
+            <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 pulse-glow" />
+            <span className="text-accent-cyan/70 font-space text-xs tracking-[0.2em] uppercase">
+              System Online
+            </span>
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="relative z-10"
           >
             <span className="block text-5xl sm:text-6xl md:text-8xl font-bold font-space tracking-tight text-white">
               Rudrapratap
@@ -134,20 +124,14 @@ export default function Home() {
             </span>
           </motion.h1>
 
-          {/* Typing effect in a pill */}
+          {/* Typing effect */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="h-10 flex items-center justify-center mt-6 mb-6 relative z-10"
+            className="h-10 flex items-center justify-center mt-6 mb-6"
           >
-            <div
-              className="inline-flex items-center px-5 py-2 rounded-full"
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-            >
+            <div className="inline-flex items-center px-5 py-2 rounded-full hud-border">
               <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 pulse-glow" />
               <p className="text-base md:text-lg text-white/60 font-poppins relative">
                 {displayText}
@@ -156,22 +140,21 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="text-white/35 font-poppins text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed relative z-10"
+            className="text-white/35 font-poppins text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            Building intelligent systems at the intersection of AI, cloud infrastructure, and modern software engineering.
+            Building intelligent systems at the intersection of AI, cloud
+            infrastructure, and modern software engineering.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-4 relative z-10"
+            className="flex flex-wrap justify-center gap-4"
           >
             <Link href="/projects">
               <Button variant="primary">Explore Projects</Button>
@@ -180,97 +163,113 @@ export default function Home() {
               <Button variant="ghost">Enter the Singularity</Button>
             </Link>
           </motion.div>
-        </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
-        >
+          {/* Scroll indicator */}
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="flex flex-col items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1 }}
+            className="mt-16"
           >
-            <span className="text-white/20 text-xs font-space tracking-widest">SCROLL</span>
-            <div className="w-[1px] h-8 bg-gradient-to-b from-accent-cyan/40 to-transparent" />
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              className="flex flex-col items-center gap-2"
+            >
+              <span className="text-white/20 text-xs font-space tracking-widest">
+                SCROLL TO EXPLORE
+              </span>
+              <div className="w-[1px] h-8 bg-gradient-to-b from-accent-cyan/40 to-transparent" />
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </section>
+        </div>
+      </ScrollSection>
 
-      {/* ═══ SKILLS ═══ */}
-      <section className="relative py-32">
-        <div
-          className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle, rgba(157,78,221,0.06) 0%, transparent 70%)',
-            filter: 'blur(60px)',
-          }}
-        />
-        <ParallaxSection speed={0.2}>
-          <RevealOnScroll>
-            <Skills />
-          </RevealOnScroll>
-        </ParallaxSection>
-      </section>
-
-      <div className="section-divider" />
-
-      {/* ═══ FEATURED PROJECTS ═══ */}
-      <section className="relative py-32 px-4 sm:px-6">
-        <div
-          className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle, rgba(102,252,241,0.04) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-          }}
-        />
-
-        <ParallaxSection speed={0.15}>
-          <div className="max-w-6xl mx-auto">
-            <RevealOnScroll>
-              <div className="text-center mb-16">
-                <p className="text-accent-cyan/50 font-space text-xs tracking-[0.3em] uppercase mb-3">Portfolio</p>
-                <h2 className="text-3xl md:text-4xl font-bold text-white font-space tracking-wide">
-                  Featured Projects
-                </h2>
-                <p className="text-white/30 text-sm font-poppins mt-3 max-w-md mx-auto">
-                  Exploring the boundaries of AI, data, and engineering
-                </p>
-              </div>
-            </RevealOnScroll>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {projects
-                .filter((project) => FEATURED_PROJECT_IDS.includes(project.id))
-                .map((project, index) => (
-                  <RevealOnScroll key={project.id} delay={index * 0.15}>
-                    <ProjectCard {...project} />
-                  </RevealOnScroll>
-                ))}
-            </div>
-
-            <RevealOnScroll delay={0.3}>
-              <div className="text-center mt-12">
-                <Link href="/projects">
-                  <Button variant="primary">View All Projects</Button>
-                </Link>
-              </div>
-            </RevealOnScroll>
+      {/* ═══ SKILLS — 20% to 42% scroll ═══ */}
+      <ScrollSection scrollStart={0.18} scrollEnd={0.42}>
+        <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
+          {/* HUD decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-accent-cyan/20 rounded-br-2xl" />
+          <div className="absolute top-3 right-4 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan/40 pulse-glow" />
+            <span className="text-accent-cyan/30 font-space text-[10px] tracking-widest uppercase">
+              Nav:Skills
+            </span>
           </div>
-        </ParallaxSection>
-      </section>
+          <Skills />
+        </div>
+      </ScrollSection>
 
-      <div className="section-divider" />
+      {/* ═══ FEATURED PROJECTS — 40% to 72% scroll ═══ */}
+      <ScrollSection scrollStart={0.38} scrollEnd={0.72}>
+        <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
+          {/* HUD decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-accent-purple/20 rounded-br-2xl" />
+          <div className="absolute top-3 right-4 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-accent-purple/40 pulse-glow" />
+            <span className="text-accent-purple/30 font-space text-[10px] tracking-widest uppercase">
+              Nav:Projects
+            </span>
+          </div>
 
-      {/* ═══ FOOTER ═══ */}
-      <section className="py-16">
-        <RevealOnScroll>
+          <div className="text-center mb-12">
+            <p className="text-accent-cyan/50 font-space text-xs tracking-[0.3em] uppercase mb-3">
+              Portfolio
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white font-space tracking-wide">
+              Featured Projects
+            </h2>
+            <p className="text-white/30 text-sm font-poppins mt-3 max-w-md mx-auto">
+              Exploring the boundaries of AI, data, and engineering
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projects
+              .filter((project) => FEATURED_PROJECT_IDS.includes(project.id))
+              .map((project) => (
+                <ProjectCard key={project.id} {...project} />
+              ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/projects">
+              <Button variant="primary">View All Projects</Button>
+            </Link>
+          </div>
+        </div>
+      </ScrollSection>
+
+      {/* ═══ FOOTER — 68% to 92% scroll ═══ */}
+      <ScrollSection scrollStart={0.68} scrollEnd={0.92}>
+        <div className="relative">
           <Footer />
-        </RevealOnScroll>
-      </section>
+        </div>
+      </ScrollSection>
+
+      {/* ═══ Final fade-to-void — 90% to 100% ═══ */}
+      <div className="sticky top-0 min-h-screen flex items-center justify-center pointer-events-none">
+        <FadeToVoid />
+      </div>
     </div>
+  )
+}
+
+/* ─── Fade to black at the very end ─── */
+function FadeToVoid() {
+  const { scrollYProgress } = useScroll()
+  const opacity = useTransform(scrollYProgress, [0.88, 1], [0, 1])
+
+  return (
+    <motion.div
+      style={{ opacity }}
+      className="fixed inset-0 bg-[#020408] z-20 pointer-events-none flex items-center justify-center"
+    >
+      <p className="text-white/10 font-space text-sm tracking-[0.3em] uppercase">
+        End of transmission
+      </p>
+    </motion.div>
   )
 }
