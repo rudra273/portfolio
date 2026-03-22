@@ -222,7 +222,7 @@ export default function Home() {
 
       {/* ═══ FEATURED PROJECTS — 40% to 72% scroll ═══ */}
       <ScrollSection scrollStart={0.38} scrollEnd={0.72}>
-        <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
+        <div className="hud-panel p-4 sm:p-6 md:p-8 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
           <div className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-accent-purple/20 rounded-br-2xl" />
@@ -233,19 +233,16 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="text-center mb-12">
-            <p className="text-accent-cyan/50 font-space text-xs tracking-[0.3em] uppercase mb-3">
+          <div className="text-center mb-4">
+            <p className="text-accent-cyan/50 font-space text-[10px] tracking-[0.3em] uppercase mb-1 md:mb-2">
               Portfolio
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white font-space tracking-wide">
+            <h2 className="text-2xl md:text-3xl font-bold text-white font-space tracking-wide">
               Featured Projects
             </h2>
-            <p className="text-white/30 text-sm font-poppins mt-3 max-w-md mx-auto">
-              Exploring the boundaries of AI, data, and engineering
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {projects
               .filter((project) => FEATURED_PROJECT_IDS.includes(project.id))
               .map((project) => (
@@ -253,7 +250,7 @@ export default function Home() {
               ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-4">
             <Link href="/projects">
               <Button variant="primary">View All Projects</Button>
             </Link>
