@@ -38,7 +38,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`
-                    relative px-2 py-1.5 md:px-3 text-xs sm:text-sm md:text-base font-space tracking-wide
+                    relative px-2 py-1.5 md:px-3 text-[10px] sm:text-xs md:text-sm font-space tracking-widest uppercase
                     transition-all duration-300 rounded-lg whitespace-nowrap
                     ${isActive
                       ? 'text-accent-cyan'
