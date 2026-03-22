@@ -1,4 +1,4 @@
-// // src/components/ProjectCard.tsx
+// src/components/ProjectCard.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -23,47 +23,69 @@ export default function ProjectCard({
   liveUrl,
 }: ProjectCardProps) {
   return (
-    <div className="bg-space-blue bg-opacity-50 rounded-lg overflow-hidden shadow-lg">
+    <div className="glass-card overflow-hidden group">
       <Link href={`/projects/${id}`} className="block">
-        <div className="aspect-video relative">
-          <Image 
-            src={image} 
-            alt={title} 
+        <div className="aspect-video relative overflow-hidden">
+          <Image
+            src={image}
+            alt={title}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(180deg, transparent 40%, rgba(5, 8, 22, 0.9) 100%)',
+            }}
           />
         </div>
       </Link>
 
-      <div className="bg-black bg-opacity-50 backdrop-blur-sm">
+      <div className="p-6">
+        <Link href={`/projects/${id}`} className="block">
+          <h3 className="text-lg font-semibold text-white mb-2 font-space group-hover:text-accent-cyan transition-colors duration-300">
+            {title}
+          </h3>
+          <p className="text-white/55 text-sm mb-4 font-poppins leading-relaxed line-clamp-2">
+            {description}
+          </p>
+        </Link>
 
-        <div className="p-6">
-          <Link href={`/projects/${id}`} className="block">
-            <h3 className="text-xl font-bold text-white mb-2 hover:text-gray-300 font-roboto">{title}</h3>
-            <p className="text-gray-300 mb-4 font-poppins">{description}</p>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {techStack.map((tech) => (
+            <span
+              key={tech}
+              className="text-xs font-space px-2.5 py-1 rounded-full"
+              style={{
+                background: 'rgba(102, 252, 241, 0.08)',
+                border: '1px solid rgba(102, 252, 241, 0.15)',
+                color: 'rgba(102, 252, 241, 0.8)',
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <Link
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-white/50 hover:text-accent-cyan text-sm font-space transition-colors duration-300"
+          >
+            <FaGithub /> Source
           </Link>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {techStack.map((tech) => (
-              <span key={tech} className="bg-gray-700 text-white px-2 py-1 rounded text-sm font-poppins">
-                {tech}
-              </span>
-            ))}
-          </div>
+          <Link
+            href={liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-white/50 hover:text-accent-cyan text-sm font-space transition-colors duration-300"
+          >
+            <FaExternalLinkAlt className="text-xs" /> Live
+          </Link>
         </div>
-
-        <div className="px-6 pb-6">
-          <div className="flex justify-between">
-            <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
-              <FaGithub className="mr-2" /> View Source
-            </Link>
-            <Link href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300">
-              <FaExternalLinkAlt className="mr-2" /> View Website
-            </Link>
-          </div>
-        </div>
-
       </div>
-
     </div>
   );
 }

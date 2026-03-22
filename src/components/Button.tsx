@@ -5,44 +5,34 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
   type?: "button" | "submit" | "reset" | undefined;
+  variant?: 'primary' | 'ghost';
 }
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, className, type = "button" }) => {
+const Button: React.FC<ButtonProps> = ({ children, onClick, className, type = "button", variant = 'ghost' }) => {
+  const baseStyles = `
+    px-6 py-2.5 rounded-lg font-space font-medium text-sm tracking-wide
+    transition-all duration-400 relative overflow-hidden
+    focus:outline-none active:scale-[0.97]
+  `;
+
+  const variants = {
+    primary: `
+      border border-accent-cyan/40 text-accent-cyan
+      hover:bg-accent-cyan/10 hover:border-accent-cyan/70 hover:shadow-[0_0_20px_rgba(102,252,241,0.15)]
+      backdrop-blur-sm
+    `,
+    ghost: `
+      border border-white/15 text-white/80
+      hover:border-white/30 hover:text-white hover:bg-white/5
+      backdrop-blur-sm
+    `,
+  };
+
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`
-        px-6  
-        py-1
-        border 
-        border-gray-600
-        bg-transparent
-        backdrop-blur-sm
-        hover:border-white 
-        hover:text-white
-        hover:bg-gray-900/30
-        transition-all 
-        duration-500 
-        font-poppins 
-        relative 
-        overflow-hidden
-        before:absolute
-        before:inset-0
-        before:bg-gradient-to-r
-        before:from-transparent
-        before:via-white/5
-        before:to-transparent
-        before:translate-x-[-200%]
-        hover:before:translate-x-[200%]
-        before:transition-transform
-        before:duration-1000
-        focus:outline-none
-        focus:ring-2
-        focus:ring-white/20
-        active:scale-[0.98]
-        ${className}
-      `}
+      className={`${baseStyles} ${variants[variant]} ${className || ''}`}
     >
       {children}
     </button>

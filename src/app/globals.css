@@ -1,70 +1,144 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* ═══════════════════════════════════════════════
+   SPACE THEME — Design System
+   ═══════════════════════════════════════════════ */
+
 :root {
+  /* Core palette */
+  --space-bg: #050816;
+  --space-deep: #0B0C10;
+  --space-surface: #111827;
+
+  /* Accent colors */
+  --accent-cyan: #66FCF1;
+  --accent-purple: #9D4EDD;
+  --accent-blue: #4F46E5;
+
+  /* Glass properties */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover-border: rgba(102, 252, 241, 0.25);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-blur: 14px;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.4);
+
+  /* Fonts */
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
 }
- 
+
+/* ── Base ── */
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: var(--space-bg);
+  overflow-x: hidden;
 }
 
 .font-poppins {
   font-family: var(--font-poppins);
 }
-
 .font-roboto {
   font-family: var(--font-roboto);
-} 
-
-
-/* for the floating animation in the main page */
-@keyframes floatingAnimation {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+}
+.font-space {
+  font-family: var(--font-space-grotesk);
 }
 
-.float-section {
-  animation: floatingAnimation 4s ease-in-out infinite;
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--space-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(102, 252, 241, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 252, 241, 0.4);
 }
 
-/* Add different animation delays for more natural effect */
-.float-section:nth-child(2) {
-  animation-delay: 0.5s;
+/* ═══════════════════════════════════════════════
+   GLASS CARD UTILITIES
+   ═══════════════════════════════════════════════ */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.float-section:nth-child(3) {
-  animation-delay: 1s;
+.glass-card:hover {
+  border-color: var(--glass-hover-border);
+  transform: translateY(-6px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(102, 252, 241, 0.06);
 }
 
-.float-section:nth-child(4) {
-  animation-delay: 1.5s;
+.glass-card-static {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
 }
 
+/* ═══════════════════════════════════════════════
+   GLOW EFFECTS
+   ═══════════════════════════════════════════════ */
 
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.15),
+              0 0 60px rgba(102, 252, 241, 0.05);
+}
 
-/* for the text blinking cursor animation  */
+.glow-text-cyan {
+  text-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
 .animate-blink {
   animation: blink 1s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(102, 252, 241, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(102, 252, 241, 0.4), 0 0 40px rgba(102, 252, 241, 0.1); }
+}
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Section divider gradient line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(102, 252, 241, 0.3),
+    rgba(157, 78, 221, 0.3),
+    transparent
+  );
+  margin: 0 auto;
+  width: 60%;
 }
