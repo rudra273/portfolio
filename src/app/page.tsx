@@ -26,15 +26,36 @@ function ScrollSection({
 }) {
   const { scrollYProgress } = useScroll()
 
+  // If scrollStart is 0, we only fade OUT at the end. We don't fade IN.
+  const isFirstSection = scrollStart === 0
+  
   // Map the overall scroll progress to this section's local range
   const sectionProgress = useTransform(
     scrollYProgress,
-    [scrollStart, scrollStart + 0.02, scrollEnd - 0.02, scrollEnd],
-    [0, 1, 1, 0]
+    isFirstSection 
+      ? [0, scrollEnd - 0.05, scrollEnd] 
+      : [scrollStart, scrollStart + 0.05, scrollEnd - 0.05, scrollEnd],
+    isFirstSection 
+      ? [1, 1, 0] 
+      : [0, 1, 1, 0]
   )
-  const opacity = useTransform(sectionProgress, [0, 1], [0, 1])
-  const scale = useTransform(sectionProgress, [0, 1], [0.92, 1])
-  const y = useTransform(sectionProgress, [0, 1], [60, 0])
+  
+  // For the first section, it should start at scale 1 / y 0 / opacity 1
+  const opacity = useTransform(
+    sectionProgress, 
+    isFirstSection ? [1, 0] : [0, 1], 
+    isFirstSection ? [1, 0] : [0, 1]
+  )
+  const scale = useTransform(
+    sectionProgress, 
+    isFirstSection ? [1, 0] : [0, 1], 
+    isFirstSection ? [1, 0.92] : [0.92, 1]
+  )
+  const y = useTransform(
+    sectionProgress, 
+    isFirstSection ? [1, 0] : [0, 1], 
+    isFirstSection ? [0, -60] : [60, 0]
+  )
 
   return (
     <div
