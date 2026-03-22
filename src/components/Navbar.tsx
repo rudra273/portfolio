@@ -30,7 +30,7 @@ export default function Navbar() {
           >
             RM<span className="text-white/40 font-light"> /&gt;</span>
           </Link>
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-4 md:gap-6">
             {links.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -38,8 +38,8 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`
-                    relative px-3 py-1.5 text-sm sm:text-base font-space tracking-wide
-                    transition-all duration-300 rounded-lg
+                    relative px-2 py-1.5 md:px-3 text-xs sm:text-sm md:text-base font-space tracking-wide
+                    transition-all duration-300 rounded-lg whitespace-nowrap
                     ${isActive
                       ? 'text-accent-cyan'
                       : 'text-white/70 hover:text-white hover:bg-white/5'}

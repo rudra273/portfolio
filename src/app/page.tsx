@@ -107,14 +107,14 @@ export default function Home() {
   }, [displayText, isDeleting, titleIndex, titles])
 
   return (
-    <div style={{ height: '500vh' }} className="relative">
+    <div style={{ height: '500vh' }} className="relative w-full overflow-x-clip">
 
       {/* ═══ HERO — 0% to 22% scroll ═══ */}
       <ScrollSection scrollStart={0} scrollEnd={0.22}>
         <div className="text-center relative z-10">
           {/* Decorative orbit ring */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[500px] h-[500px] rounded-full border border-accent-cyan/5 animate-spin-slow" />
+            <div className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full border border-accent-cyan/5 animate-spin-slow" />
           </div>
 
           <motion.div
