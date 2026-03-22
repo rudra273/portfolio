@@ -72,56 +72,6 @@ function CosmicDust({ count = 1500 }: { count?: number }) {
   )
 }
 
-function FloatingRing() {
-  const ref = useRef<THREE.Mesh>(null)
-
-  useFrame((state) => {
-    if (!ref.current) return
-    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.3 + 0.5
-    ref.current.rotation.z = state.clock.elapsedTime * 0.08
-  })
-
-  return (
-    <mesh ref={ref} position={[6, 1, -12]}>
-      <torusGeometry args={[3, 0.04, 16, 100]} />
-      <meshBasicMaterial color="#9D4EDD" transparent opacity={0.25} />
-    </mesh>
-  )
-}
-
-function FloatingRing2() {
-  const ref = useRef<THREE.Mesh>(null)
-
-  useFrame((state) => {
-    if (!ref.current) return
-    ref.current.rotation.x = Math.cos(state.clock.elapsedTime * 0.15) * 0.4 + 0.8
-    ref.current.rotation.z = state.clock.elapsedTime * 0.05
-  })
-
-  return (
-    <mesh ref={ref} position={[-8, -3, -15]}>
-      <torusGeometry args={[2, 0.03, 16, 80]} />
-      <meshBasicMaterial color="#66FCF1" transparent opacity={0.15} />
-    </mesh>
-  )
-}
-
-function GlowingSphere() {
-  const ref = useRef<THREE.Mesh>(null)
-
-  useFrame((state) => {
-    if (!ref.current) return
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.5 + 2
-    ref.current.rotation.y = state.clock.elapsedTime * 0.1
-  })
-
-  return (
-    <mesh ref={ref} position={[-5, 2, -10]}>
-      <sphereGeometry args={[0.6, 32, 32]} />
-      <meshBasicMaterial color="#4F46E5" transparent opacity={0.12} wireframe />
-    </mesh>
-  )
-}
 
 function SpaceScene() {
   return (
@@ -129,9 +79,6 @@ function SpaceScene() {
       <ambientLight intensity={0.1} />
       <Stars count={5000} depth={60} />
       <CosmicDust count={2000} />
-      <FloatingRing />
-      <FloatingRing2 />
-      <GlowingSphere />
       <fog attach="fog" args={['#050816', 20, 60]} />
     </>
   )

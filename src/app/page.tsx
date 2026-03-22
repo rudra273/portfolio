@@ -114,44 +114,7 @@ export default function Home() {
           style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
           className="text-center max-w-4xl z-10"
         >
-          {/* Orbit decoration — large */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          >
-            <div
-              className="w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full"
-              style={{
-                border: '1px solid rgba(102, 252, 241, 0.06)',
-                boxShadow: '0 0 80px rgba(102, 252, 241, 0.03)',
-              }}
-            />
-          </motion.div>
 
-          {/* Orbit decoration — small */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          >
-            <div
-              className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full"
-              style={{ border: '1px solid rgba(157, 78, 221, 0.06)' }}
-            />
-          </motion.div>
-
-          {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-accent-cyan/60 font-space text-xs sm:text-sm tracking-[0.4em] uppercase mb-6 relative z-10"
-          >
-            Welcome to my universe
-          </motion.p>
 
           {/* Name */}
           <motion.h1
@@ -214,7 +177,7 @@ export default function Home() {
               <Button variant="primary">Explore Projects</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="ghost">Get in Touch</Button>
+              <Button variant="ghost">Enter the Singularity</Button>
             </Link>
           </motion.div>
         </motion.div>
