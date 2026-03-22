@@ -123,7 +123,6 @@ export default function Home() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="inline-flex items-center px-4 py-1.5 rounded-full mb-8 hud-border"
           >
-            <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 pulse-glow" />
             <span className="text-accent-cyan/70 font-space text-xs tracking-[0.2em] uppercase">
               System Online
             </span>
@@ -152,8 +151,7 @@ export default function Home() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="h-10 flex items-center justify-center mt-6 mb-6"
           >
-            <div className="inline-flex items-center px-5 py-2 rounded-full hud-border">
-              <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 pulse-glow" />
+            <div className="inline-flex items-center px-6 py-2 rounded-md hud-border">
               <p className="text-base md:text-lg text-white/60 font-poppins relative">
                 {displayText}
                 <span className="absolute right-[-4px] top-0 h-full w-[2px] bg-accent-cyan animate-blink" />
