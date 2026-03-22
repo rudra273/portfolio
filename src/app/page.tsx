@@ -117,7 +117,8 @@ export default function Home() {
 
       {/* ═══ HERO — 0% to 22% scroll ═══ */}
       <ScrollSection scrollStart={0} scrollEnd={0.22}>
-        <div className="text-center relative z-10">
+        {/* EDIT THIS LINE IF YOU WANT TO ADJUST TOP SPACING (e.g. change mt-16 or pt-12) */}
+        <div className="text-center relative z-10 mt-16 md:mt-16">
           {/* Decorative orbit ring */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full border border-accent-cyan/5 animate-spin-slow" />
@@ -179,7 +180,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4"
           >
             <Link href="/projects">
               <Button variant="primary">Explore Projects</Button>
