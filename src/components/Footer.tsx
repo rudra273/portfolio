@@ -15,52 +15,60 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="glass-card-static mt-16 mx-4 sm:mx-8 mb-8">
-      <div
-        className="h-[1px] w-full rounded-t-2xl"
-        style={{
-          background: 'linear-gradient(90deg, transparent, rgba(102, 252, 241, 0.4), rgba(157, 78, 221, 0.4), transparent)',
-        }}
-      />
+    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center relative px-4 py-12 md:py-24 overflow-hidden rounded-3xl border border-white/5 bg-black/20 backdrop-blur-xl mb-8">
+      {/* Deep space glow effect behind the text */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-accent-cyan/10 rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-bold text-white mb-2 font-space">Rudrapratap Mohanty</h3>
-            <p className="text-white/50 font-poppins text-sm leading-relaxed max-w-sm">
-              Software Developer passionate about building impactful solutions with AI, Backend, and Cloud technologies.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center md:items-end gap-4">
-            <p className="text-accent-cyan/70 font-space text-sm tracking-wide">Let&apos;s Connect</p>
-            <div className="flex items-center gap-4">
-              {socialLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/40 hover:text-accent-cyan text-xl transition-all duration-300 hover:scale-110"
-                  aria-label={link.label}
-                >
-                  <link.icon />
-                </Link>
-              ))}
-            </div>
-          </div>
+      {/* Main CTA Content */}
+      <div className="text-center z-10 relative flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full mb-8 border border-accent-cyan/20 bg-accent-cyan/5">
+          <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 animate-pulse" />
+          <span className="text-accent-cyan/70 font-space text-xs tracking-[0.2em] uppercase">
+            Communication Channel Open
+          </span>
         </div>
 
-        <div
-          className="text-center mt-8 pt-6"
-          style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}
-        >
-          <p className="text-white/25 font-poppins text-xs">
-            © {new Date().getFullYear()} Rudrapratap Mohanty • Built with Next.js
-          </p>
-        </div>
+        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white font-space tracking-tight mb-6 leading-tight">
+          Ready to Cross the <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan to-accent-purple pulse-glow block mt-2">
+            Event Horizon?
+          </span>
+        </h2>
+        
+        <p className="text-white/40 text-sm md:text-lg font-poppins max-w-2xl mx-auto mb-14 leading-relaxed">
+          Whether you are looking to build intelligent systems, scale cloud infrastructure, or just want to explore the universe of code together, my inbox is always open.
+        </p>
+
+        <Link href="/contact" className="inline-block group relative">
+          <div className="absolute inset-0 bg-accent-cyan/20 blur-xl group-hover:bg-accent-cyan/40 transition-colors duration-500 rounded-full" />
+          <button className="relative px-8 sm:px-12 py-4 sm:py-5 bg-black/50 backdrop-blur-md border border-accent-cyan/50 text-white font-space tracking-[0.2em] md:tracking-[0.3em] uppercase text-xs md:text-sm rounded-full hover:border-accent-cyan hover:shadow-[0_0_40px_rgba(102,252,241,0.4)] transition-all duration-300">
+            Enter the Singularity
+          </button>
+        </Link>
       </div>
-    </footer>
+
+      {/* Minimalist Bottom Bar */}
+      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between pt-12 md:pt-16 mt-12 md:mt-24 border-t border-white/5 z-10">
+        <div className="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+          {socialLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/30 hover:text-accent-cyan text-lg md:text-xl transition-all duration-300 hover:scale-110"
+              aria-label={link.label}
+            >
+              <link.icon />
+            </Link>
+          ))}
+        </div>
+        <p className="text-white/20 font-space text-[10px] tracking-[0.2em] uppercase text-center md:text-right">
+          © {new Date().getFullYear()} Rudrapratap Mohanty<br className="md:hidden mt-1" />
+          <span className="hidden md:inline"> • </span>Built with Next.js & Three.js
+        </p>
+      </div>
+    </div>
   );
 };
 
