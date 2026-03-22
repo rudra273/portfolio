@@ -1,18 +1,60 @@
-// // src/components/Navbar.tsx
+// src/components/Navbar.tsx
+'use client'
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  const links = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/contact', label: 'Contact' },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 w-full bg-black/50 backdrop-blur-md z-50">
-      <div className="max-w-[95%] mx-auto px-2 sm:px-4 py-3">
+    <nav className="fixed top-0 left-0 w-full z-50" style={{
+      background: 'rgba(5, 8, 22, 0.6)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      borderBottom: '1px solid rgba(102, 252, 241, 0.08)',
+    }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/particle" className="text-xl font-bold text-white pl-1 sm:pl-2">RM</Link>
-          <div className="space-x-3 sm:space-x-4 pr-1 sm:pr-2 text-sm sm:text-base">
-            <Link href="/" className="text-white hover:text-gray-300">Home</Link>
-            <Link href="/about" className="text-white hover:text-gray-300">About</Link>
-            <Link href="/projects" className="text-white hover:text-gray-300">Projects</Link>
-            <Link href="/contact" className="text-white hover:text-gray-300">Contact</Link>
+          <Link
+            href="/"
+            className="text-xl font-bold font-space tracking-wider"
+            style={{ color: '#66FCF1' }}
+          >
+            RM<span className="text-white/40 font-light"> /&gt;</span>
+          </Link>
+          <div className="flex items-center gap-1 sm:gap-4 md:gap-6">
+            {links.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`
+                    relative px-2 py-1.5 md:px-3 text-[10px] sm:text-xs md:text-sm font-space tracking-widest uppercase
+                    transition-all duration-300 rounded-lg whitespace-nowrap
+                    ${isActive
+                      ? 'text-accent-cyan'
+                      : 'text-white/70 hover:text-white hover:bg-white/5'}
+                  `}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-4/5 rounded-full"
+                      style={{ background: '#66FCF1' }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

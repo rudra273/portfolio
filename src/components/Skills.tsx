@@ -9,67 +9,54 @@ interface SkillIconProps {
 
 const SkillIcon = ({ name, Icon }: SkillIconProps) => {
   return (
-    <div className="flex items-center px-4 py-3 bg-gray-800 hover:bg-gray-700 border-l-2 border-blue-500 transition-all duration-300 mb-3">
-      <Icon className="text-2xl text-white mr-3" />
-      <span className="text-white">{name}</span>
+    <div
+      className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group cursor-default bg-white/5 hover:bg-white/10"
+      style={{
+        border: '1px solid rgba(255, 255, 255, 0.05)',
+      }}
+    >
+      <div className="relative flex-shrink-0">
+        <Icon className="text-lg text-accent-cyan/70 group-hover:text-accent-cyan transition-all duration-300" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md bg-accent-cyan/30 rounded-full" />
+      </div>
+      <span className="text-white/80 text-xs md:text-sm font-space group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+        {name}
+      </span>
     </div>
   );
 };
 
 const Skills = () => {
-  // Categorize skills
-  const developmentSkills = skills.filter(skill =>
-    ['Python', 'JavaScript', 'FastAPI', 'Django', 'Tailwind CSS'].includes(skill.name)
-  );
-
-  const databaseSkills = skills.filter(skill =>
-    ['PostgreSQL', 'MongoDB', 'Redis'].includes(skill.name)
-  );
-
-  const devOpsSkills = skills.filter(skill =>
-    ['Docker', 'Kubernetes', 'MLflow', 'Git', 'Linux', 'Terraform'].includes(skill.name)
-  );
-
-  const cloudSkills = skills.filter(skill =>
-    ['AWS', 'Azure', 'Databricks'].includes(skill.name)
+  // Combine all skills we want to show into a single array
+  const allSkills = skills.filter(skill =>
+    [
+      'Python', 'JavaScript', 'FastAPI', 'Django', 'Tailwind CSS',
+      'PostgreSQL', 'MongoDB', 'Redis',
+      'Docker', 'Kubernetes', 'MLflow', 'Git', 'Linux', 'Terraform',
+      'AWS', 'Azure', 'Databricks'
+    ].includes(skill.name)
   );
 
   return (
-    <section className="py-12 bg-gray-900/50">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-white mb-8 text-center font-roboto">Technical Skills</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="space-y-2">
-            <h3 className="text-xl mb-4">Development</h3>
-            {developmentSkills.map(skill =>
-              <SkillIcon key={skill.name} name={skill.name} Icon={skill.icon} />
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xl mb-4">Database</h3>
-            {databaseSkills.map(skill =>
-              <SkillIcon key={skill.name} name={skill.name} Icon={skill.icon} />
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xl mb-4">MLOps & DevOps</h3>
-            {devOpsSkills.map(skill =>
-              <SkillIcon key={skill.name} name={skill.name} Icon={skill.icon} />
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xl mb-4">Cloud</h3>
-            {cloudSkills.map(skill =>
-              <SkillIcon key={skill.name} name={skill.name} Icon={skill.icon} />
-            )}
-          </div>
-        </div>
+    <div className="w-full">
+      <div className="text-center mb-8">
+        <p className="text-accent-cyan/50 font-space text-xs tracking-[0.3em] uppercase mb-3">
+          Expertise
+        </p>
+        <h2 className="text-3xl md:text-4xl font-bold text-white font-space tracking-wide">
+          Technical Skills
+        </h2>
+        <p className="text-white/30 text-sm font-poppins mt-3">
+          Technologies powering my projects
+        </p>
       </div>
-    </section>
+
+      <div className="flex flex-wrap gap-3 justify-center items-center">
+        {allSkills.map(skill => (
+          <SkillIcon key={skill.name} name={skill.name} Icon={skill.icon} />
+        ))}
+      </div>
+    </div>
   );
 };
 

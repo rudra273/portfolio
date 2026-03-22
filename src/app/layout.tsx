@@ -1,24 +1,29 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next'
 import { Poppins, Roboto } from 'next/font/google'
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
-import Background from '@/components/Background'
 import Navbar from '@/components/Navbar'
-import Sidebar from '@/components/Sidebar'
-import CometAnimation from '@/components/CometAnimation'
+import SpaceBackground from '@/components/SpaceBackground'
 import JsonLd from '@/components/JsonLd'
 
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   weight: ['400', '700'],
   subsets: ['latin'],
   variable: '--font-poppins',
 })
 
-const roboto = Roboto({ 
+const roboto = Roboto({
   weight: '300',
   subsets: ['latin'],
   variable: '--font-roboto',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
 })
 
 
@@ -47,34 +52,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      {
-        url: '/favicon_io/favicon.ico',
-      },
-      {
-        url: '/favicon_io/favicon-16x16.png',
-        sizes: '16x16',
-        type: 'image/png',
-      },
-      {
-        url: '/favicon_io/favicon-32x32.png',
-        sizes: '32x32',
-        type: 'image/png',
-      },
+      { url: '/favicon_io/favicon.ico' },
+      { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
-    apple: {
-      url: '/favicon_io/apple-touch-icon.png',
-      sizes: '180x180',
-      type: 'image/png',
-    },
+    apple: { url: '/favicon_io/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     other: [
-      {
-        rel: 'android-chrome-192x192',
-        url: '/favicon_io/android-chrome-192x192.png',
-      },
-      {
-        rel: 'android-chrome-512x512',
-        url: '/favicon_io/android-chrome-512x512.png',
-      },
+      { rel: 'android-chrome-192x192', url: '/favicon_io/android-chrome-192x192.png' },
+      { rel: 'android-chrome-512x512', url: '/favicon_io/android-chrome-512x512.png' },
     ],
   },
   manifest: '/favicon_io/site.webmanifest',
@@ -87,21 +72,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head>
         <meta name="google-site-verification" content="N3K_Su1-aKnUQGsKvImh-bsmeSeox79i4cuKihgibto" />
         <JsonLd />
       </head>
-      <body className={`${poppins.variable} ${roboto.variable} font-sans`}>
-        <Background />
-        <CometAnimation />
+      <body className={`${poppins.variable} ${roboto.variable} ${spaceGrotesk.variable} font-sans`}>
+        <SpaceBackground />
         <Navbar />
-        <Sidebar />
-        <main className="w-full">
+        <main className="relative z-10 w-full">
           {children}
         </main>
       </body>
     </html>
   )
 }
-

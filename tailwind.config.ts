@@ -11,6 +11,17 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "space-bg": "#050816",
+        "space-deep": "#0B0C10",
+        "space-surface": "#111827",
+        "accent-cyan": "#66FCF1",
+        "accent-purple": "#9D4EDD",
+        "accent-blue": "#4F46E5",
+      },
+      fontFamily: {
+        poppins: ["var(--font-poppins)"],
+        roboto: ["var(--font-roboto)"],
+        space: ["var(--font-space-grotesk)"],
       },
     },
   },
