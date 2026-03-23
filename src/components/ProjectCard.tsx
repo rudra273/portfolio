@@ -26,7 +26,7 @@ export default function ProjectCard({
     <div className="glass-card overflow-hidden group flex flex-col items-stretch h-full">
       {/* Image container: Always top (vertical layout) */}
       <Link href={`/projects/${id}`} className="block w-full shrink-0 relative">
-        <div className="relative overflow-hidden w-full aspect-video">
+        <div className="relative overflow-hidden w-full aspect-[16/8]">
           <Image
             src={image}
             alt={title}
