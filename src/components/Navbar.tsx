@@ -8,10 +8,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const links = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/', label: 'Base' },
+    { href: '/about', label: 'Orbit' },
+    { href: '/projects', label: 'Missions' },
+    { href: '/contact', label: 'Transmit' },
   ];
 
   return (
@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex justify-between items-center">
           <Link
-            href="/"
+            href="/explore"
             className="text-xl font-bold font-space tracking-wider"
             style={{ color: '#66FCF1' }}
           >

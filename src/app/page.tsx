@@ -303,11 +303,16 @@ function FadeToVoid() {
   return (
     <motion.div
       style={{ opacity }}
-      className="fixed inset-0 bg-[#020408] z-20 pointer-events-none flex items-center justify-center"
+      className="fixed inset-0 z-20 pointer-events-none"
+      aria-hidden="true"
     >
-      <p className="text-white/10 font-space text-sm tracking-[0.3em] uppercase">
-        End of transmission
-      </p>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 52%, rgba(2, 4, 8, 0) 0%, rgba(2, 4, 8, 0.08) 18%, rgba(2, 4, 8, 0.32) 38%, rgba(1, 2, 6, 0.92) 100%)',
+        }}
+      />
     </motion.div>
   )
 }
