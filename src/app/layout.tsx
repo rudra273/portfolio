@@ -5,7 +5,7 @@ import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import JsonLd from '@/components/JsonLd'
-import PolishedSpaceBackground from '@/components/PolishedSpaceBackground'
+import SpaceBackground from '@/components/background/SpaceBackground'
 
 
 const poppins = Poppins({
@@ -78,7 +78,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className={`${poppins.variable} ${roboto.variable} ${spaceGrotesk.variable} font-sans`}>
-        <PolishedSpaceBackground />
+        <SpaceBackground />
         <Navbar />
         <main className="relative z-10 w-full">
           {children}
