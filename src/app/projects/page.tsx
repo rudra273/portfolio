@@ -8,6 +8,7 @@ const projectCategories = [
   'LLM', 'MLOps', 'Backend', 'Full Stack', 'DevOps', 'Data Analysis', 'Cloud',
 ];
 
+
 export interface Project {
   id: string;
   title: string;
@@ -43,12 +44,12 @@ export default function ProjectsPage() {
   }, []);
 
   const filteredProjects = projects.filter(project => {
-    const techStackMatch = selectedTechStacks.length === 0 || 
+    const techStackMatch = selectedTechStacks.length === 0 ||
       selectedTechStacks.every(tech => project.techStack.includes(tech));
-    
+
     const categoryMatch = selectedCategories.length === 0 ||
       selectedCategories.some(category => project.categories.includes(category));
-    
+
     return techStackMatch && categoryMatch;
   });
 
@@ -67,7 +68,7 @@ export default function ProjectsPage() {
   return (
     <div className="w-full pt-32 pb-24 px-4 sm:px-6 relative min-h-screen">
       <div className="max-w-6xl mx-auto relative z-10">
-        
+
         {/* Header HUD panel */}
         <div className="hud-panel p-8 md:p-10 mb-12 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
@@ -82,7 +83,7 @@ export default function ProjectsPage() {
             Project <span className="text-accent-cyan">Archive</span>
           </h1>
           <p className="text-white/50 font-poppins text-sm md:text-base max-w-2xl leading-relaxed mb-8">
-            A comprehensive log of active and completed development cycles, containing source code references and live environment portals. 
+            A comprehensive log of active and completed development cycles, containing source code references and live environment portals.
             Filter by classification or framework below.
           </p>
 
@@ -140,7 +141,7 @@ export default function ProjectsPage() {
           {filteredProjects.length === 0 ? (
             <div className="hud-panel p-12 text-center">
               <p className="text-white/40 font-poppins mb-2">No data logs match the specified parameters.</p>
-              <button 
+              <button
                 onClick={() => { setSelectedCategories([]); setSelectedTechStacks([]); }}
                 className="text-accent-cyan font-space text-sm tracking-widest uppercase hover:text-accent-cyan/70"
               >
