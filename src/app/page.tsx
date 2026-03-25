@@ -5,7 +5,6 @@ import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import ProjectCard from '@/components/ProjectCard'
-import { projects } from '@/projects'
 import Footer from '@/components/Footer'
 import Skills from '@/components/Skills'
 import Button from '@/components/Button'
@@ -17,6 +16,19 @@ import { SiLeetcode } from 'react-icons/si'
 import { MdEmail } from 'react-icons/md'
 
 const FEATURED_PROJECT_IDS = ['4', '5'];
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  images: string[];
+  features: string[];
+  techStack: string[];
+  categories: string[];
+  githubUrl: string;
+  liveUrl: string;
+}
 
 /* ─── Scroll-pinned section ─── */
 function ScrollSection({
@@ -81,6 +93,19 @@ export default function Home() {
   const [titleIndex, setTitleIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        if (data.projects) {
+          const featured = data.projects.filter((p: Project) => FEATURED_PROJECT_IDS.includes(String(p.id)));
+          setFeaturedProjects(featured);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   const titles = useMemo(
     () => ['AI / ML Engineer', 'Full Stack Developer', 'Coder'],
@@ -265,9 +290,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-            {projects
-              .filter((project) => FEATURED_PROJECT_IDS.includes(project.id))
-              .map((project) => (
+            {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} {...project} />
               ))}
           </div>

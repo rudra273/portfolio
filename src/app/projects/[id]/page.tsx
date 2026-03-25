@@ -6,12 +6,58 @@ import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaGithub, FaExternalLinkAlt, FaCode, FaRocket } from 'react-icons/fa'
-import { projects } from '@/projects'
+import { useEffect, useState } from 'react';
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  images: string[];
+  features: string[];
+  techStack: string[];
+  categories: string[];
+  githubUrl: string;
+  liveUrl: string;
+}
  
 export default function ProjectPage() {
   const params = useParams()
   const id = params.id as string
-  const project = projects.find(p => p.id === id)
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        if (data.projects) {
+          const found = data.projects.find((p: Project) => String(p.id) === String(id));
+          setProject(found || null);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch project:', err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center mt-16 px-4">
+        <div className="hud-panel p-10 text-center max-w-md w-full">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
+            <span className="text-accent-cyan/70 font-space text-[10px] tracking-widest uppercase">
+              Loading Data
+            </span>
+          </div>
+          <p className="text-white/50 font-poppins text-sm">Accessing archive records...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -30,7 +76,7 @@ export default function ProjectPage() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -84,7 +130,7 @@ export default function ProjectPage() {
                 <span className="text-white/30 font-space text-[10px] tracking-widest uppercase">Visual Logs</span>
               </div>
               <div className="grid gap-6">
-                {project.images.map((image, index) => (
+                {project.images.map((image: string, index: number) => (
                   <div 
                     key={index} 
                     className="relative overflow-hidden rounded-xl border border-white/5 group"
@@ -131,7 +177,7 @@ export default function ProjectPage() {
               </div>
               
               <div className="flex flex-wrap gap-2.5">
-                {project.techStack.map((tech) => (
+                {project.techStack.map((tech: string) => (
                   <span 
                     key={tech} 
                     className="bg-accent-purple/10 border border-accent-purple/20 text-accent-purple font-space px-3 py-1.5 rounded-full text-[10px] tracking-wider uppercase shadow-[0_0_10px_rgba(157,78,221,0.05)]"
@@ -154,7 +200,7 @@ export default function ProjectPage() {
                 </div>
                 
                 <ul className="space-y-3">
-                  {project.features.map((feature, index) => (
+                  {project.features.map((feature: string, index: number) => (
                     <li key={index} className="flex items-start text-white/70 font-poppins text-sm leading-relaxed">
                       <span className="inline-block w-1 h-1 rounded-full bg-accent-cyan mt-2 mr-3 shrink-0 shadow-[0_0_8px_rgba(102,252,241,0.8)]"></span>
                       {feature}

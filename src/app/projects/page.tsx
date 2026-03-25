@@ -1,12 +1,46 @@
 // src/app/projects/page.tsx
 "use client";
 import ProjectCardHorizontal from '@/components/ProjectCardHorizontal'
-import { projects, allTechStacks, projectCategories } from '@/projects'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// Hardcoded fallback categories or derived
+const projectCategories = [
+  'LLM', 'MLOps', 'Backend', 'Full Stack', 'DevOps', 'Data Analysis', 'Cloud',
+];
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  images: string[];
+  features: string[];
+  techStack: string[];
+  categories: string[];
+  githubUrl: string;
+  liveUrl: string;
+}
 
 export default function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [allTechStacks, setAllTechStacks] = useState<string[]>([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        if (data.projects) {
+          setProjects(data.projects);
+          const stacks = Array.from(new Set(data.projects.map((p: Project) => p.techStack).flat())) as string[];
+          setAllTechStacks(stacks);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch projects:', err);
+      });
+  }, []);
 
   const filteredProjects = projects.filter(project => {
     const techStackMatch = selectedTechStacks.length === 0 || 

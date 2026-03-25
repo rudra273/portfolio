@@ -1,0 +1,174 @@
+[dotenv@17.3.1] injecting env (8) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Searching for images in public directory...
+Found 23 images to upload.
+Uploading public/projects/code-assistant/ollama.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436266/portfolio_projects/code-assistant/ollama.png
+Uploading public/projects/code-assistant/main.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436267/portfolio_projects/code-assistant/main.png
+Uploading public/projects/code-assistant/context-preview.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436268/portfolio_projects/code-assistant/context-preview.png
+Uploading public/projects/code-assistant/azure.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436270/portfolio_projects/code-assistant/azure.png
+Uploading public/projects/hisab-kitab/dashboard1.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436272/portfolio_projects/hisab-kitab/dashboard1.png
+Uploading public/projects/hisab-kitab/dashboard.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436273/portfolio_projects/hisab-kitab/dashboard.png
+Uploading public/projects/hisab-kitab/chat.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436274/portfolio_projects/hisab-kitab/chat.png
+Uploading public/projects/text-to-sql/load.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436275/portfolio_projects/text-to-sql/load.png
+Uploading public/projects/text-to-sql/home.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436276/portfolio_projects/text-to-sql/home.png
+Uploading public/projects/text-to-sql/connection.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436277/portfolio_projects/text-to-sql/connection.png
+Uploading public/projects/text-to-sql/chat.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436279/portfolio_projects/text-to-sql/chat.png
+Uploading public/projects/chatapp/search.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436280/portfolio_projects/chatapp/search.png
+Uploading public/projects/chatapp/main.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436281/portfolio_projects/chatapp/main.png
+Uploading public/projects/chatapp/chat.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436283/portfolio_projects/chatapp/chat.png
+Uploading public/projects/chatapp/channel.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436284/portfolio_projects/chatapp/channel.png
+Uploading public/projects/stock-adv/topmovers.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436285/portfolio_projects/stock-adv/topmovers.png
+Uploading public/projects/stock-adv/technical.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436286/portfolio_projects/stock-adv/technical.png
+Uploading public/projects/stock-adv/stock.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436287/portfolio_projects/stock-adv/stock.png
+Uploading public/projects/stock-adv/research.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436291/portfolio_projects/stock-adv/research.png
+Uploading public/projects/stock-adv/home.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436293/portfolio_projects/stock-adv/home.png
+Uploading public/projects/stock-adv/financial.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436296/portfolio_projects/stock-adv/financial.png
+Uploading public/projects/stock-adv/dashboard.png...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436297/portfolio_projects/stock-adv/dashboard.png
+Uploading public/profile/rudra.jpg...
+✅ Uploaded: https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg
+
+======================================
+UPLOAD COMPLETE. HERE ARE THE URLS FOR YOUR GOOGLE SHEET:
+======================================
+
+/projects/code-assistant/ollama.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436266/portfolio_projects/code-assistant/ollama.png
+/projects/code-assistant/main.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436267/portfolio_projects/code-assistant/main.png
+/projects/code-assistant/context-preview.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436268/portfolio_projects/code-assistant/context-preview.png
+/projects/code-assistant/azure.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436270/portfolio_projects/code-assistant/azure.png
+/projects/hisab-kitab/dashboard1.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436272/portfolio_projects/hisab-kitab/dashboard1.png
+/projects/hisab-kitab/dashboard.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436273/portfolio_projects/hisab-kitab/dashboard.png
+/projects/hisab-kitab/chat.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436274/portfolio_projects/hisab-kitab/chat.png
+/projects/text-to-sql/load.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436275/portfolio_projects/text-to-sql/load.png
+/projects/text-to-sql/home.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436276/portfolio_projects/text-to-sql/home.png
+/projects/text-to-sql/connection.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436277/portfolio_projects/text-to-sql/connection.png
+/projects/text-to-sql/chat.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436279/portfolio_projects/text-to-sql/chat.png
+/projects/chatapp/search.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436280/portfolio_projects/chatapp/search.png
+/projects/chatapp/main.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436281/portfolio_projects/chatapp/main.png
+/projects/chatapp/chat.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436283/portfolio_projects/chatapp/chat.png
+/projects/chatapp/channel.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436284/portfolio_projects/chatapp/channel.png
+/projects/stock-adv/topmovers.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436285/portfolio_projects/stock-adv/topmovers.png
+/projects/stock-adv/technical.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436286/portfolio_projects/stock-adv/technical.png
+/projects/stock-adv/stock.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436287/portfolio_projects/stock-adv/stock.png
+/projects/stock-adv/research.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436291/portfolio_projects/stock-adv/research.png
+/projects/stock-adv/home.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436293/portfolio_projects/stock-adv/home.png
+/projects/stock-adv/financial.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436296/portfolio_projects/stock-adv/financial.png
+/projects/stock-adv/dashboard.png  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436297/portfolio_projects/stock-adv/dashboard.png
+/profile/rudra.jpg  --->  https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg
+
+
+--- JSON MAP ---
+[
+  {
+    "localPath": "/projects/code-assistant/ollama.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436266/portfolio_projects/code-assistant/ollama.png"
+  },
+  {
+    "localPath": "/projects/code-assistant/main.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436267/portfolio_projects/code-assistant/main.png"
+  },
+  {
+    "localPath": "/projects/code-assistant/context-preview.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436268/portfolio_projects/code-assistant/context-preview.png"
+  },
+  {
+    "localPath": "/projects/code-assistant/azure.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436270/portfolio_projects/code-assistant/azure.png"
+  },
+  {
+    "localPath": "/projects/hisab-kitab/dashboard1.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436272/portfolio_projects/hisab-kitab/dashboard1.png"
+  },
+  {
+    "localPath": "/projects/hisab-kitab/dashboard.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436273/portfolio_projects/hisab-kitab/dashboard.png"
+  },
+  {
+    "localPath": "/projects/hisab-kitab/chat.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436274/portfolio_projects/hisab-kitab/chat.png"
+  },
+  {
+    "localPath": "/projects/text-to-sql/load.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436275/portfolio_projects/text-to-sql/load.png"
+  },
+  {
+    "localPath": "/projects/text-to-sql/home.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436276/portfolio_projects/text-to-sql/home.png"
+  },
+  {
+    "localPath": "/projects/text-to-sql/connection.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436277/portfolio_projects/text-to-sql/connection.png"
+  },
+  {
+    "localPath": "/projects/text-to-sql/chat.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436279/portfolio_projects/text-to-sql/chat.png"
+  },
+  {
+    "localPath": "/projects/chatapp/search.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436280/portfolio_projects/chatapp/search.png"
+  },
+  {
+    "localPath": "/projects/chatapp/main.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436281/portfolio_projects/chatapp/main.png"
+  },
+  {
+    "localPath": "/projects/chatapp/chat.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436283/portfolio_projects/chatapp/chat.png"
+  },
+  {
+    "localPath": "/projects/chatapp/channel.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436284/portfolio_projects/chatapp/channel.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/topmovers.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436285/portfolio_projects/stock-adv/topmovers.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/technical.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436286/portfolio_projects/stock-adv/technical.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/stock.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436287/portfolio_projects/stock-adv/stock.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/research.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436291/portfolio_projects/stock-adv/research.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/home.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436293/portfolio_projects/stock-adv/home.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/financial.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436296/portfolio_projects/stock-adv/financial.png"
+  },
+  {
+    "localPath": "/projects/stock-adv/dashboard.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436297/portfolio_projects/stock-adv/dashboard.png"
+  },
+  {
+    "localPath": "/profile/rudra.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg"
+  }
+]

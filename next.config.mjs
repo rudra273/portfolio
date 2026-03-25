@@ -6,7 +6,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      domains: [], // Add any domains you'll load images from
+      domains: ['res.cloudinary.com'], // Add any domains you'll load images from
       formats: ['image/avif', 'image/webp'],
     },
     async headers() {
