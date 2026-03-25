@@ -13,16 +13,41 @@ export default function ContactPage() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{type: 'success' | 'error', msg: string} | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
-    const subject = encodeURIComponent(`Message from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:rudramohanty45@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
 
-    setName('');
-    setEmail('');
-    setMessage('');
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ type: 'success', msg: 'Transmission received successfully.' });
+        setName('');
+        setEmail('');
+        setMessage('');
+        
+        // As a fallback, still open the mailto link if requested, but generally we can just rely on the Google Sheet.
+        // We will remove the mailto behavior since it's fully integrated into sheets!
+      } else {
+        setSubmitStatus({ type: 'error', msg: data.error || 'Transmission failed.' });
+      }
+    } catch {
+      setSubmitStatus({ type: 'error', msg: 'Network error. Transmission failed.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -165,10 +190,21 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              className="w-full py-4 mt-4 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan font-space tracking-widest text-xs uppercase hover:bg-accent-cyan/20 hover:shadow-[0_0_20px_rgba(102,252,241,0.2)] transition-all flex justify-center items-center group"
+              disabled={isSubmitting}
+              className={`w-full py-4 mt-4 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan font-space tracking-widest text-xs uppercase hover:bg-accent-cyan/20 hover:shadow-[0_0_20px_rgba(102,252,241,0.2)] transition-all flex justify-center items-center group disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              <span className="group-hover:-translate-y-0.5 transition-transform">Transmit Signal</span>
+              <span className={`${!isSubmitting && 'group-hover:-translate-y-0.5'} transition-transform`}>
+                {isSubmitting ? 'Transmitting...' : 'Transmit Signal'}
+              </span>
             </button>
+
+            {submitStatus && (
+              <div className={`mt-4 p-3 border rounded font-space text-[10px] tracking-widest uppercase text-center ${
+                submitStatus.type === 'success' ? 'border-accent-cyan/50 text-accent-cyan' : 'border-red-500/50 text-red-400'
+              }`}>
+                {submitStatus.msg}
+              </div>
+            )}
           </form>
         </div>
 
