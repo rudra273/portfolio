@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: 'Rudrapratap Mohanty Portfolio',
     images: [
       {
-        url: '/profile/rudra.jpg',
+        url: 'https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg',
         width: 1200,
         height: 630,
         alt: 'Rudrapratap Mohanty',

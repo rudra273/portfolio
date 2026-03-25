@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative min-h-screen w-full overflow-x-hidden">
       <div className="max-w-5xl mx-auto space-y-16 relative z-10">
-        
+
         {/* ═══ ABOUT SECTION ═══ */}
         <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
           {/* HUD decorations */}
@@ -24,7 +24,7 @@ export default function AboutPage() {
             <div className="flex flex-col items-center gap-6">
               <div className="relative w-[180px] h-[180px] rounded-full p-2 border border-accent-cyan/30 bg-accent-cyan/5">
                 <Image
-                  src="/profile/rudra.jpg"
+                  src="https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg"
                   alt="Rudrapratap Mohanty"
                   fill
                   className="rounded-full object-cover scale-[0.95] opacity-80 hover:scale-100 hover:opacity-100 transition-all duration-500"
@@ -34,8 +34,8 @@ export default function AboutPage() {
               </div>
 
               <div className="w-full h-px bg-gradient-to-r from-transparent via-accent-cyan/20 to-transparent my-2" />
-              
-              <Link 
+
+              <Link
                 href="https://drive.google.com/drive/folders/1BWzQhsPt2WGACNzpWYfq_etNg2654N7Y?usp=drive_link"
                 target="_blank"
                 className="w-full"
@@ -51,10 +51,10 @@ export default function AboutPage() {
               <h1 className="text-3xl md:text-4xl font-bold font-space text-white mb-6 tracking-wide">
                 Identity Verification
               </h1>
-              
+
               <div className="space-y-4 font-poppins text-white/60 text-sm leading-relaxed">
                 <p>
-                  I am currently based in Bangalore, working as an <span className="text-accent-cyan font-medium">MLOps Engineer</span>. With a strong foundation 
+                  I am currently based in Bangalore, working as an <span className="text-accent-cyan font-medium">MLOps Engineer</span>. With a strong foundation
                   in software development, I specialize in backend engineering, cloud infrastructure, and operationalizing Machine Learning models.
                 </p>
                 <p>
@@ -64,7 +64,7 @@ export default function AboutPage() {
                   Currently, I am immersed in the world of LLM engineering, <span className="text-accent-purple font-medium">building agentic AI systems using LangChain and LangGraph</span>. Integrating these advanced NLP workflows into robust, scalable architectures is where I do my most exciting work.
                 </p>
                 <p>
-                  Beyond my professional work, I am deeply passionate about technology and creativity. I love tackling algorithmic challenges on LeetCode to keep my problem-solving sharp. Outside of tech, I have a deep fascination with <span className="text-accent-cyan font-medium">space and astronomy</span>, 
+                  Beyond my professional work, I am deeply passionate about technology and creativity. I love tackling algorithmic challenges on LeetCode to keep my problem-solving sharp. Outside of tech, I have a deep fascination with <span className="text-accent-cyan font-medium">space and astronomy</span>,
                   often exploring the mysteries of the universe.
                 </p>
               </div>
@@ -97,16 +97,16 @@ export default function AboutPage() {
           <div className="relative flex flex-col items-center max-w-3xl mx-auto">
             {/* The absolute center glowing line */}
             <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[1px] bg-gradient-to-b from-transparent via-accent-purple/40 to-transparent" />
-            
+
             {careerTimeline.map((item, index) => (
               <div key={index} className="w-full mb-12 relative group">
                 <div className="grid grid-cols-2 gap-8 relative items-center">
-                  
+
                   {/* Glowing node point on the timeline */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                     <div className="w-4 h-4 rounded-full bg-black border-2 border-accent-purple/60 z-10 transition-transform duration-300 group-hover:scale-125 group-hover:bg-accent-purple/20 group-hover:border-accent-cyan shadow-[0_0_15px_rgba(157,78,221,0.5)]" />
                   </div>
-                  
+
                   {/* Left or Right Positioned Content */}
                   <div className={`col-span-1 ${item.position === 'up' ? 'col-start-1 text-right' : 'col-start-2 text-left'}`}>
                     <div className={`inline-block w-full max-w-[280px] glass-card p-5 border border-white/5 group-hover:border-accent-purple/30 group-hover:-translate-y-1 transition-all duration-300 ${item.position === 'up' ? 'mr-6' : 'ml-6'}`}>
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
-            
+
             {/* End of timeline marker */}
             <div className="flex flex-col items-center mt-8 relative z-10">
               <div className="w-2 h-2 rounded-full bg-accent-cyan/80 animate-pulse shadow-[0_0_10px_rgba(102,252,241,0.5)] mb-4" />
@@ -135,7 +135,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   );
