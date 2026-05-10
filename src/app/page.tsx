@@ -147,15 +147,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-            className="text-white/35 font-poppins text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
-          >
-            Building intelligent systems at the intersection of AI, cloud
-            infrastructure, and modern software engineering.
-          </motion.p>
+
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
