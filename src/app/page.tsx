@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import ProjectCard from '@/components/ProjectCard'
 import Footer from '@/components/Footer'
 import Skills from '@/components/Skills'
@@ -30,62 +30,18 @@ export interface Project {
   liveUrl: string;
 }
 
-/* ─── Scroll-pinned section ─── */
-function ScrollSection({
+/* ─── Standard page section ─── */
+function PageSection({
   children,
-  scrollStart,
-  scrollEnd,
   className = '',
 }: {
   children: React.ReactNode
-  scrollStart: number
-  scrollEnd: number
   className?: string
 }) {
-  const { scrollYProgress } = useScroll()
-
-  // If scrollStart is 0, we only fade OUT at the end. We don't fade IN.
-  const isFirstSection = scrollStart === 0
-
-  // Map the overall scroll progress to this section's local range
-  const sectionProgress = useTransform(
-    scrollYProgress,
-    isFirstSection
-      ? [0, scrollEnd - 0.05, scrollEnd]
-      : [scrollStart, scrollStart + 0.05, scrollEnd - 0.05, scrollEnd],
-    isFirstSection
-      ? [1, 1, 0]
-      : [0, 1, 1, 0]
-  )
-
-  // For the first section, it should start at scale 1 / y 0 / opacity 1
-  const opacity = useTransform(
-    sectionProgress,
-    isFirstSection ? [1, 0] : [0, 1],
-    isFirstSection ? [1, 0] : [0, 1]
-  )
-  const scale = useTransform(
-    sectionProgress,
-    isFirstSection ? [1, 0] : [0, 1],
-    isFirstSection ? [1, 0.92] : [0.92, 1]
-  )
-  const y = useTransform(
-    sectionProgress,
-    isFirstSection ? [1, 0] : [0, 1],
-    isFirstSection ? [0, -60] : [60, 0]
-  )
-
   return (
-    <div
-      className={`sticky top-0 min-h-screen flex items-center justify-center px-4 sm:px-6 pointer-events-none ${className}`}
-    >
-      <motion.div
-        style={{ opacity, scale, y }}
-        className="w-full max-w-6xl pointer-events-auto"
-      >
-        {children}
-      </motion.div>
-    </div>
+    <section className={`w-full px-4 sm:px-6 ${className}`}>
+      <div className="max-w-6xl mx-auto">{children}</div>
+    </section>
   )
 }
 
@@ -138,10 +94,10 @@ export default function Home() {
   }, [displayText, isDeleting, titleIndex, titles])
 
   return (
-    <div style={{ height: '500vh' }} className="relative w-full overflow-x-clip">
+    <div className="relative w-full overflow-x-clip pt-28 pb-20">
 
-      {/* ═══ HERO — 0% to 22% scroll ═══ */}
-      <ScrollSection scrollStart={0} scrollEnd={0.22}>
+      {/* ═══ HERO ═══ */}
+      <PageSection className="min-h-[calc(100vh-7rem)] flex items-center pb-20">
         {/* EDIT THIS LINE IF YOU WANT TO ADJUST TOP SPACING (e.g. change mt-16 or pt-12) */}
         <div className="text-center relative z-10 mt-16 md:mt-16">
           {/* Decorative orbit ring */}
@@ -249,10 +205,10 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
-      </ScrollSection>
+      </PageSection>
 
-      {/* ═══ SKILLS — 20% to 42% scroll ═══ */}
-      <ScrollSection scrollStart={0.18} scrollEnd={0.42}>
+      {/* ═══ SKILLS ═══ */}
+      <PageSection className="py-12">
         <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
@@ -265,10 +221,10 @@ export default function Home() {
           </div>
           <Skills />
         </div>
-      </ScrollSection>
+      </PageSection>
 
-      {/* ═══ FEATURED PROJECTS — 40% to 72% scroll ═══ */}
-      <ScrollSection scrollStart={0.38} scrollEnd={0.72}>
+      {/* ═══ FEATURED PROJECTS ═══ */}
+      <PageSection className="py-12">
         <div className="hud-panel p-4 sm:p-6 md:p-8 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
@@ -301,41 +257,14 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </ScrollSection>
+      </PageSection>
 
-      {/* ═══ FOOTER — 68% to 92% scroll ═══ */}
-      <ScrollSection scrollStart={0.68} scrollEnd={0.92}>
+      {/* ═══ FOOTER ═══ */}
+      <PageSection className="pt-12">
         <div className="relative">
           <Footer />
         </div>
-      </ScrollSection>
-
-      {/* ═══ Final fade-to-void — 90% to 100% ═══ */}
-      <div className="sticky top-0 min-h-screen flex items-center justify-center pointer-events-none">
-        <FadeToVoid />
-      </div>
+      </PageSection>
     </div>
-  )
-}
-
-/* ─── Fade to black at the very end ─── */
-function FadeToVoid() {
-  const { scrollYProgress } = useScroll()
-  const opacity = useTransform(scrollYProgress, [0.88, 1], [0, 1])
-
-  return (
-    <motion.div
-      style={{ opacity }}
-      className="fixed inset-0 z-20 pointer-events-none"
-      aria-hidden="true"
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(circle at 50% 52%, rgba(2, 4, 8, 0) 0%, rgba(2, 4, 8, 0.08) 18%, rgba(2, 4, 8, 0.32) 38%, rgba(1, 2, 6, 0.92) 100%)',
-        }}
-      />
-    </motion.div>
   )
 }
