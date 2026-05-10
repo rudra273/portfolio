@@ -200,7 +200,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ SKILLS ═══ */}
-      <PageSection className="py-12">
+      <PageSection className="py-24 md:py-32">
         <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
@@ -216,7 +216,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ FEATURED PROJECTS ═══ */}
-      <PageSection className="py-12">
+      <PageSection className="py-24 md:py-32">
         <div className="hud-panel p-4 sm:p-6 md:p-8 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
@@ -252,7 +252,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ FOOTER ═══ */}
-      <PageSection className="pt-12">
+      <PageSection className="pt-24 md:pt-32">
         <div className="relative">
           <Footer />
         </div>
