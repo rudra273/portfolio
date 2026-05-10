@@ -147,15 +147,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-            className="text-white/35 font-poppins text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
-          >
-            Building intelligent systems at the intersection of AI, cloud
-            infrastructure, and modern software engineering.
-          </motion.p>
+
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,7 +200,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ SKILLS ═══ */}
-      <PageSection className="py-12">
+      <PageSection className="py-24 md:py-32">
         <div className="hud-panel p-8 md:p-12 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-cyan/20 rounded-tl-2xl" />
@@ -224,7 +216,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ FEATURED PROJECTS ═══ */}
-      <PageSection className="py-12">
+      <PageSection className="py-24 md:py-32">
         <div className="hud-panel p-4 sm:p-6 md:p-8 relative overflow-hidden">
           {/* HUD decorations */}
           <div className="absolute top-0 left-0 w-16 h-16 border-t border-l border-accent-purple/20 rounded-tl-2xl" />
@@ -260,7 +252,7 @@ export default function Home() {
       </PageSection>
 
       {/* ═══ FOOTER ═══ */}
-      <PageSection className="pt-12">
+      <PageSection className="pt-24 md:pt-32">
         <div className="relative">
           <Footer />
         </div>
