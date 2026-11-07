@@ -37,3 +37,9 @@ The skills panel now presents Generative AI, Software Development, and Business 
 The satellite is no longer mounted. Its source remains for history. A new, independent service scene provides a connected particle core, translucent blocks that assemble, and orbital paths with traveling light pulses. Tab changes ease the sculptures in and out in the same canvas. Static SVG artwork supports reduced motion and unavailable WebGL; the existing viewport component pauses offscreen rendering.
 
 Validation: TypeScript and an isolated production build passed. Browser checks covered all three tabs, arrow-key selection, desktop rendering, and a 390px mobile layout with no horizontal overflow. No browser console errors were observed. The isolated build used a temporary source copy to avoid disrupting the running development server.
+
+## Continuous service morph
+
+Replaced the separate sculptures with one persistent field of 2,304 particles and shared strand connections. The same geometry reshapes between a neural globe, nested crystalline frameworks, and orbital loops. Spring motion preserves both position and velocity when another tab is selected mid-transition, while colors and idle motion blend alongside the shape. The static fallback illustrations were updated to match.
+
+Checked settled forms and interrupted transitions in the browser, plus the 390px mobile view. No browser console errors were observed. TypeScript and a fresh isolated production build passed. Reduced-motion behavior continues to use static artwork through the existing viewport component.

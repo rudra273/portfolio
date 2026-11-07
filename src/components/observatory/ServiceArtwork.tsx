@@ -8,69 +8,44 @@ export default function ServiceArtwork({ mode }: { mode: number }) {
       aria-hidden="true"
     >
       {mode === 0 ? (
-        <g>
-          <circle cx="250" cy="250" r="24" fill="#d8edff" />
-          <circle cx="250" cy="250" r="46" stroke="#8bbce8" opacity=".5" />
-          {[82, 115, 147].map((radius, ring) => (
+        <g stroke="#9ac7e6" opacity=".65">
+          {[85, 117, 147].map((radius) => (
             <g key={radius}>
-              <circle
-                cx="250"
-                cy="250"
-                r={radius}
-                stroke="#9ac7e6"
-                opacity=".12"
-              />
-              {Array.from({ length: 30 }, (_, i) => {
-                const angle = (i * Math.PI) / 15 + ring;
-                return (
-                  <circle
-                    key={i}
-                    cx={250 + Math.cos(angle) * radius}
-                    cy={250 + Math.sin(angle) * radius}
-                    r={i % 3 ? 1.4 : 2.8}
-                    fill={i % 5 ? "#9ac7e6" : "#dec093"}
-                  />
-                );
-              })}
+              <circle cx="250" cy="250" r={radius} opacity=".4" />
+              <ellipse cx="250" cy="250" rx={radius * 0.35} ry={radius} />
+              <ellipse cx="250" cy="250" rx={radius * 0.72} ry={radius} />
             </g>
           ))}
         </g>
       ) : mode === 1 ? (
-        <g transform="translate(250 250) rotate(-25)" stroke="#bad6e9">
-          {[-1, 0, 1].map((i) => (
-            <rect
-              key={i}
-              x={-76 + i * 20}
-              y={-76 + i * 35}
-              width="152"
-              height="152"
-              rx="10"
-              fill={i === 0 ? "#d2b17a22" : "#9ac7e622"}
-              strokeOpacity=".5"
+        <g transform="translate(250 250) rotate(-12)" stroke="#bad6e9">
+          {[0.5, 0.75, 1].map((scale) => (
+            <path
+              key={scale}
+              transform={`scale(${scale})`}
+              opacity=".65"
+              d="M-110 -100 H55 V65 H-110 Z M-55 -65 H110 V100 H-55 Z M-110 -100 -55 -65 M55 -100 110 -65 M55 65 110 100 M-110 65 -55 100"
             />
           ))}
         </g>
       ) : (
-        <g>
-          {[0, 60, 120].map((angle) => (
-            <g key={angle} transform={`rotate(${angle} 250 250)`}>
-              <ellipse
-                cx="250"
-                cy="250"
-                rx="158"
-                ry="72"
-                stroke={angle === 60 ? "#dec093" : "#9ac7e6"}
-                opacity=".65"
-              />
-              <circle cx="408" cy="250" r="5" fill="#d5ecff" />
-              <circle cx="92" cy="250" r="3" fill="#dec093" />
-            </g>
+        <g stroke="#acd4ed" opacity=".8">
+          <path d="M250 250 C110 65 40 345 145 345 C235 345 270 155 355 155 C460 155 390 435 250 250 C110 65 40 345 145 345" />
+          {[
+            [145, 170],
+            [145, 330],
+            [355, 170],
+            [355, 330],
+          ].map(([x, y]) => (
+            <circle
+              key={`${x}-${y}`}
+              cx={x}
+              cy={y}
+              r="12"
+              fill="#122330"
+              stroke="#e7c08c"
+            />
           ))}
-          <path
-            d="M250 216 281 234 281 268 250 286 219 268 219 234Z"
-            fill="#9ac7e633"
-            stroke="#c9e3f4"
-          />
         </g>
       )}
     </svg>
