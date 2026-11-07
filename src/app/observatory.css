@@ -2076,8 +2076,8 @@ body:has(.orbital-menu[open]) {
   --slide-w: min(740px, calc(100vw - 320px));
   --slide-gap: 28px;
   position: relative;
-  /* Scroll distance that drives the slides: one screen plus ~80vh per card. */
-  height: 260vh;
+  /* Scroll distance that drives the slides: one screen plus ~80vh per step. */
+  height: 340vh;
 }
 .service-sticky {
   position: sticky;
@@ -2160,7 +2160,7 @@ body:has(.orbital-menu[open]) {
   position: absolute;
   z-index: -1;
   top: 50%;
-  left: calc(50% + var(--slide-w) * 0.24);
+  left: calc(50% + var(--slide-w) * 0.24 * var(--art-shift, 1));
   width: min(520px, 55vw);
   height: 520px;
   transform: translate(-50%, -50%);
@@ -2191,6 +2191,7 @@ body:has(.orbital-menu[open]) {
 .service-track {
   display: flex;
   gap: var(--slide-gap);
+  align-items: center;
   padding: 30px calc((100% - var(--slide-w)) / 2);
   will-change: transform;
 }
@@ -2204,11 +2205,8 @@ body:has(.orbital-menu[open]) {
   border-radius: 24px;
   overflow: hidden;
   cursor: pointer;
-  opacity: 0.42;
-  transform: scale(0.95);
-  transition:
-    opacity 0.6s,
-    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.55;
+  transition: opacity 0.6s;
   /* Light glass: the live form should glow through, not disappear. */
   background:
     linear-gradient(
@@ -2229,8 +2227,11 @@ body:has(.orbital-menu[open]) {
 }
 .service-slide[data-active="true"] {
   opacity: 1;
-  transform: none;
   cursor: auto;
+}
+/* Service cards fly in from the right and join the intro card. */
+.service-card {
+  transform: translateX(var(--join, 0px));
 }
 /* Specular edge highlight. */
 .service-slide::before {
@@ -2338,7 +2339,6 @@ body:has(.orbital-menu[open]) {
   }
   .service-slide {
     min-height: 0;
-    transform: scale(0.97);
   }
   .service-slide__body {
     padding: 30px 24px 70px;
@@ -2347,12 +2347,12 @@ body:has(.orbital-menu[open]) {
     font-size: 30px;
   }
   .service-viewport .service-art {
-    top: auto;
-    bottom: -40px;
-    left: 60%;
+    /* Centred in the intro card, then lower behind the service copy. */
+    top: calc(50% + 150px * var(--art-shift, 1));
+    left: calc(50% + 10vw * var(--art-shift, 1));
     width: 110vw;
     height: 420px;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     opacity: 0.75;
   }
   .service-slide .service-caption {
@@ -2381,4 +2381,56 @@ body:has(.orbital-menu[open]) {
 .service-slide__body .eyebrow {
   font-size: 12px;
   letter-spacing: 0.12em;
+}
+
+/* ── Services intro: "What I can build [card] for you." ─────────────── */
+.service-intro {
+  flex: 0 0 var(--slide-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.service-intro__line {
+  margin: 0;
+  font-size: clamp(36px, 4.2vw, 61px);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+.service-intro__card {
+  /* Not a row item here: stop the slide's flex-basis acting as height. */
+  flex: none;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 38px;
+}
+.service-intro__card .service-slide__art {
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+.service-intro__aside {
+  position: relative;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #a1a8b3;
+}
+.expertise-section {
+  padding-top: 40px;
+}
+.service-viewport .service-art[data-mode="3"] .service-halo {
+  background: radial-gradient(circle, #e9c48a50, #b0884d18 42%, transparent 68%);
+}
+@media (max-width: 760px) {
+  .service-intro {
+    gap: 16px;
+  }
+  .service-intro__card {
+    min-height: 340px;
+    padding: 26px 24px;
+  }
 }

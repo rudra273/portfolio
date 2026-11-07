@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import SceneViewport from "./SceneViewport";
@@ -10,9 +10,9 @@ const SAMPLES = 64;
 const COUNT = STRANDS * SAMPLES;
 const TAU = Math.PI * 2;
 
-/** One particle identity, three destinations. Every connection survives the morph. */
+/** One particle identity, four destinations. Every connection survives the morph. */
 function createForms() {
-  const forms = Array.from({ length: 3 }, () => new Float32Array(COUNT * 3));
+  const forms = Array.from({ length: 4 }, () => new Float32Array(COUNT * 3));
   const progress = new Float32Array(COUNT);
   const seeds = new Float32Array(COUNT);
   const indices: number[] = [];
@@ -42,6 +42,22 @@ function createForms() {
   ];
   const cubeRotation = new THREE.Euler(0.38, 0.6, 0.18);
   const point = new THREE.Vector3();
+  // The question mark's spine: hook, then a short stem.
+  const question = new THREE.CatmullRomCurve3(
+    [
+      [-0.72, 0.62],
+      [-0.55, 1.08],
+      [0, 1.3],
+      [0.56, 1.1],
+      [0.72, 0.64],
+      [0.5, 0.22],
+      [0.08, -0.04],
+      [0, -0.3],
+      [0, -0.55],
+    ].map(([x, y]) => new THREE.Vector3(x, y, 0)),
+  );
+  const spine = new THREE.Vector3();
+  const tangent = new THREE.Vector3();
 
   for (let strand = 0; strand < STRANDS; strand++) {
     const layer = Math.floor(strand / 12);
@@ -108,6 +124,31 @@ function createForms() {
         );
       }
       point.toArray(forms[2], i * 3);
+
+      // An open question: 28 strands braid a tube along the curve, and the
+      // last 8 wrap the dot beneath it, each ring tilted a little differently.
+      if (strand < 28) {
+        const phi = (strand / 28) * TAU;
+        const tube = 0.07 + (strand % 3) * 0.035;
+        question.getPointAt(u, spine);
+        question.getTangentAt(u, tangent);
+        point.set(
+          spine.x - tangent.y * Math.cos(phi) * tube,
+          spine.y + tangent.x * Math.cos(phi) * tube,
+          Math.sin(phi) * tube,
+        );
+      } else {
+        const ring = strand - 28;
+        const a = (ring / 8) * Math.PI;
+        const r = 0.08 + (ring % 2) * 0.07;
+        const t = u * TAU;
+        point.set(
+          r * Math.cos(t) * Math.cos(a),
+          -1.0 + r * Math.sin(t),
+          r * Math.cos(t) * Math.sin(a),
+        );
+      }
+      point.multiplyScalar(1.25).toArray(forms[3], i * 3);
       if (sample < SAMPLES - 1) indices.push(i, i + 1);
     }
   }
@@ -118,19 +159,20 @@ const vertexShader = `
   attribute float aProgress;
   attribute float aSeed;
   uniform float uTime;
-  uniform vec3 uWeights;
+  uniform vec4 uWeights;
   varying vec3 vColor;
   varying float vAlpha;
   void main() {
     vec3 p = position;
     // Subtle idle movement also blends, so no motion changes abruptly on a click.
     float breath = sin(uTime * 0.7 + aProgress * 3.0) * 0.025;
-    p *= 1.0 + breath * uWeights.x;
+    p *= 1.0 + breath * (uWeights.x + uWeights.w);
     float pulse = pow(0.5 + 0.5 * cos((aProgress - uTime * 0.12) * 6.28318), 18.0);
     vec3 blue = vec3(0.45, 0.76, 1.0);
     vec3 silver = vec3(0.76, 0.89, 1.0);
     vec3 gold = vec3(1.0, 0.72, 0.38);
-    vec3 base = blue * uWeights.x + silver * uWeights.y + mix(blue, gold, step(0.35, aSeed)) * uWeights.z;
+    vec3 warm = vec3(1.0, 0.86, 0.62);
+    vec3 base = blue * uWeights.x + silver * uWeights.y + mix(blue, gold, step(0.35, aSeed)) * uWeights.z + mix(gold, warm, step(0.5, aSeed)) * uWeights.w;
     vColor = mix(base, vec3(0.95, 0.98, 1.0), pulse * 0.7);
     vAlpha = 0.35 + pulse * 0.65;
     vec4 view = modelViewMatrix * vec4(p, 1.0);
@@ -156,21 +198,27 @@ function MorphingForm({ mode }: { mode: number }) {
   const lineMaterial = useRef<THREE.LineBasicMaterial>(null);
   const form = useMemo(createForms, []);
   // Persistent positions AND velocities: interrupted transitions never restart.
-  const positions = useMemo(() => new Float32Array(form.forms[0]), [form]);
+  const [positions] = useState(() => new Float32Array(form.forms[mode]));
   const velocities = useMemo(() => new Float32Array(COUNT * 3), []);
   const elapsed = useRef(0);
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uWeights: { value: new THREE.Vector3(1, 0, 0) },
-    }),
-    [],
-  );
+  // Initial values only: the frame loop eases them toward each new mode.
+  const [uniforms] = useState(() => ({
+    uTime: { value: 0 },
+    uWeights: {
+      value: new THREE.Vector4(
+        mode === 0 ? 1 : 0,
+        mode === 1 ? 1 : 0,
+        mode === 2 ? 1 : 0,
+        mode === 3 ? 1 : 0,
+      ),
+    },
+  }));
   const lineColors = useMemo(
     () => [
       new THREE.Color("#649fc8"),
       new THREE.Color("#b3d1e5"),
       new THREE.Color("#bbaa88"),
+      new THREE.Color("#d9b77e"),
     ],
     [],
   );
@@ -214,6 +262,7 @@ function MorphingForm({ mode }: { mode: number }) {
     weights.x = THREE.MathUtils.damp(weights.x, mode === 0 ? 1 : 0, 3, delta);
     weights.y = THREE.MathUtils.damp(weights.y, mode === 1 ? 1 : 0, 3, delta);
     weights.z = THREE.MathUtils.damp(weights.z, mode === 2 ? 1 : 0, 3, delta);
+    weights.w = THREE.MathUtils.damp(weights.w, mode === 3 ? 1 : 0, 3, delta);
     uniforms.uTime.value = elapsed.current;
     if (lineMaterial.current)
       lineMaterial.current.color.lerp(
@@ -225,7 +274,9 @@ function MorphingForm({ mode }: { mode: number }) {
         group.current.rotation.y,
         mode === 2
           ? Math.sin(elapsed.current * 0.2) * 0.2
-          : elapsed.current * 0.055,
+          : mode === 3
+            ? Math.sin(elapsed.current * 0.35) * 0.45
+            : elapsed.current * 0.055,
         2,
         delta,
       );

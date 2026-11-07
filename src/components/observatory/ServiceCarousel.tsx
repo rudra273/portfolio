@@ -47,12 +47,13 @@ const services = [
 ];
 
 /**
- * Edolus-style row of glass slides. The carousel pins to the screen while the
- * page scrolls past it, and that vertical scroll slides the cards sideways.
- * One live 3D form sits fixed behind the centred slide and morphs as slides
- * pass over it, so the glass always has light to refract.
+ * Edolus-style services stage. It opens on a single intro card ("What I can
+ * build for you.") with a glowing question mark inside. As the page scrolls,
+ * the three service cards fly in from the right, join the row, and the row
+ * slides left card by card. One live 3D form stays behind the centred card and
+ * morphs from the question mark into each service's shape.
  */
-const LAST = services.length - 1;
+const LAST = services.length; // slide 0 is the intro, 1..3 are services
 
 /** Each card rests for a moment before the next slides in. */
 function dwell(progress: number) {
@@ -65,6 +66,7 @@ function dwell(progress: number) {
 export default function ServiceCarousel() {
   const [active, setActive] = useState(0);
   const pin = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const slides = useRef<(HTMLElement | null)[]>([]);
 
@@ -73,7 +75,8 @@ export default function ServiceCarousel() {
     const update = () => {
       const box = pin.current;
       const row = track.current;
-      if (!box || !row) return;
+      const view = stage.current;
+      if (!box || !row || !view) return;
       const rect = box.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
       const position = dwell(travel > 0 ? -rect.top / travel : 0);
@@ -89,6 +92,11 @@ export default function ServiceCarousel() {
       const offset =
         centre(from) + (centre(to) - centre(from)) * (position - from);
       row.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      // Service cards start off-screen right and catch up with the row.
+      const join = 1 - Math.min(position, 1);
+      row.style.setProperty("--join", `${join * window.innerWidth * 0.5}px`);
+      // The form drifts from the intro card's centre to the cards' right side.
+      view.style.setProperty("--art-shift", `${Math.min(position, 1)}`);
       setActive(Math.round(position));
     };
     const onScroll = () => {
@@ -105,7 +113,7 @@ export default function ServiceCarousel() {
     };
   }, []);
 
-  /** Pills, arrows and keys scroll the page to the point where card i rests. */
+  /** Keys and clicks scroll the page to the point where slide i rests. */
   function go(index: number) {
     const box = pin.current;
     if (!box) return;
@@ -125,6 +133,9 @@ export default function ServiceCarousel() {
     event.preventDefault();
   }
 
+  // Intro shows the question mark (mode 3); services use modes 0..2.
+  const mode = active === 0 ? 3 : active - 1;
+
   return (
     <div
       ref={pin}
@@ -135,12 +146,12 @@ export default function ServiceCarousel() {
     >
       <div className="service-sticky">
         <LightSweep variant="rise" />
-        <div className="service-viewport">
-          {/* Shared live form, fixed behind the centred slide. */}
-          <div className="service-art" data-mode={active} aria-hidden="true">
+        <div ref={stage} className="service-viewport">
+          {/* Shared live form, fixed behind the centred card. */}
+          <div className="service-art" data-mode={mode} aria-hidden="true">
             <div className="service-halo" />
-            <ServiceArtwork mode={active} />
-            <ServiceScene mode={active} />
+            <ServiceArtwork mode={mode} />
+            <ServiceScene mode={mode} />
           </div>
 
           <div
@@ -148,20 +159,49 @@ export default function ServiceCarousel() {
             className="service-track"
             tabIndex={0}
             onKeyDown={onKey}
-            aria-label="Service slides, use left and right arrow keys"
+            aria-label="Services, use left and right arrow keys"
           >
+            <div
+              className="service-intro"
+              ref={(element) => {
+                slides.current[0] = element;
+              }}
+            >
+              <h2 id="expertise-title" className="service-intro__line">
+                What I can build
+              </h2>
+              <div
+                className="service-slide service-intro__card liquid-glass"
+                data-active={active === 0}
+                onClick={() => active !== 0 && go(0)}
+              >
+                <div className="service-slide__art" aria-hidden="true">
+                  <ServiceArtwork mode={3} />
+                </div>
+                <p className="eyebrow">
+                  <span className="section-number">02</span> SERVICES
+                </p>
+                <p className="service-intro__aside">
+                  From an early idea
+                  <br />
+                  to a working product.
+                </p>
+              </div>
+              <p className="service-intro__line muted">for you.</p>
+            </div>
+
             {services.map((item, index) => (
               <article
                 key={item.label}
                 id={`service-slide-${index}`}
                 ref={(element) => {
-                  slides.current[index] = element;
+                  slides.current[index + 1] = element;
                 }}
-                className="service-slide liquid-glass"
-                data-active={active === index}
+                className="service-slide service-card liquid-glass"
+                data-active={active === index + 1}
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of 3: ${item.label}`}
-                onClick={() => active !== index && go(index)}
+                onClick={() => active !== index + 1 && go(index + 1)}
               >
                 {/* Faint static art so neighbouring slides aren't empty. */}
                 <div className="service-slide__art" aria-hidden="true">
@@ -182,7 +222,7 @@ export default function ServiceCarousel() {
                   <Link
                     className="text-link"
                     href={`/projects/${item.project}`}
-                    tabIndex={active === index ? 0 : -1}
+                    tabIndex={active === index + 1 ? 0 : -1}
                   >
                     {item.link}
                     <Arrow diagonal />

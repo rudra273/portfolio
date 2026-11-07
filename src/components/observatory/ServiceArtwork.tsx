@@ -28,6 +28,11 @@ export default function ServiceArtwork({ mode }: { mode: number }) {
             />
           ))}
         </g>
+      ) : mode === 3 ? (
+        <g stroke="#e2c08a" opacity=".8" strokeWidth="2">
+          <path d="M175 190 C175 120 220 92 252 92 C300 92 330 125 330 165 C330 215 255 225 252 285 V318" />
+          <circle cx="252" cy="372" r="13" />
+        </g>
       ) : (
         <g stroke="#acd4ed" opacity=".8">
           <path d="M250 250 C110 65 40 345 145 345 C235 345 270 155 355 155 C460 155 390 435 250 250 C110 65 40 345 145 345" />

@@ -151,25 +151,6 @@ export default function Portfolio({
         className="expertise-section"
         aria-labelledby="expertise-title"
       >
-        <div className="section-shell">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">
-                <span className="section-number">02</span> SERVICES
-              </p>
-              <h2 id="expertise-title">
-                What I can build
-                <br />
-                <span className="muted">for you.</span>
-              </h2>
-            </div>
-            <p className="section-aside">
-              From an early idea
-              <br />
-              to a working product.
-            </p>
-          </div>
-        </div>
         <ServiceCarousel />
       </section>
 
