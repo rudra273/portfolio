@@ -138,6 +138,7 @@ export default function ProjectPage() {
                     <Image 
                       src={image} 
                       alt={`${project.title} screenshot ${index + 1}`} 
+                      unoptimized={image.startsWith('/')}
                       width={800} 
                       height={500} 
                       className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"

@@ -34,6 +34,8 @@ export default function ProjectCardHorizontal({
             src={image}
             alt={title}
             fill
+            unoptimized={image.startsWith('/')}
+            sizes="(max-width: 768px) 100vw, 40vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {/* Gradients to fade smoothly into the background */}

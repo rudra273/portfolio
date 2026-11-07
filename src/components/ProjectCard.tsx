@@ -31,6 +31,8 @@ export default function ProjectCard({
             src={image}
             alt={title}
             fill
+            unoptimized={image.startsWith('/')}
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div

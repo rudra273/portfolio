@@ -16,6 +16,8 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+Set `PROJECT_DATA_SOURCE=local` to use the snapshot in `src/projects.js` and the WebP images in `public/projects`. Set `PROJECT_DATA_SOURCE=cloud` (the default) to load the `Projects` tab from Google Sheets using `GOOGLE_SHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, and `GOOGLE_PRIVATE_KEY`. Cloud mode falls back to the local snapshot if credentials are missing or the sheet cannot be fetched. The snapshot is a point-in-time copy: update both the data and image files when you want to refresh it. Restart the server after changing the setting.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
