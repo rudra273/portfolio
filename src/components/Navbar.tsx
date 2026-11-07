@@ -69,23 +69,20 @@ export default function Navbar() {
           aria-label="Page sections"
           {...(!docked ? { "aria-hidden": true } : {})}
         >
-          <a className="dock-home" href="#top" aria-label="Back to top">
+          <a className="dock-home" href="#top" aria-label="Home">
             <svg
               width="22"
               height="22"
               viewBox="0 0 24 24"
               fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               aria-hidden="true"
             >
-              <circle cx="12" cy="12" r="3" stroke="currentColor" />
-              <ellipse
-                cx="12"
-                cy="12"
-                rx="10"
-                ry="4"
-                stroke="currentColor"
-                transform="rotate(-40 12 12)"
-              />
+              <path d="M3.5 11.2 12 4l8.5 7.2" />
+              <path d="M5.5 9.8V19a1 1 0 0 0 1 1h3.5v-5.2h4V20h3.5a1 1 0 0 0 1-1V9.8" />
             </svg>
           </a>
           {destinations.map((item) => (

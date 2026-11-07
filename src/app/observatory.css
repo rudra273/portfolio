@@ -44,8 +44,9 @@ button:focus-visible,
 }
 input:focus-visible,
 textarea:focus-visible {
-  outline: 1px solid #b1cff6;
-  outline-offset: 4px;
+  outline: none;
+  border-bottom-color: #b1cff6;
+  box-shadow: 0 1px 0 0 #b1cff6;
 }
 ::-webkit-scrollbar-thumb {
   background: #3d4651;
@@ -1026,6 +1027,16 @@ body:has(.orbital-menu[open]) {
   font-size: 12px;
   color: #f1f3f7;
   resize: vertical;
+}
+.contact-form input,
+.contact-form textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+  outline: none;
+  border-bottom-color: #b1cff6;
+  box-shadow: 0 1px 0 0 #b1cff6;
 }
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
