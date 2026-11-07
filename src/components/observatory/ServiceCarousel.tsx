@@ -54,13 +54,13 @@ const services = [
  * morphs from the question mark into each service's shape.
  */
 const LAST = services.length; // slide 0 is the intro, 1..3 are services
+// Scroll steps: first the cards join the intro card, then one per slide move.
+const STEPS = LAST + 1;
 
-/** Each card rests for a moment before the next slides in. */
-function dwell(progress: number) {
-  const raw = Math.min(Math.max(progress, 0), 1) * LAST;
-  const index = Math.min(Math.floor(raw), LAST - 1);
-  const t = Math.min(Math.max((raw - index - 0.2) / 0.6, 0), 1);
-  return index + t * t * (3 - 2 * t);
+/** Scroll progress → step, with a short still moment at each end. */
+function stepFor(progress: number) {
+  const p = Math.min(Math.max((progress - 0.05) / 0.9, 0), 1);
+  return p * STEPS;
 }
 
 export default function ServiceCarousel() {
@@ -72,43 +72,69 @@ export default function ServiceCarousel() {
 
   useEffect(() => {
     let frame = 0;
-    const update = () => {
-      const box = pin.current;
+    let last = 0;
+    let current = -1; // eased step actually drawn; -1 = not drawn yet
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const draw = (step: number) => {
       const row = track.current;
       const view = stage.current;
-      if (!box || !row || !view) return;
-      const rect = box.getBoundingClientRect();
-      const travel = rect.height - window.innerHeight;
-      const position = dwell(travel > 0 ? -rect.top / travel : 0);
-      // Offset that centres slide k in the track.
+      if (!row || !view) return;
+      // Step 0→1: the service cards slide in beside the still intro card.
+      // After that the whole row glides left, following the scroll exactly.
+      const join = 1 - Math.min(step, 1);
+      const position = Math.max(step - 1, 0);
       const centre = (k: number) => {
         const slide = slides.current[k];
         return slide
           ? slide.offsetLeft + slide.offsetWidth / 2 - row.clientWidth / 2
           : 0;
       };
-      const from = Math.floor(position);
+      const from = Math.min(Math.floor(position), LAST);
       const to = Math.min(from + 1, LAST);
       const offset =
         centre(from) + (centre(to) - centre(from)) * (position - from);
       row.style.transform = `translate3d(${-offset}px, 0, 0)`;
-      // Service cards start off-screen right and catch up with the row.
-      const join = 1 - Math.min(position, 1);
-      row.style.setProperty("--join", `${join * window.innerWidth * 0.5}px`);
-      // The form drifts from the intro card's centre to the cards' right side.
+      row.style.setProperty("--join", `${join * window.innerWidth * 0.6}px`);
       view.style.setProperty("--art-shift", `${Math.min(position, 1)}`);
+      // Cards brighten gradually as they near the centre: no sudden switch.
+      slides.current.forEach((slide, k) => {
+        if (slide)
+          slide.style.opacity = `${1 - 0.45 * Math.min(Math.abs(k - position), 1)}`;
+      });
       setActive(Math.round(position));
     };
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
+
+    const tick = (now: number) => {
+      const box = pin.current;
+      if (!box) return;
+      const rect = box.getBoundingClientRect();
+      const travel = rect.height - window.innerHeight;
+      const target = stepFor(travel > 0 ? -rect.top / travel : 0);
+      const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
+      last = now;
+      // Ease toward the scroll position so motion glides instead of jumping.
+      current =
+        current < 0 || reduce.matches
+          ? target
+          : current + (target - current) * (1 - Math.exp(-dt * 7));
+      draw(current);
+      if (Math.abs(target - current) > 0.0005) {
+        frame = requestAnimationFrame(tick);
+      } else {
+        last = 0;
+        frame = 0;
+      }
     };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    const kick = () => {
+      if (!frame) frame = requestAnimationFrame(tick);
+    };
+    kick();
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", kick);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", kick);
+      window.removeEventListener("resize", kick);
       cancelAnimationFrame(frame);
     };
   }, []);
@@ -121,7 +147,8 @@ export default function ServiceCarousel() {
     const top = box.getBoundingClientRect().top + window.scrollY;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     window.scrollTo({
-      top: top + (travel * index) / LAST,
+      // Slide 0 rests at the very start; slide i rests after the join step.
+      top: top + travel * (0.05 + (0.9 * (index === 0 ? 0 : index + 1)) / STEPS),
       behavior: reduce.matches ? "auto" : "smooth",
     });
   }
@@ -175,12 +202,6 @@ export default function ServiceCarousel() {
                 data-active={active === 0}
                 onClick={() => active !== 0 && go(0)}
               >
-                <div className="service-slide__art" aria-hidden="true">
-                  <ServiceArtwork mode={3} />
-                </div>
-                <p className="eyebrow">
-                  <span className="section-number">02</span> SERVICES
-                </p>
                 <p className="service-intro__aside">
                   From an early idea
                   <br />
@@ -203,10 +224,6 @@ export default function ServiceCarousel() {
                 aria-label={`${index + 1} of 3: ${item.label}`}
                 onClick={() => active !== index + 1 && go(index + 1)}
               >
-                {/* Faint static art so neighbouring slides aren't empty. */}
-                <div className="service-slide__art" aria-hidden="true">
-                  <ServiceArtwork mode={index} />
-                </div>
                 <div className="service-slide__body">
                   <p className="eyebrow warm">
                     <span className="section-number">0{index + 1}</span>{" "}

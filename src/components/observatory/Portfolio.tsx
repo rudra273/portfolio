@@ -74,9 +74,6 @@ export default function Portfolio({
         <LightSweep variant="fall" />
         <div className="section-heading">
           <div>
-            <p className="eyebrow">
-              <span className="section-number">01</span> SELECTED WORK
-            </p>
             <h2 id="work-title">
               Ideas, brought
               <br />
@@ -160,10 +157,6 @@ export default function Portfolio({
         aria-labelledby="about-title"
       >
         <LightSweep variant="arc" />
-        <p className="eyebrow">
-          <span className="section-number">03</span> THE HUMAN BEHIND THE
-          SYSTEMS
-        </p>
         <div className="about-grid">
           <div>
             <h2 id="about-title">
@@ -229,9 +222,6 @@ export default function Portfolio({
         aria-labelledby="contact-title"
       >
         <div className="contact-glow" aria-hidden="true" />
-        <p className="eyebrow">
-          <span className="section-number">04</span> OPEN A CONVERSATION
-        </p>
         <div className="contact-grid">
           <div>
             <h2 id="contact-title">

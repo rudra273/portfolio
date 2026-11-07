@@ -2075,9 +2075,10 @@ body:has(.orbital-menu[open]) {
 .service-carousel {
   --slide-w: min(740px, calc(100vw - 320px));
   --slide-gap: 28px;
+  --slide-h: 430px;
   position: relative;
   /* Scroll distance that drives the slides: one screen plus ~80vh per step. */
-  height: 340vh;
+  height: 520vh;
 }
 .service-sticky {
   position: sticky;
@@ -2201,12 +2202,11 @@ body:has(.orbital-menu[open]) {
 .service-slide {
   position: relative;
   flex: 0 0 var(--slide-w);
-  min-height: 430px;
+  /* Every card, intro included, shares one size. */
+  height: var(--slide-h);
   border-radius: 24px;
   overflow: hidden;
   cursor: pointer;
-  opacity: 0.55;
-  transition: opacity 0.6s;
   /* Light glass: the live form should glow through, not disappear. */
   background:
     linear-gradient(
@@ -2226,7 +2226,6 @@ body:has(.orbital-menu[open]) {
   -webkit-backdrop-filter: blur(4px) saturate(150%) brightness(1.1);
 }
 .service-slide[data-active="true"] {
-  opacity: 1;
   cursor: auto;
 }
 /* Service cards fly in from the right and join the intro card. */
@@ -2269,14 +2268,14 @@ body:has(.orbital-menu[open]) {
 .service-slide__body {
   position: relative;
   max-width: 470px;
-  padding: 38px 38px 38px;
+  padding: 30px 36px;
 }
 .service-slide__body h3 {
   white-space: pre-line;
-  font-size: 36px;
+  font-size: 32px;
   line-height: 1.12;
   letter-spacing: -0.04em;
-  margin: 20px 0;
+  margin: 14px 0;
   font-weight: 400;
 }
 .service-slide__body .expertise-description {
@@ -2285,9 +2284,9 @@ body:has(.orbital-menu[open]) {
 .service-points {
   list-style: none;
   padding: 0;
-  margin: 22px 0 28px;
+  margin: 16px 0 20px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 .service-points li {
   display: flex;
@@ -2337,8 +2336,8 @@ body:has(.orbital-menu[open]) {
   .service-track {
     padding-block: 16px;
   }
-  .service-slide {
-    min-height: 0;
+  .service-carousel {
+    --slide-h: 520px;
   }
   .service-slide__body {
     padding: 30px 24px 70px;
@@ -2403,10 +2402,9 @@ body:has(.orbital-menu[open]) {
   /* Not a row item here: stop the slide's flex-basis acting as height. */
   flex: none;
   width: 100%;
-  min-height: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 34px 38px;
 }
 .service-intro__card .service-slide__art {
@@ -2430,7 +2428,6 @@ body:has(.orbital-menu[open]) {
     gap: 16px;
   }
   .service-intro__card {
-    min-height: 340px;
     padding: 26px 24px;
   }
 }
