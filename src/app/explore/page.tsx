@@ -1,12 +1,18 @@
-export default function DevPage() {
+import SpaceBackground from "@/components/background/SpaceBackground";
+import Link from "next/link";
+export default function ExplorePage() {
   return (
-    <div style={{ height: '500vh' }} className="relative w-full overflow-x-clip">
-      {/* Invisible scrollable sections */}
-      <div className="min-h-screen" />
-      <div className="min-h-screen" />
-      <div className="min-h-screen" />
-      <div className="min-h-screen" />
-      <div className="min-h-screen" />
-    </div>
+    <>
+      <SpaceBackground />
+      <div className="legacy-label liquid-glass">
+        <span>THE PREVIOUS UNIVERSE</span>
+        <p>The original space experiment, preserved.</p>
+        <Link href="/">Return to the new portfolio ↗</Link>
+      </div>
+      <div
+        style={{ height: "500vh" }}
+        aria-label="Scroll to explore the original space scene"
+      />
+    </>
   );
 }

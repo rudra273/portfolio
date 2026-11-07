@@ -1,50 +1,38 @@
 // src/app/layout.tsx
-import type { Metadata } from 'next'
-import { Poppins, Roboto } from 'next/font/google'
-import { Space_Grotesk } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/Navbar'
-import JsonLd from '@/components/JsonLd'
-import SpaceBackground from '@/components/background/SpaceBackground'
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import JsonLd from "@/components/JsonLd";
+import "./observatory.css";
 
-
-const poppins = Poppins({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-})
-
-const roboto = Roboto({
-  weight: '300',
-  subsets: ['latin'],
-  variable: '--font-roboto',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-})
-
+const geist = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: 'Rudrapratap Mohanty | Software Developer & MLOps Engineer',
-  description: 'Portfolio of Rudrapratap Mohanty, a Software Developer specialized in Backend, MLOps, and DevOps Engineering. View projects and skills.',
-  keywords: 'Software Developer, Backend Developer, MLOps Engineer, DevOps Engineer, Rudrapratap Mohanty',
+  title: "Rudrapratap Mohanty | Software Developer & MLOps Engineer",
+  description:
+    "Portfolio of Rudrapratap Mohanty, a Software Developer specialized in Backend, MLOps, and DevOps Engineering. View projects and skills.",
+  keywords:
+    "Software Developer, Backend Developer, MLOps Engineer, DevOps Engineer, Rudrapratap Mohanty",
   openGraph: {
-    title: 'Rudrapratap Mohanty | Software Developer',
-    description: 'Software Developer Portfolio showcasing projects in Backend, MLOps, and DevOps',
-    url: 'https://your-domain.com',
-    siteName: 'Rudrapratap Mohanty Portfolio',
+    title: "Rudrapratap Mohanty | Software Developer",
+    description:
+      "Software Developer Portfolio showcasing projects in Backend, MLOps, and DevOps",
+    url: "https://rudrapratap-mohanty.vercel.app",
+    siteName: "Rudrapratap Mohanty Portfolio",
     images: [
       {
-        url: 'https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg',
+        url: "https://res.cloudinary.com/dldkrpbjt/image/upload/v1774436299/profile/rudra.jpg",
         width: 1200,
         height: 630,
-        alt: 'Rudrapratap Mohanty',
-      }
+        alt: "Rudrapratap Mohanty",
+      },
     ],
-    type: 'website',
+    type: "website",
   },
   robots: {
     index: true,
@@ -52,38 +40,57 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon_io/favicon.ico' },
-      { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: "/favicon_io/favicon.ico" },
+      {
+        url: "/favicon_io/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/favicon_io/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
     ],
-    apple: { url: '/favicon_io/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    apple: {
+      url: "/favicon_io/apple-touch-icon.png",
+      sizes: "180x180",
+      type: "image/png",
+    },
     other: [
-      { rel: 'android-chrome-192x192', url: '/favicon_io/android-chrome-192x192.png' },
-      { rel: 'android-chrome-512x512', url: '/favicon_io/android-chrome-512x512.png' },
+      {
+        rel: "android-chrome-192x192",
+        url: "/favicon_io/android-chrome-192x192.png",
+      },
+      {
+        rel: "android-chrome-512x512",
+        url: "/favicon_io/android-chrome-512x512.png",
+      },
     ],
   },
-  manifest: '/favicon_io/site.webmanifest',
-}
-
+  manifest: "/favicon_io/site.webmanifest",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <meta name="google-site-verification" content="N3K_Su1-aKnUQGsKvImh-bsmeSeox79i4cuKihgibto" />
+        <meta
+          name="google-site-verification"
+          content="N3K_Su1-aKnUQGsKvImh-bsmeSeox79i4cuKihgibto"
+        />
         <JsonLd />
       </head>
-      <body className={`${poppins.variable} ${roboto.variable} ${spaceGrotesk.variable} font-sans`}>
-        <SpaceBackground />
+      <body className={`${geist.variable} font-sans`}>
         <Navbar />
-        <main className="relative z-10 w-full">
+        <main id="main-content" className="relative z-10 w-full">
           {children}
         </main>
       </body>
     </html>
-  )
+  );
 }
