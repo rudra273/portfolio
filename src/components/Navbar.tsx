@@ -7,7 +7,7 @@ import Arrow from "./observatory/Arrow";
 
 const destinations = [
   { id: "work", label: "Work" },
-  { id: "expertise", label: "Expertise" },
+  { id: "expertise", label: "Services" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ];

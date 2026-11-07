@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Arrow from "./Arrow";
 import ContactForm from "./ContactForm";
+import ServiceArtwork from "./ServiceArtwork";
 
 const PlanetScene = dynamic(() => import("./PlanetScene"), { ssr: false });
-const ProbeScene = dynamic(() => import("./ProbeScene"), { ssr: false });
+const ServiceScene = dynamic(() => import("./ServiceScene"), { ssr: false });
 export interface PortfolioProject {
   id: string;
   title: string;
@@ -23,34 +24,38 @@ export interface PortfolioProject {
 }
 const expertise = [
   {
-    label: "AI systems",
+    label: "Generative AI",
     kicker: "INTELLIGENCE, APPLIED",
-    title: "From possibility\nto production.",
+    title: "Your knowledge.\nNew possibilities.",
     description:
-      "Connecting language models with real tools, useful context, and the systems that make them work. From natural-language queries to multi-agent workflows.",
-    stack: ["Python", "LangChain", "LangGraph", "Ollama"],
+      "Make your business knowledge useful through AI that understands, creates, and assists. Give your team and customers a simpler way to find answers and get things done.",
+    examples: ["AI assistants", "Knowledge search", "Content generation"],
     project: "4",
     link: "Explore Text-to-SQL",
   },
   {
-    label: "Backend",
-    kicker: "BUILT FROM THE INSIDE OUT",
-    title: "The foundation\nfor what’s next.",
+    label: "Software Development",
+    kicker: "IDEAS, MADE REAL",
+    title: "Your next idea.\nBuilt for real life.",
     description:
-      "Thoughtful APIs, real-time applications, and data systems. Building the dependable connections behind a smooth experience.",
-    stack: ["FastAPI", "Django", "PostgreSQL", "Redis"],
+      "Build software around your business, your users, and your next idea. From a customer-facing product to an internal platform, turn the way you want to work into something people can use.",
+    examples: ["Web applications", "Customer portals", "Internal platforms"],
     project: "1",
     link: "Explore Chat App",
   },
   {
-    label: "Cloud & MLOps",
-    kicker: "READY FOR THE REAL WORLD",
-    title: "Built to deploy.\nDesigned to evolve.",
+    label: "Business Automation",
+    kicker: "LESS REPETITION. MORE PROGRESS.",
+    title: "Let the routine\ntake care of itself.",
     description:
-      "Bringing models and infrastructure together with reproducible workflows, containers, and cloud tooling. Making the journey from an experiment to a working system simpler.",
-    stack: ["Docker", "Kubernetes", "AWS", "MLflow"],
-    project: "3",
-    link: "Explore Code Assistant",
+      "Simplify repetitive work and keep your tools and processes connected. Bring information together, process documents, and automate reporting so your team can focus on what needs them.",
+    examples: [
+      "Document processing",
+      "Automated reporting",
+      "Connected workflows",
+    ],
+    project: "5",
+    link: "Explore Stock Advisory",
   },
 ];
 const summaries: Record<string, string> = {
@@ -206,37 +211,41 @@ export default function Portfolio({
           <div className="section-heading">
             <div>
               <p className="eyebrow">
-                <span className="section-number">02</span> UNDER THE SURFACE
+                <span className="section-number">02</span> SERVICES
               </p>
               <h2 id="expertise-title">
-                Different disciplines.
+                What I can build
                 <br />
-                <span className="muted">One connected system.</span>
+                <span className="muted">for you.</span>
               </h2>
             </div>
             <p className="section-aside">
-              A little curiosity.
-              <br />A lot of engineering.
+              From an early idea
+              <br />
+              to a working product.
             </p>
           </div>
           <div className="expertise-stage">
-            <div className="probe-stage">
-              <div className="probe-orbit" aria-hidden="true" />
-              <div className="probe-fallback" aria-hidden="true" />
-              <ProbeScene mode={tab} />
-              <div className="probe-caption">
-                <span className="status-dot" /> ORBITAL PROBE — EXPLORING{" "}
-                {String(tab + 1).padStart(2, "0")} / 03
+            <div className="service-art" data-mode={tab} aria-hidden="true">
+              <div className="service-halo" />
+              <ServiceArtwork mode={tab} />
+              <ServiceScene mode={tab} />
+              <div className="service-caption">
+                <span className="status-dot" />
+                {
+                  [
+                    "INTELLIGENCE, CONNECTED",
+                    "PIECE BY PIECE",
+                    "EVERYTHING IN FLOW",
+                  ][tab]
+                }
               </div>
-              <span className="probe-coordinate" aria-hidden="true">
-                FORM FOLLOWS CURIOSITY
-              </span>
             </div>
             <div className="expertise-panel liquid-glass">
               <div
                 className="expertise-tabs"
                 role="tablist"
-                aria-label="Engineering disciplines"
+                aria-label="Services"
               >
                 <span
                   className="liquid-tab-indicator"
@@ -273,9 +282,9 @@ export default function Portfolio({
                 <p className="eyebrow warm">{current.kicker}</p>
                 <h3>{current.title}</h3>
                 <p className="expertise-description">{current.description}</p>
-                <div className="skill-tags">
-                  {current.stack.map((skill) => (
-                    <span key={skill}>{skill}</span>
+                <div className="skill-tags" aria-label="What I can build">
+                  {current.examples.map((example) => (
+                    <span key={example}>{example}</span>
                   ))}
                 </div>
                 <Link

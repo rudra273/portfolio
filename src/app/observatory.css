@@ -668,10 +668,60 @@ body:has(.orbital-menu[open]) {
 }
 .expertise-stage {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
-  gap: 48px;
-  min-height: 520px;
+  gap: 35px;
+}
+.service-art {
+  position: relative;
+  min-width: 0;
+  height: 500px;
+}
+.service-art .scene-viewport {
+  inset: 0 -30px;
+}
+.service-halo {
+  position: absolute;
+  inset: 14% 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #6eade02b,
+    #3f75ad0a 45%,
+    transparent 70%
+  );
+  transition: background 0.7s;
+}
+.service-art[data-mode="1"] .service-halo {
+  background: radial-gradient(
+    ellipse,
+    #b6a07a22,
+    #7c9cb410 45%,
+    transparent 70%
+  );
+}
+.service-fallback {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+.service-art:has(.scene-ready) .service-fallback {
+  opacity: 0;
+}
+.service-caption {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: #96a5b7;
+  pointer-events: none;
 }
 .probe-stage {
   position: relative;
@@ -749,7 +799,9 @@ body:has(.orbital-menu[open]) {
   color: #939da9;
   border-radius: 13px;
   font-size: 11px;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.5;
+  min-width: 0;
   transition:
     background 0.3s,
     color 0.3s;
@@ -785,7 +837,7 @@ body:has(.orbital-menu[open]) {
   font-size: 13px;
   line-height: 1.85;
   color: #a1a8b3;
-  min-height: 96px;
+  min-height: 110px;
 }
 .skill-tags {
   display: flex;
@@ -1164,10 +1216,6 @@ body:has(.orbital-menu[open]) {
   .showcase-info {
     padding: 28px;
   }
-  .expertise-stage {
-    gap: 20px;
-    grid-template-columns: 1fr 1fr;
-  }
   .expertise-content {
     padding: 28px;
     min-height: 430px;
@@ -1360,10 +1408,6 @@ body:has(.orbital-menu[open]) {
   }
   .section-aside {
     display: none;
-  }
-  .expertise-stage {
-    grid-template-columns: 1fr;
-    gap: 15px;
   }
   .probe-stage {
     height: 340px;
@@ -1935,4 +1979,40 @@ body:has(.orbital-menu[open]) {
 .technology-filter select:focus-visible {
   outline: 2px solid #b1cff6;
   outline-offset: 3px;
+}
+
+@media (max-width: 1000px) {
+  .expertise-stage {
+    gap: 20px;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  }
+  .service-art {
+    height: 420px;
+  }
+}
+@media (max-width: 760px) {
+  .expertise-stage {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .service-art {
+    height: 310px;
+  }
+  .service-art .scene-viewport {
+    inset: -15px 0;
+  }
+  .service-caption {
+    bottom: 0;
+    font-size: 7px;
+  }
+  .expertise-tabs button {
+    padding: 10px 4px;
+    font-size: 10px;
+  }
+  .expertise-content {
+    min-height: 420px;
+  }
+  .expertise-description {
+    min-height: 0;
+  }
 }

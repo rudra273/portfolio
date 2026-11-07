@@ -29,3 +29,11 @@ The original `src/components/background/` files, `PolishedSpaceBackground.tsx` a
 The production build can be previewed with `npm run start -- --hostname 127.0.0.1`, after `npm run build`. Use `npm run dev` for further edits. Stop the preview before rebuilding, since both commands use `.next`.
 
 This is a working first design implementation. Detailed cross-device frame-rate measurements and real-world Core Web Vitals have not been collected. Static fallbacks are implemented; this pass did not change system accessibility preferences to force reduced motion.
+
+## Services revision
+
+The skills panel now presents Generative AI, Software Development, and Business Automation with client-facing copy and service examples. The navigation label is Services; the existing section anchor is retained.
+
+The satellite is no longer mounted. Its source remains for history. A new, independent service scene provides a connected particle core, translucent blocks that assemble, and orbital paths with traveling light pulses. Tab changes ease the sculptures in and out in the same canvas. Static SVG artwork supports reduced motion and unavailable WebGL; the existing viewport component pauses offscreen rendering.
+
+Validation: TypeScript and an isolated production build passed. Browser checks covered all three tabs, arrow-key selection, desktop rendering, and a 390px mobile layout with no horizontal overflow. No browser console errors were observed. The isolated build used a temporary source copy to avoid disrupting the running development server.
