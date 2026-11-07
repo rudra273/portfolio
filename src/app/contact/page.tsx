@@ -1,213 +1,54 @@
-// src/app/contact/page.tsx
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
-import { SiLeetcode } from 'react-icons/si';
-import { MdEmail, MdPhone } from 'react-icons/md';
-
+import Link from "next/link";
+import ContactForm from "@/components/observatory/ContactForm";
+import Arrow from "@/components/observatory/Arrow";
 export default function ContactPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{type: 'success' | 'error', msg: string} | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus({ type: 'success', msg: 'Transmission received successfully.' });
-        setName('');
-        setEmail('');
-        setMessage('');
-        
-        // As a fallback, still open the mailto link if requested, but generally we can just rely on the Google Sheet.
-        // We will remove the mailto behavior since it's fully integrated into sheets!
-      } else {
-        setSubmitStatus({ type: 'error', msg: data.error || 'Transmission failed.' });
-      }
-    } catch {
-      setSubmitStatus({ type: 'error', msg: 'Network error. Transmission failed.' });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const socialLinks = [
-    { href: 'https://linkedin.com/in/rudrapratap-mohanty-2b57041b5', displayUrl: 'linkedin.com/in/rudra...', icon: FaLinkedin, color: 'text-blue-400' },
-    { href: 'https://github.com/rudra273', displayUrl: 'github.com/rudra273', icon: FaGithub, color: 'text-white' },
-    { href: 'https://leetcode.com/rudra273/', displayUrl: 'leetcode.com/rudra273', icon: SiLeetcode, color: 'text-yellow-500' },
-    { href: 'https://twitter.com/your-x-handle', displayUrl: 'x.com/your-x-handle', icon: FaXTwitter, color: 'text-white' },
-    { href: 'https://instagram.com/rudra.273', displayUrl: 'instagram.com/rudra.273', icon: FaInstagram, color: 'text-pink-500' },
-  ];
-
   return (
-    <div className="w-full pt-32 pb-24 px-4 sm:px-6 relative min-h-screen overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        
-        {/* Left Column: Contact Info & Transmissions */}
-        <div className="flex flex-col">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full mb-6 border border-accent-cyan/20 bg-accent-cyan/5 w-max">
-            <div className="w-2 h-2 rounded-full bg-accent-cyan mr-3 animate-pulse" />
-            <span className="text-accent-cyan/70 font-space text-[10px] tracking-[0.2em] uppercase">
-              Secure Channel Open
-            </span>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-space text-white tracking-tight mb-6">
-            Establish <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan to-accent-purple">
-              Connection
-            </span>
-          </h1>
-
-          <p className="text-white/50 font-poppins text-sm leading-relaxed mb-10 max-w-md">
-            Whether you are looking to collaborate on a new intelligent system or optimize an existing infrastructure, 
-            transmit a message directly to my inbox below.
+    <div className="inner-page section-shell">
+      <p className="eyebrow">OPEN A CONVERSATION</p>
+      <h1>
+        Good things start
+        <br />
+        <span className="muted">with a hello.</span>
+      </h1>
+      <div className="contact-grid">
+        <div>
+          <p className="inner-intro">
+            Have a project in mind, a problem worth solving, or a question about
+            my work? Send a message.
           </p>
-
-          <div className="space-y-4 mb-10">
-            {/* Direct Information */}
-            <div className="glass-card p-4 md:p-5 flex items-center gap-5 border border-white/5 hover:border-accent-cyan/40 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-accent-cyan/10 flex items-center justify-center border border-accent-cyan/20 group-hover:scale-110 transition-transform">
-                <MdEmail className="text-2xl text-accent-cyan" />
-              </div>
-              <div>
-                <p className="text-[10px] sm:text-xs font-space tracking-widest text-white/40 uppercase mb-1">Assigned Email</p>
-                <p className="text-sm sm:text-base font-poppins text-white select-all">rudramohanty45@gmail.com</p>
-              </div>
-            </div>
-
-            <div className="glass-card p-4 md:p-5 flex items-center gap-5 border border-white/5 hover:border-accent-purple/40 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-full bg-accent-purple/10 flex items-center justify-center border border-accent-purple/20 group-hover:scale-110 transition-transform">
-                <MdPhone className="text-2xl text-accent-purple" />
-              </div>
-              <div>
-                <p className="text-[10px] sm:text-xs font-space tracking-widest text-white/40 uppercase mb-1">Encrypted Signal</p>
-                {/* User can update this number easily later */}
-                <p className="text-sm sm:text-base font-poppins text-white select-all">+91 XXXXX XXXXX</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Social Links Matrix */}
-          <div>
-            <h3 className="text-white/30 font-space text-[10px] tracking-widest uppercase mb-4 border-b border-white/10 pb-2">
-              External Network Nodes
-            </h3>
-            <div className="space-y-3">
-              {socialLinks.map((link) => (
-                <Link
-                  key={link.displayUrl}
-                  href={link.href}
-                  target="_blank"
-                  className="flex items-center gap-4 group p-2 hover:bg-white/5 rounded-lg transition-colors border border-transparent hover:border-white/10"
-                >
-                  <div className={`text-xl ${link.color} opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform`} >
-                    <link.icon />
-                  </div>
-                  <span className="font-poppins text-sm text-white/50 group-hover:text-white transition-colors">
-                    {link.displayUrl}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-        </div>
-
-        {/* Right Column: Transmission Form */}
-        <div className="hud-panel p-8 md:p-10 relative">
-          <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-accent-cyan/20 rounded-tr-2xl" />
-          <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-accent-cyan/20 rounded-bl-2xl" />
-          
-          <h2 className="text-xl md:text-2xl font-space font-bold text-white mb-8 border-b border-white/10 pb-4">
-            Transmission Protocol
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-            <div>
-              <label htmlFor="name" className="block text-[10px] font-space tracking-widest text-accent-cyan/70 uppercase mb-2">
-                Identifier (Name)
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white font-poppins text-sm focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all"
-                placeholder="Enter your name..."
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-[10px] font-space tracking-widest text-accent-cyan/70 uppercase mb-2">
-                Return Address (Email)
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white font-poppins text-sm focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all"
-                placeholder="Enter your email..."
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-[10px] font-space tracking-widest text-accent-cyan/70 uppercase mb-2">
-                Payload (Message)
-              </label>
-              <textarea
-                id="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                rows={5}
-                className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white font-poppins text-sm focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all resize-none"
-                placeholder="Initialize transmission content..."
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full py-4 mt-4 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan font-space tracking-widest text-xs uppercase hover:bg-accent-cyan/20 hover:shadow-[0_0_20px_rgba(102,252,241,0.2)] transition-all flex justify-center items-center group disabled:opacity-50 disabled:cursor-not-allowed`}
+          <a className="contact-email" href="mailto:rudramohanty45@gmail.com">
+            rudramohanty45@gmail.com
+            <Arrow diagonal />
+          </a>
+          <div className="contact-socials">
+            <a
+              href="https://github.com/rudra273"
+              target="_blank"
+              rel="noreferrer"
             >
-              <span className={`${!isSubmitting && 'group-hover:-translate-y-0.5'} transition-transform`}>
-                {isSubmitting ? 'Transmitting...' : 'Transmit Signal'}
-              </span>
-            </button>
-
-            {submitStatus && (
-              <div className={`mt-4 p-3 border rounded font-space text-[10px] tracking-widest uppercase text-center ${
-                submitStatus.type === 'success' ? 'border-accent-cyan/50 text-accent-cyan' : 'border-red-500/50 text-red-400'
-              }`}>
-                {submitStatus.msg}
-              </div>
-            )}
-          </form>
+              GitHub ↗
+            </a>
+            <a
+              href="https://www.linkedin.com/in/rudrapratap-mohanty-2b57041b5"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn ↗
+            </a>
+            <a
+              href="https://leetcode.com/rudra273/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LeetCode ↗
+            </a>
+          </div>
         </div>
-
+        <ContactForm />
+      </div>
+      <div className="inner-footer">
+        <Link href="/">← Back to the observatory</Link>
+        <span>Bangalore, India · Planet Earth</span>
       </div>
     </div>
   );
