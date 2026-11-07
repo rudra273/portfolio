@@ -43,7 +43,6 @@ export default function Portfolio({
         <PlanetScene />
         <div className="hero-shade" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="hero-intro">RUDRAPRATAP MOHANTY</p>
           <h1 id="hero-title">
             Engineering
             <br />
