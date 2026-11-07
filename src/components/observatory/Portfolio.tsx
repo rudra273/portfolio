@@ -151,7 +151,6 @@ export default function Portfolio({
         className="expertise-section"
         aria-labelledby="expertise-title"
       >
-        <LightSweep variant="rise" />
         <div className="section-shell">
           <div className="section-heading">
             <div>
