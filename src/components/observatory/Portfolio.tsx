@@ -1,15 +1,14 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import Arrow from "./Arrow";
 import ContactForm from "./ContactForm";
-import ServiceArtwork from "./ServiceArtwork";
+import ServiceCarousel from "./ServiceCarousel";
+import LightSweep from "./LightSweep";
 
 const PlanetScene = dynamic(() => import("./PlanetScene"), { ssr: false });
-const ServiceScene = dynamic(() => import("./ServiceScene"), { ssr: false });
 export interface PortfolioProject {
   id: string;
   title: string;
@@ -22,42 +21,6 @@ export interface PortfolioProject {
   githubUrl: string;
   liveUrl: string;
 }
-const expertise = [
-  {
-    label: "Generative AI",
-    kicker: "INTELLIGENCE, APPLIED",
-    title: "Your knowledge.\nNew possibilities.",
-    description:
-      "Make your business knowledge useful through AI that understands, creates, and assists. Give your team and customers a simpler way to find answers and get things done.",
-    examples: ["AI assistants", "Knowledge search", "Content generation"],
-    project: "4",
-    link: "Explore Text-to-SQL",
-  },
-  {
-    label: "Software Development",
-    kicker: "IDEAS, MADE REAL",
-    title: "Your next idea.\nBuilt for real life.",
-    description:
-      "Build software around your business, your users, and your next idea. From a customer-facing product to an internal platform, turn the way you want to work into something people can use.",
-    examples: ["Web applications", "Customer portals", "Internal platforms"],
-    project: "1",
-    link: "Explore Chat App",
-  },
-  {
-    label: "Business Automation",
-    kicker: "LESS REPETITION. MORE PROGRESS.",
-    title: "Let the routine\ntake care of itself.",
-    description:
-      "Simplify repetitive work and keep your tools and processes connected. Bring information together, process documents, and automate reporting so your team can focus on what needs them.",
-    examples: [
-      "Document processing",
-      "Automated reporting",
-      "Connected workflows",
-    ],
-    project: "5",
-    link: "Explore Stock Advisory",
-  },
-];
 const summaries: Record<string, string> = {
   "4": "Ask in plain English. Get answers from your data. An LLM-powered bridge between natural language and databases.",
   "5": "A team of AI agents for market research, technical analysis, and news sentiment. One connected workspace.",
@@ -68,30 +31,10 @@ export default function Portfolio({
 }: {
   projects: PortfolioProject[];
 }) {
-  const [tab, setTab] = useState(0);
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const current = expertise[tab];
   const featured = ["4", "5", "6"]
     .map((id) => projects.find((p) => String(p.id) === id))
     .filter((p): p is PortfolioProject => !!p);
   const selected = featured.length ? featured : projects.slice(0, 3);
-  function tabKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const next =
-      event.key === "ArrowRight"
-        ? (index + 1) % 3
-        : event.key === "ArrowLeft"
-          ? (index + 2) % 3
-          : event.key === "Home"
-            ? 0
-            : event.key === "End"
-              ? 2
-              : null;
-    if (next !== null) {
-      event.preventDefault();
-      setTab(next);
-      tabs.current[next]?.focus();
-    }
-  }
   return (
     <div className="observatory">
       <section id="top" className="orbital-hero" aria-labelledby="hero-title">
@@ -128,6 +71,7 @@ export default function Portfolio({
         className="work-section section-shell"
         aria-labelledby="work-title"
       >
+        <LightSweep variant="fall" />
         <div className="section-heading">
           <div>
             <p className="eyebrow">
@@ -207,6 +151,7 @@ export default function Portfolio({
         className="expertise-section"
         aria-labelledby="expertise-title"
       >
+        <LightSweep variant="rise" />
         <div className="section-shell">
           <div className="section-heading">
             <div>
@@ -225,79 +170,8 @@ export default function Portfolio({
               to a working product.
             </p>
           </div>
-          <div className="expertise-stage">
-            <div className="service-art" data-mode={tab} aria-hidden="true">
-              <div className="service-halo" />
-              <ServiceArtwork mode={tab} />
-              <ServiceScene mode={tab} />
-              <div className="service-caption">
-                <span className="status-dot" />
-                {
-                  [
-                    "INTELLIGENCE, CONNECTED",
-                    "PIECE BY PIECE",
-                    "EVERYTHING IN FLOW",
-                  ][tab]
-                }
-              </div>
-            </div>
-            <div className="expertise-panel liquid-glass">
-              <div
-                className="expertise-tabs"
-                role="tablist"
-                aria-label="Services"
-              >
-                <span
-                  className="liquid-tab-indicator"
-                  aria-hidden="true"
-                  style={{
-                    transform: `translateX(calc(${tab * 100}% + ${tab * 4}px))`,
-                  }}
-                />
-                {expertise.map((item, index) => (
-                  <button
-                    ref={(element) => {
-                      tabs.current[index] = element;
-                    }}
-                    key={item.label}
-                    role="tab"
-                    id={`discipline-${index}`}
-                    aria-selected={tab === index}
-                    aria-controls="discipline-panel"
-                    tabIndex={tab === index ? 0 : -1}
-                    onKeyDown={(event) => tabKey(event, index)}
-                    onClick={() => setTab(index)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-              <div
-                id="discipline-panel"
-                role="tabpanel"
-                aria-labelledby={`discipline-${tab}`}
-                tabIndex={0}
-                className="expertise-content"
-              >
-                <p className="eyebrow warm">{current.kicker}</p>
-                <h3>{current.title}</h3>
-                <p className="expertise-description">{current.description}</p>
-                <div className="skill-tags" aria-label="What I can build">
-                  {current.examples.map((example) => (
-                    <span key={example}>{example}</span>
-                  ))}
-                </div>
-                <Link
-                  className="text-link"
-                  href={`/projects/${current.project}`}
-                >
-                  {current.link}
-                  <Arrow diagonal />
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
+        <ServiceCarousel />
       </section>
 
       <section
@@ -305,6 +179,7 @@ export default function Portfolio({
         className="about-section section-shell"
         aria-labelledby="about-title"
       >
+        <LightSweep variant="arc" />
         <p className="eyebrow">
           <span className="section-number">03</span> THE HUMAN BEHIND THE
           SYSTEMS

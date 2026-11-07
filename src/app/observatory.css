@@ -1919,20 +1919,6 @@ body:has(.orbital-menu[open]) {
     radial-gradient(ellipse at 30% 65%, #23426230, transparent 40%),
     radial-gradient(ellipse at 85% 65%, #89683d40, transparent 32%);
 }
-.expertise-section::after {
-  content: "";
-  position: absolute;
-  left: 27%;
-  right: -20%;
-  top: 66%;
-  height: 140px;
-  border-top: 1px solid #d4bd8750;
-  border-radius: 50%;
-  transform: rotate(-18deg);
-  box-shadow: 0 -10px 35px -14px #e6bf7a50;
-  pointer-events: none;
-  z-index: -1;
-}
 .expertise-tabs {
   position: relative;
 }
@@ -2014,5 +2000,364 @@ body:has(.orbital-menu[open]) {
   }
   .expertise-description {
     min-height: 0;
+  }
+}
+
+/* ── Light sweep: flowing ribbons behind sections ────────────────────── */
+.observatory {
+  overflow-x: clip;
+}
+.work-section,
+.about-section {
+  position: relative;
+  isolation: isolate;
+}
+.light-sweep {
+  position: absolute;
+  z-index: -3;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  pointer-events: none;
+  /* Fade the edges so ribbons dissolve into the neighbouring sections. */
+  -webkit-mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+}
+.light-sweep svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: screen;
+}
+.light-sweep__bundle {
+  transform-origin: 50% 50%;
+  animation: sweep-drift 18s ease-in-out infinite alternate;
+}
+.light-sweep__glint {
+  stroke-dasharray: 90 910;
+  animation: sweep-glint 7s linear infinite;
+}
+.about-section .light-sweep {
+  opacity: 0.7;
+}
+@keyframes sweep-drift {
+  to {
+    transform: translateY(-26px) rotate(-1.6deg) scaleY(1.06);
+  }
+}
+@keyframes sweep-glint {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (max-width: 760px) {
+  .light-sweep {
+    opacity: 0.75;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .light-sweep__bundle,
+  .light-sweep__glint {
+    animation: none;
+  }
+  .light-sweep__glint {
+    display: none;
+  }
+}
+
+/* ── Services carousel: glass slides passing over one live form ─────── */
+.service-carousel {
+  --slide-w: min(740px, calc(100vw - 320px));
+  --slide-gap: 28px;
+  position: relative;
+}
+.service-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.service-pills {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 20px;
+  width: min(560px, 100%);
+}
+.service-pills button {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 6px;
+  border-radius: 13px;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #939da9;
+  transition: color 0.3s;
+}
+.service-pills button[aria-current="true"],
+.service-pills button:hover {
+  color: #f2f5fa;
+}
+.service-arrows {
+  display: flex;
+  gap: 10px;
+}
+.service-arrows button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #ffffff22;
+  color: #d5dce6;
+  background: #ffffff08;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    opacity 0.3s;
+}
+.service-arrows button:hover:not(:disabled) {
+  background: #ffffff14;
+  border-color: #ffffff44;
+}
+.service-arrows button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.service-pills button:focus-visible,
+.service-arrows button:focus-visible,
+.service-track:focus-visible {
+  outline: 2px solid #b1cff6;
+  outline-offset: 3px;
+}
+
+.service-viewport {
+  position: relative;
+  isolation: isolate;
+}
+/* Live form sits behind the right half of the centred slide. */
+.service-viewport .service-art {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: calc(50% + var(--slide-w) * 0.24);
+  width: min(520px, 55vw);
+  height: 520px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.service-viewport .service-art .scene-viewport {
+  inset: 0;
+}
+.service-viewport .service-halo {
+  inset: 10%;
+  filter: blur(10px);
+  background: radial-gradient(circle, #6eade055, #3f75ad1a 42%, transparent 68%);
+  animation: service-breathe 6s ease-in-out infinite;
+}
+.service-viewport .service-art[data-mode="1"] .service-halo {
+  background: radial-gradient(circle, #c9d9ea45, #7c9cb418 42%, transparent 68%);
+}
+.service-viewport .service-art[data-mode="2"] .service-halo {
+  background: radial-gradient(circle, #e2b97446, #6eade016 42%, transparent 68%);
+}
+@keyframes service-breathe {
+  50% {
+    opacity: 0.7;
+    transform: scale(0.94);
+  }
+}
+
+.service-track {
+  display: flex;
+  gap: var(--slide-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding: 30px calc((100% - var(--slide-w)) / 2);
+  scrollbar-width: none;
+}
+.service-track::-webkit-scrollbar {
+  display: none;
+}
+.service-slide {
+  position: relative;
+  flex: 0 0 var(--slide-w);
+  min-height: 430px;
+  scroll-snap-align: center;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.42;
+  transform: scale(0.95);
+  transition:
+    opacity 0.6s,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Light glass: the live form should glow through, not disappear. */
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.09),
+      rgba(255, 255, 255, 0.015) 45%,
+      rgba(255, 255, 255, 0.04)
+    ),
+    #0d111633;
+  border-color: rgba(226, 233, 249, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 0 40px rgba(140, 190, 240, 0.04),
+    0 30px 80px -30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px) saturate(150%) brightness(1.1);
+  -webkit-backdrop-filter: blur(4px) saturate(150%) brightness(1.1);
+}
+.service-slide[data-active="true"] {
+  opacity: 1;
+  transform: none;
+  cursor: auto;
+}
+/* Specular edge highlight. */
+.service-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, #ffffff40, transparent 30%, transparent 70%, #e9c48a30);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.service-slide__art {
+  position: absolute;
+  right: 4%;
+  top: 50%;
+  width: 46%;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+.service-slide__art .service-fallback {
+  position: absolute;
+}
+/* The centred slide shows the live form behind it instead. */
+.service-slide[data-active="true"] .service-slide__art {
+  opacity: 0;
+}
+.service-slide__body {
+  position: relative;
+  max-width: 420px;
+  padding: 36px 38px 38px;
+}
+.service-slide__body h3 {
+  white-space: pre-line;
+  font-size: 33px;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  margin: 20px 0;
+  font-weight: 400;
+}
+.service-slide__body .expertise-description {
+  min-height: 0;
+}
+.service-points {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 28px;
+  display: grid;
+  gap: 10px;
+}
+.service-points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c3ccd8;
+}
+.service-points li::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #e7c48c;
+  box-shadow: 0 0 8px #e7c48c;
+}
+.service-slide .service-caption {
+  left: auto;
+  right: 32px;
+  bottom: 26px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1000px) {
+  .service-carousel {
+    --slide-w: calc(100vw - 160px);
+  }
+}
+@media (max-width: 760px) {
+  .service-carousel {
+    --slide-w: calc(100vw - 48px);
+    --slide-gap: 14px;
+  }
+  .service-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .service-arrows {
+    display: none;
+  }
+  .service-pills button {
+    font-size: 10px;
+    padding: 8px 2px;
+  }
+  .service-track {
+    padding-block: 16px;
+  }
+  .service-slide {
+    min-height: 0;
+    transform: scale(0.97);
+  }
+  .service-slide__body {
+    padding: 30px 24px 70px;
+  }
+  .service-slide__body h3 {
+    font-size: 30px;
+  }
+  .service-viewport .service-art {
+    top: auto;
+    bottom: -40px;
+    left: 60%;
+    width: 110vw;
+    height: 420px;
+    transform: translateX(-50%);
+    opacity: 0.75;
+  }
+  .service-slide .service-caption {
+    left: 24px;
+    right: 24px;
+    justify-content: flex-start;
+    bottom: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-viewport .service-halo {
+    animation: none;
+  }
+  .service-slide {
+    transition: none;
   }
 }
