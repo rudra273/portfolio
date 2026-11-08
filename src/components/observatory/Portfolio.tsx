@@ -8,7 +8,10 @@ import ContactForm from "./ContactForm";
 import ServiceCarousel from "./ServiceCarousel";
 import LightSweep from "./LightSweep";
 
-const PlanetScene = dynamic(() => import("./PlanetScene"), { ssr: false });
+// PlanetScene is kept in the repo; the hero now shows the black hole.
+const BlackHoleScene = dynamic(() => import("./BlackHoleScene"), {
+  ssr: false,
+});
 export interface PortfolioProject {
   id: string;
   title: string;
@@ -39,8 +42,8 @@ export default function Portfolio({
     <div className="observatory">
       <section id="top" className="orbital-hero" aria-labelledby="hero-title">
         <div className="hero-stars" aria-hidden="true" />
-        <div className="planet-fallback" aria-hidden="true" />
-        <PlanetScene />
+        <div className="blackhole-fallback" aria-hidden="true" />
+        <BlackHoleScene />
         <div className="hero-shade" aria-hidden="true" />
         <div className="hero-copy">
           <h1 id="hero-title">

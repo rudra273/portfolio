@@ -2442,3 +2442,50 @@ body:has(.orbital-menu[open]) {
     padding: 26px 24px;
   }
 }
+
+/* ── Hero black hole ─────────────────────────────────────────────────── */
+.blackhole-canvas {
+  z-index: -2;
+}
+/* Still version for reduced motion, no WebGL, and while the shader loads:
+   a black shadow, a thin photon ring and a tilted warm disk. */
+.blackhole-fallback {
+  position: absolute;
+  z-index: -3;
+  left: 50%;
+  top: 58%;
+  width: min(230px, 30vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #000;
+  box-shadow:
+    0 0 0 2px #ffe3b0aa,
+    0 0 18px 4px #f2c27a66,
+    0 0 70px 20px #c4823a33;
+}
+.blackhole-fallback::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 560%;
+  height: 46%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #fff1d2 0 9%,
+    #f0b764cc 14%,
+    #b0601f66 34%,
+    transparent 62%
+  );
+  filter: blur(3px);
+}
+.orbital-hero:has(.scene-ready) .blackhole-fallback,
+.orbital-hero:has(.scene-ready) .hero-stars {
+  /* The shader draws its own sparse stars; the CSS dots are fallback only. */
+  opacity: 0;
+  transition: opacity 1s;
+}
