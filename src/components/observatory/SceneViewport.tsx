@@ -25,11 +25,14 @@ export default function SceneViewport({
   className = "",
   camera = [0, 0, 8],
   fov = 42,
+  dpr = [1, 1.5],
 }: {
   children: ReactNode;
   className?: string;
   camera?: [number, number, number];
   fov?: number;
+  /** Device pixel ratio for the canvas; lower renders faster but softer. */
+  dpr?: number | [number, number];
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
@@ -79,8 +82,12 @@ export default function SceneViewport({
           <Canvas
             onCreated={() => setReady(true)}
             camera={{ position: camera, fov }}
-            dpr={[1, 1.5]}
+            dpr={dpr}
             frameloop={visible && awake ? "always" : "never"}
+            // Measure the layout size, not the on-screen size: a CSS scale on
+            // a parent (the black hole shrinking into a card) must not shrink
+            // the canvas itself, or the picture would be scaled twice.
+            resize={{ offsetSize: true }}
             gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
             fallback={<span />}
           >

@@ -1,3 +1,5 @@
+import type { RefObject } from "react";
+
 /**
  * A flowing bundle of light ribbons that sits behind a section's content,
  * giving the liquid-glass panels something bright to refract.
@@ -9,7 +11,8 @@ type Variant = "rise" | "fall" | "arc";
 const STRANDS = 16;
 
 // Each variant: start, two control points, end (viewBox 1600 x 900).
-const curves: Record<Variant, number[]> = {
+// Exported so other parts (the project cards riding the lines) can follow them.
+export const curves: Record<Variant, number[]> = {
   rise: [-150, 760, 420, 520, 900, 900, 1750, 330],
   fall: [-150, 260, 520, 620, 1050, 180, 1750, 640],
   arc: [-150, 620, 500, 260, 1100, 980, 1750, 420],
@@ -25,15 +28,17 @@ function strandPath(base: number[], i: number) {
 export default function LightSweep({
   variant = "rise",
   className = "",
+  sweepRef,
 }: {
   variant?: Variant;
   className?: string;
+  sweepRef?: RefObject<HTMLDivElement>;
 }) {
   const base = curves[variant];
   const core = strandPath(base, (STRANDS - 1) / 2);
   const id = `sweep-${variant}`;
   return (
-    <div className={`light-sweep ${className}`} aria-hidden="true">
+    <div ref={sweepRef} className={`light-sweep ${className}`} aria-hidden="true">
       <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id={`${id}-gold`} x1="0" x2="1" y1="0" y2="0">

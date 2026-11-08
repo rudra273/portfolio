@@ -6,6 +6,7 @@ import Link from "next/link";
 import Arrow from "./Arrow";
 import ServiceArtwork from "./ServiceArtwork";
 import LightSweep from "./LightSweep";
+import { isSmoothScrolling, scrollToY } from "@/lib/smoothScroll";
 
 const ServiceScene = dynamic(() => import("./ServiceScene"), { ssr: false });
 
@@ -47,20 +48,49 @@ const services = [
 ];
 
 /**
- * Edolus-style services stage. It opens on a single intro card ("What I can
- * build for you.") with a glowing question mark inside. As the page scrolls,
+ * Edolus-style services stage. It continues the hero: the full-screen view
+ * into the black hole's disk shrinks into a single intro card ("What I can
+ * build for you."), the titles rise from behind it, and a glowing question
+ * mark forms in front of the disk. As the page scrolls,
  * the three service cards fly in from the right, join the row, and the row
  * slides left card by card. One live 3D form stays behind the centred card and
  * morphs from the question mark into each service's shape.
  */
 const LAST = services.length; // slide 0 is the intro, 1..3 are services
-// Scroll steps: first the cards join the intro card, then one per slide move.
-const STEPS = LAST + 1;
+// Scroll steps, in order:
+//   0→1  the full-screen black hole view shrinks into the intro card
+//   1→2  "What I can build / for you." rise from behind the card
+//   2→3  the service cards slide in beside the intro card
+//   then one step per slide move.
+const PRE = 2;
+const STEPS = PRE + LAST + 1;
 
-/** Scroll progress → step, with a short still moment at each end. */
-function stepFor(progress: number) {
-  const p = Math.min(Math.max((progress - 0.05) / 0.9, 0), 1);
-  return p * STEPS;
+// Still moments at each end of the pinned scroll, in screen heights.
+const HOLD_START = 0.12; // intro card rests before the cards start joining
+const HOLD_END = 0.2; // last card rests before the page moves on
+
+/** Pixels scrolled into the pinned area → step (0 … STEPS). */
+function stepFor(scrolled: number, travel: number, screen: number) {
+  const start = HOLD_START * screen;
+  const span = travel - start - HOLD_END * screen;
+  if (span <= 0) return 0;
+  return Math.min(Math.max((scrolled - start) / span, 0), 1) * STEPS;
+}
+
+function cardCutout(card: DOMRect, sweep: DOMRect, radius: number) {
+  const left = card.left - sweep.left;
+  const right = card.right - sweep.left;
+  const top = card.top - sweep.top;
+  const bottom = card.bottom - sweep.top;
+  const corner = `A ${radius} ${radius} 0 0 1`;
+
+  return [
+    `M ${left + radius} ${top} H ${right - radius}`,
+    `${corner} ${right} ${top + radius} V ${bottom - radius}`,
+    `${corner} ${right - radius} ${bottom} H ${left + radius}`,
+    `${corner} ${left} ${bottom - radius} V ${top + radius}`,
+    `${corner} ${left + radius} ${top} Z`,
+  ].join(" ");
 }
 
 export default function ServiceCarousel() {
@@ -68,18 +98,73 @@ export default function ServiceCarousel() {
   const pin = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const introCard = useRef<HTMLDivElement>(null);
+  const sweepLayer = useRef<HTMLDivElement>(null);
   const slides = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
+    const intro = introCard.current;
+    const sweep = sweepLayer.current;
+    const world = document.getElementById("hole-world");
+    if (!intro || !sweep) return;
+    const cornerRadius = parseFloat(getComputedStyle(intro).borderTopLeftRadius);
+
     let frame = 0;
     let last = 0;
     let current = -1; // eased step actually drawn; -1 = not drawn yet
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const draw = (step: number) => {
+    const smooth = (t: number) => {
+      const c = Math.min(Math.max(t, 0), 1);
+      return c * c * (3 - 2 * c);
+    };
+
+    // The hero's black hole layer: the whole full-screen picture scales down
+    // (and squeezes slightly to the card's shape) into the intro card, then
+    // travels with the card as the row moves. A scale, not a crop, so the
+    // disk you were looking at shrinks into the card intact.
+    const frameWorld = (shrink: number, c: DOMRect) => {
+      if (!world) return;
+      if (shrink <= 0) {
+        world.style.transform = "";
+        world.style.borderRadius = "";
+        world.style.filter = "";
+        world.style.visibility = "";
+        return;
+      }
+      // The layer's own untransformed size (pinned at the top-left). Not
+      // window.innerWidth: that includes the scrollbar, which made the picture
+      // land a few pixels short of the card's right edge.
+      const width = world.offsetWidth;
+      const height = world.offsetHeight;
+      if (shrink > 0.999 && c.right < 0) {
+        world.style.visibility = "hidden"; // card has slid off-screen
+        return;
+      }
+      world.style.visibility = "";
+      const scaleX = 1 + (c.width / width - 1) * shrink;
+      const scaleY = 1 + (c.height / height - 1) * shrink;
+      const moveX = (c.left + c.width / 2 - width / 2) * shrink;
+      const moveY = (c.top + c.height / 2 - height / 2) * shrink;
+      world.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(${scaleX}, ${scaleY})`;
+      // Divide by the scale so the corners match the card on screen.
+      const r = cornerRadius * shrink;
+      world.style.borderRadius = `${r / scaleX}px / ${r / scaleY}px`;
+      // Dim the disk as it becomes the card's backdrop, so the question mark
+      // and titles read clearly in front of it.
+      world.style.filter = `brightness(${1 - 0.45 * shrink})`;
+    };
+
+    const draw = (total: number) => {
       const row = track.current;
       const view = stage.current;
-      if (!row || !view) return;
+      const box = pin.current;
+      if (!row || !view || !box) return;
+      const shrink = smooth(total);
+      const titles = smooth(total - 1);
+      sweep.style.setProperty("--ribbon-opacity", shrink.toFixed(4));
+      box.style.setProperty("--titles", titles.toFixed(4));
+      const step = Math.max(total - PRE, 0);
       // Step 0→1: the service cards slide in beside the still intro card.
       // After that the whole row glides left, following the scroll exactly.
       const join = 1 - Math.min(step, 1);
@@ -103,6 +188,22 @@ export default function ServiceCarousel() {
           slide.style.opacity = `${1 - 0.45 * Math.min(Math.abs(k - position), 1)}`;
       });
       setActive(Math.round(position));
+      const introBounds = intro.getBoundingClientRect();
+      frameWorld(shrink, introBounds);
+      if (shrink > 0) {
+        // Follow the shrinking picture until it lands on the intro card.
+        const silhouette = shrink < 1 && world
+          ? world.getBoundingClientRect()
+          : introBounds;
+        const bounds = sweep.getBoundingClientRect();
+        if (silhouette.right > bounds.left && silhouette.left < bounds.right) {
+          const outer = `M 0 0 H ${bounds.width} V ${bounds.height} H 0 Z`;
+          const cutout = cardCutout(silhouette, bounds, cornerRadius * shrink);
+          sweep.style.clipPath = `path(evenodd, "${outer} ${cutout}")`;
+        } else {
+          sweep.style.clipPath = "";
+        }
+      }
     };
 
     const tick = (now: number) => {
@@ -110,12 +211,14 @@ export default function ServiceCarousel() {
       if (!box) return;
       const rect = box.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
-      const target = stepFor(travel > 0 ? -rect.top / travel : 0);
+      const target = stepFor(-rect.top, travel, window.innerHeight);
       const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
       last = now;
-      // Ease toward the scroll position so motion glides instead of jumping.
+      // Lenis already glides the page scroll, so follow it exactly; easing on
+      // top of that would feel laggy. Without Lenis (and without reduced
+      // motion) ease here instead so motion still glides.
       current =
-        current < 0 || reduce.matches
+        current < 0 || reduce.matches || isSmoothScrolling()
           ? target
           : current + (target - current) * (1 - Math.exp(-dt * 7));
       draw(current);
@@ -143,14 +246,17 @@ export default function ServiceCarousel() {
   function go(index: number) {
     const box = pin.current;
     if (!box) return;
-    const travel = box.offsetHeight - window.innerHeight;
+    const screen = window.innerHeight;
+    const travel = box.offsetHeight - screen;
     const top = box.getBoundingClientRect().top + window.scrollY;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    window.scrollTo({
-      // Slide 0 rests at the very start; slide i rests after the join step.
-      top: top + travel * (0.05 + (0.9 * (index === 0 ? 0 : index + 1)) / STEPS),
-      behavior: reduce.matches ? "auto" : "smooth",
-    });
+    // Slide 0 rests once the titles are in; slide i rests after the join.
+    scrollToY(
+      top +
+        HOLD_START * screen +
+        ((travel - (HOLD_START + HOLD_END) * screen) *
+          (PRE + (index === 0 ? 0 : index + 1))) /
+          STEPS,
+    );
   }
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
@@ -172,7 +278,7 @@ export default function ServiceCarousel() {
       aria-label="Services"
     >
       <div className="service-sticky">
-        <LightSweep variant="rise" />
+        <LightSweep variant="rise" sweepRef={sweepLayer} />
         <div ref={stage} className="service-viewport">
           {/* Shared live form, fixed behind the centred card. */}
           <div className="service-art" data-mode={mode} aria-hidden="true">
@@ -194,10 +300,14 @@ export default function ServiceCarousel() {
                 slides.current[0] = element;
               }}
             >
-              <h2 id="expertise-title" className="service-intro__line">
-                What I can build
-              </h2>
+              {/* Each line slides out from behind the card's edge. */}
+              <div className="intro-reveal top">
+                <h2 id="expertise-title" className="service-intro__line">
+                  What I can build
+                </h2>
+              </div>
               <div
+                ref={introCard}
                 className="service-slide service-intro__card liquid-glass"
                 data-active={active === 0}
                 onClick={() => active !== 0 && go(0)}
@@ -208,7 +318,9 @@ export default function ServiceCarousel() {
                   to a working product.
                 </p>
               </div>
-              <p className="service-intro__line muted">for you.</p>
+              <div className="intro-reveal bottom">
+                <p className="service-intro__line muted">for you.</p>
+              </div>
             </div>
 
             {services.map((item, index) => (

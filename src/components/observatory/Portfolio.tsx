@@ -1,14 +1,19 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import Arrow from "./Arrow";
 import ContactForm from "./ContactForm";
 import ServiceCarousel from "./ServiceCarousel";
+import ProjectBay from "./ProjectBay";
 import LightSweep from "./LightSweep";
 
-const PlanetScene = dynamic(() => import("./PlanetScene"), { ssr: false });
+// PlanetScene is kept in the repo; the hero now shows the black hole.
+const BlackHoleScene = dynamic(() => import("./BlackHoleScene"), {
+  ssr: false,
+});
 export interface PortfolioProject {
   id: string;
   title: string;
@@ -35,119 +40,110 @@ export default function Portfolio({
     .map((id) => projects.find((p) => String(p.id) === id))
     .filter((p): p is PortfolioProject => !!p);
   const selected = featured.length ? featured : projects.slice(0, 3);
+  const heroDive = useRef<HTMLElement>(null);
+
+  // Publish dive progress (0 → 1 while the hero is pinned) as --dive, so the
+  // headline can fade away as the camera flies into the disk.
+  useEffect(() => {
+    const section = heroDive.current;
+    if (!section) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const travel = section.offsetHeight - window.innerHeight;
+      const top = -section.getBoundingClientRect().top;
+      const dive = travel > 0 ? Math.min(Math.max(top / travel, 0), 1) : 0;
+      section.style.setProperty("--dive", dive.toFixed(4));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
   return (
     <div className="observatory">
-      <section id="top" className="orbital-hero" aria-labelledby="hero-title">
-        <div className="hero-stars" aria-hidden="true" />
-        <div className="planet-fallback" aria-hidden="true" />
-        <PlanetScene />
-        <div className="hero-shade" aria-hidden="true" />
-        <div className="hero-copy">
-          <h1 id="hero-title">
-            Engineering
-            <br />
-            <span>beyond the ordinary.</span>
-          </h1>
-          <p className="hero-description">
-            AI systems. Backend engineering. A curiosity without limits.
-          </p>
-          <a className="light-button hero-button" href="#work">
-            Explore my work
-            <Arrow diagonal />
-          </a>
+      {/* One journey: the hero dives into the black hole, then the same
+          view shrinks into the Services intro card. The black hole lives in
+          one shared layer pinned behind both sections. */}
+      <div className="hole-journey">
+        <div id="hole-world" className="hole-world" aria-hidden="true">
+          <div className="blackhole-fallback" />
+          <BlackHoleScene />
         </div>
-        <div className="hero-foot">
-          <span>BASED ON EARTH. THINKING BEYOND.</span>
-          <a href="#work">
-            Scroll to discover <span aria-hidden="true">↓</span>
-          </a>
-          <span>PORTFOLIO / 2026</span>
-        </div>
-      </section>
+        {/* The outer section adds scroll room; the hero inside stays pinned
+          while the camera dives into the black hole's disk. */}
+        <section
+          id="top"
+          ref={heroDive}
+          className="hero-dive"
+          aria-labelledby="hero-title"
+        >
+          <div className="orbital-hero">
+            <div className="hero-stars" aria-hidden="true" />
+            <div className="hero-shade" aria-hidden="true" />
+            <div className="hero-copy">
+              <h1 id="hero-title">
+                Rudrapratap
+                <br />
+                Mohanty
+              </h1>
+              <p className="hero-description">
+                AI systems. Backend engineering. A curiosity without limits.
+              </p>
+              <a className="light-button hero-button" href="#work">
+                Explore my work
+                <Arrow diagonal />
+              </a>
+            </div>
+            <div className="hero-foot">
+              <span>BASED ON EARTH. THINKING BEYOND.</span>
+              <a href="#expertise">
+                Scroll to discover <span aria-hidden="true">↓</span>
+              </a>
+              <span>2026</span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="expertise"
+          className="expertise-section"
+          aria-labelledby="expertise-title"
+        >
+          <ServiceCarousel />
+        </section>
+      </div>
 
       <section
         id="work"
         className="work-section section-shell"
         aria-labelledby="work-title"
       >
-        <LightSweep variant="fall" />
-        <div className="section-heading">
-          <div>
-            <h2 id="work-title">
-              Ideas, brought
-              <br />
-              <span className="muted">into the real world.</span>
-            </h2>
-          </div>
-          <Link className="text-link" href="/projects">
-            All projects <Arrow diagonal />
-          </Link>
-        </div>
-        <div className="project-showcase">
-          {selected.map((project, index) => (
-            <article
-              key={project.id}
-              className={`showcase-card showcase-${index} liquid-glass`}
-            >
-              <div className="showcase-info">
-                <div className="project-category">
-                  <span>0{index + 1} /</span>{" "}
-                  {project.categories.slice(0, 2).join(" + ")}
-                </div>
-                <h3>
-                  <Link href={`/projects/${project.id}`}>{project.title}</Link>
-                </h3>
-                <p>{summaries[project.id] || project.description}</p>
-                <div className="project-technologies">
-                  {project.techStack.slice(0, 3).map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
-                <Link className="text-link" href={`/projects/${project.id}`}>
-                  Explore project <Arrow diagonal />
-                </Link>
+        <ProjectBay
+          projects={selected}
+          summaries={summaries}
+          heading={
+            <>
+              <div>
+                <h2 id="work-title">
+                  Ideas, brought
+                  <br />
+                  <span className="muted">into the real world.</span>
+                </h2>
               </div>
-              <Link
-                className="showcase-visual"
-                href={`/projects/${project.id}`}
-                aria-label={`View ${project.title}`}
-              >
-                <div className="project-window">
-                  <div className="window-bar">
-                    <span />
-                    <span />
-                    <span />
-                    <i>{project.title.toLowerCase().replaceAll(" ", "-")}</i>
-                    <span className="window-expand">↗</span>
-                  </div>
-                  <div className="project-image">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} application interface`}
-                      fill
-                      sizes={
-                        index === 0
-                          ? "(max-width: 760px) 90vw, 55vw"
-                          : "(max-width: 760px) 90vw, 42vw"
-                      }
-                      unoptimized={project.image.startsWith("/")}
-                      className="object-cover object-top"
-                    />
-                  </div>
-                </div>
-                <span className="visual-orbit" aria-hidden="true" />
+              <Link className="text-link" href="/projects">
+                All projects <Arrow diagonal />
               </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="expertise"
-        className="expertise-section"
-        aria-labelledby="expertise-title"
-      >
-        <ServiceCarousel />
+            </>
+          }
+        />
       </section>
 
       <section
