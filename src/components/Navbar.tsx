@@ -2,24 +2,47 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Arrow from "./observatory/Arrow";
 
 export default function Navbar() {
   const pathname = usePathname();
   const dialog = useRef<HTMLDialogElement>(null);
+  const [pastHero, setPastHero] = useState(false);
   const close = () => dialog.current?.close();
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setPastHero(false);
+      return;
+    }
+
+    const updateHeader = () => {
+      const expertise = document.getElementById("expertise");
+      setPastHero(!!expertise && expertise.getBoundingClientRect().top <= 0);
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    window.addEventListener("resize", updateHeader);
+    return () => {
+      window.removeEventListener("scroll", updateHeader);
+      window.removeEventListener("resize", updateHeader);
+    };
+  }, [pathname]);
 
   return (
     <>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <header className="orbital-header">
-        <Link className="wordmark" href="/" aria-label="Rudra — home">
-          RUDRA
-        </Link>
-      </header>
+      {(pathname !== "/" || pastHero) && (
+        <header className="orbital-header">
+          <Link className="wordmark" href="/" aria-label="Rudra — home">
+            RUDRA
+          </Link>
+        </header>
+      )}
       {pathname === "/" && (
         <>
           <div className="orbital-header hero-menu">

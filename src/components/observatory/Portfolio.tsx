@@ -107,7 +107,7 @@ export default function Portfolio({
               <a href="#expertise">
                 Scroll to discover <span aria-hidden="true">↓</span>
               </a>
-              <span>PORTFOLIO / 2026</span>
+              <span>2026</span>
             </div>
           </div>
         </section>
