@@ -57,10 +57,16 @@ const LAST = services.length; // slide 0 is the intro, 1..3 are services
 // Scroll steps: first the cards join the intro card, then one per slide move.
 const STEPS = LAST + 1;
 
-/** Scroll progress → step, with a short still moment at each end. */
-function stepFor(progress: number) {
-  const p = Math.min(Math.max((progress - 0.05) / 0.9, 0), 1);
-  return p * STEPS;
+// Still moments at each end of the pinned scroll, in screen heights.
+const HOLD_START = 0.12; // intro card rests before the cards start joining
+const HOLD_END = 0.2; // last card rests before the page moves on
+
+/** Pixels scrolled into the pinned area → step (0 … STEPS). */
+function stepFor(scrolled: number, travel: number, screen: number) {
+  const start = HOLD_START * screen;
+  const span = travel - start - HOLD_END * screen;
+  if (span <= 0) return 0;
+  return Math.min(Math.max((scrolled - start) / span, 0), 1) * STEPS;
 }
 
 export default function ServiceCarousel() {
@@ -110,7 +116,7 @@ export default function ServiceCarousel() {
       if (!box) return;
       const rect = box.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
-      const target = stepFor(travel > 0 ? -rect.top / travel : 0);
+      const target = stepFor(-rect.top, travel, window.innerHeight);
       const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
       last = now;
       // Ease toward the scroll position so motion glides instead of jumping.
@@ -143,12 +149,18 @@ export default function ServiceCarousel() {
   function go(index: number) {
     const box = pin.current;
     if (!box) return;
-    const travel = box.offsetHeight - window.innerHeight;
+    const screen = window.innerHeight;
+    const travel = box.offsetHeight - screen;
     const top = box.getBoundingClientRect().top + window.scrollY;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     window.scrollTo({
       // Slide 0 rests at the very start; slide i rests after the join step.
-      top: top + travel * (0.05 + (0.9 * (index === 0 ? 0 : index + 1)) / STEPS),
+      top:
+        top +
+        HOLD_START * screen +
+        ((travel - (HOLD_START + HOLD_END) * screen) *
+          (index === 0 ? 0 : index + 1)) /
+          STEPS,
       behavior: reduce.matches ? "auto" : "smooth",
     });
   }
