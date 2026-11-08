@@ -6,6 +6,7 @@ import Link from "next/link";
 import Arrow from "./Arrow";
 import ServiceArtwork from "./ServiceArtwork";
 import LightSweep from "./LightSweep";
+import { isSmoothScrolling, scrollToY } from "@/lib/smoothScroll";
 
 const ServiceScene = dynamic(() => import("./ServiceScene"), { ssr: false });
 
@@ -119,9 +120,11 @@ export default function ServiceCarousel() {
       const target = stepFor(-rect.top, travel, window.innerHeight);
       const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
       last = now;
-      // Ease toward the scroll position so motion glides instead of jumping.
+      // Lenis already glides the page scroll, so follow it exactly; easing on
+      // top of that would feel laggy. Without Lenis (and without reduced
+      // motion) ease here instead so motion still glides.
       current =
-        current < 0 || reduce.matches
+        current < 0 || reduce.matches || isSmoothScrolling()
           ? target
           : current + (target - current) * (1 - Math.exp(-dt * 7));
       draw(current);
@@ -152,17 +155,14 @@ export default function ServiceCarousel() {
     const screen = window.innerHeight;
     const travel = box.offsetHeight - screen;
     const top = box.getBoundingClientRect().top + window.scrollY;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    window.scrollTo({
-      // Slide 0 rests at the very start; slide i rests after the join step.
-      top:
-        top +
+    // Slide 0 rests at the very start; slide i rests after the join step.
+    scrollToY(
+      top +
         HOLD_START * screen +
         ((travel - (HOLD_START + HOLD_END) * screen) *
           (index === 0 ? 0 : index + 1)) /
           STEPS,
-      behavior: reduce.matches ? "auto" : "smooth",
-    });
+    );
   }
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {

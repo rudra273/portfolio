@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import SmoothScroll from "@/components/SmoothScroll";
+import "lenis/dist/lenis.css";
 import JsonLd from "@/components/JsonLd";
 import "./observatory.css";
 
@@ -77,7 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <head>
         <meta
           name="google-site-verification"
@@ -86,6 +88,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className={`${geist.variable} font-sans`}>
+        <SmoothScroll />
         <Navbar />
         <main id="main-content" className="relative z-10 w-full">
           {children}
