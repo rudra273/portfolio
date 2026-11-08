@@ -7,6 +7,7 @@ import Link from "next/link";
 import Arrow from "./Arrow";
 import ContactForm from "./ContactForm";
 import ServiceCarousel from "./ServiceCarousel";
+import ProjectBay from "./ProjectBay";
 import LightSweep from "./LightSweep";
 
 // PlanetScene is kept in the repo; the hero now shows the black hole.
@@ -97,7 +98,7 @@ export default function Portfolio({
           </div>
           <div className="hero-foot">
             <span>BASED ON EARTH. THINKING BEYOND.</span>
-            <a href="#work">
+            <a href="#expertise">
               Scroll to discover <span aria-hidden="true">↓</span>
             </a>
             <span>PORTFOLIO / 2026</span>
@@ -106,11 +107,18 @@ export default function Portfolio({
       </section>
 
       <section
+        id="expertise"
+        className="expertise-section"
+        aria-labelledby="expertise-title"
+      >
+        <ServiceCarousel />
+      </section>
+
+      <section
         id="work"
         className="work-section section-shell"
         aria-labelledby="work-title"
       >
-        <LightSweep variant="fall" />
         <div className="section-heading">
           <div>
             <h2 id="work-title">
@@ -123,71 +131,7 @@ export default function Portfolio({
             All projects <Arrow diagonal />
           </Link>
         </div>
-        <div className="project-showcase">
-          {selected.map((project, index) => (
-            <article
-              key={project.id}
-              className={`showcase-card showcase-${index} liquid-glass`}
-            >
-              <div className="showcase-info">
-                <div className="project-category">
-                  <span>0{index + 1} /</span>{" "}
-                  {project.categories.slice(0, 2).join(" + ")}
-                </div>
-                <h3>
-                  <Link href={`/projects/${project.id}`}>{project.title}</Link>
-                </h3>
-                <p>{summaries[project.id] || project.description}</p>
-                <div className="project-technologies">
-                  {project.techStack.slice(0, 3).map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
-                <Link className="text-link" href={`/projects/${project.id}`}>
-                  Explore project <Arrow diagonal />
-                </Link>
-              </div>
-              <Link
-                className="showcase-visual"
-                href={`/projects/${project.id}`}
-                aria-label={`View ${project.title}`}
-              >
-                <div className="project-window">
-                  <div className="window-bar">
-                    <span />
-                    <span />
-                    <span />
-                    <i>{project.title.toLowerCase().replaceAll(" ", "-")}</i>
-                    <span className="window-expand">↗</span>
-                  </div>
-                  <div className="project-image">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} application interface`}
-                      fill
-                      sizes={
-                        index === 0
-                          ? "(max-width: 760px) 90vw, 55vw"
-                          : "(max-width: 760px) 90vw, 42vw"
-                      }
-                      unoptimized={project.image.startsWith("/")}
-                      className="object-cover object-top"
-                    />
-                  </div>
-                </div>
-                <span className="visual-orbit" aria-hidden="true" />
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="expertise"
-        className="expertise-section"
-        aria-labelledby="expertise-title"
-      >
-        <ServiceCarousel />
+        <ProjectBay projects={selected} summaries={summaries} />
       </section>
 
       <section

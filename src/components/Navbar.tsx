@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import Arrow from "./observatory/Arrow";
 
 const destinations = [
-  { id: "work", label: "Work" },
   { id: "expertise", label: "Services" },
+  { id: "work", label: "Work" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ];
@@ -15,7 +15,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const dialog = useRef<HTMLDialogElement>(null);
   const [docked, setDocked] = useState(false);
-  const [active, setActive] = useState("work");
+  const [active, setActive] = useState("expertise");
   const close = () => dialog.current?.close();
   useEffect(() => {
     close();
