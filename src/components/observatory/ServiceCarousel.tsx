@@ -77,15 +77,38 @@ function stepFor(scrolled: number, travel: number, screen: number) {
   return Math.min(Math.max((scrolled - start) / span, 0), 1) * STEPS;
 }
 
+function cardCutout(card: DOMRect, sweep: DOMRect, radius: number) {
+  const left = card.left - sweep.left;
+  const right = card.right - sweep.left;
+  const top = card.top - sweep.top;
+  const bottom = card.bottom - sweep.top;
+  const corner = `A ${radius} ${radius} 0 0 1`;
+
+  return [
+    `M ${left + radius} ${top} H ${right - radius}`,
+    `${corner} ${right} ${top + radius} V ${bottom - radius}`,
+    `${corner} ${right - radius} ${bottom} H ${left + radius}`,
+    `${corner} ${left} ${bottom - radius} V ${top + radius}`,
+    `${corner} ${left + radius} ${top} Z`,
+  ].join(" ");
+}
+
 export default function ServiceCarousel() {
   const [active, setActive] = useState(0);
   const pin = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const introCard = useRef<HTMLDivElement>(null);
+  const sweepLayer = useRef<HTMLDivElement>(null);
   const slides = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
+    const intro = introCard.current;
+    const sweep = sweepLayer.current;
+    const world = document.getElementById("hole-world");
+    if (!intro || !sweep) return;
+    const cornerRadius = parseFloat(getComputedStyle(intro).borderTopLeftRadius);
+
     let frame = 0;
     let last = 0;
     let current = -1; // eased step actually drawn; -1 = not drawn yet
@@ -100,10 +123,8 @@ export default function ServiceCarousel() {
     // (and squeezes slightly to the card's shape) into the intro card, then
     // travels with the card as the row moves. A scale, not a crop, so the
     // disk you were looking at shrinks into the card intact.
-    const frameWorld = (shrink: number) => {
-      const world = document.getElementById("hole-world");
-      const card = introCard.current;
-      if (!world || !card) return;
+    const frameWorld = (shrink: number, c: DOMRect) => {
+      if (!world) return;
       if (shrink <= 0) {
         world.style.transform = "";
         world.style.borderRadius = "";
@@ -116,7 +137,6 @@ export default function ServiceCarousel() {
       // land a few pixels short of the card's right edge.
       const width = world.offsetWidth;
       const height = world.offsetHeight;
-      const c = card.getBoundingClientRect();
       if (shrink > 0.999 && c.right < 0) {
         world.style.visibility = "hidden"; // card has slid off-screen
         return;
@@ -127,9 +147,8 @@ export default function ServiceCarousel() {
       const moveX = (c.left + c.width / 2 - width / 2) * shrink;
       const moveY = (c.top + c.height / 2 - height / 2) * shrink;
       world.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(${scaleX}, ${scaleY})`;
-      // Corners grow to the card's 24px; divide by the scale so they end up
-      // exactly 24px on screen.
-      const r = 24 * shrink;
+      // Divide by the scale so the corners match the card on screen.
+      const r = cornerRadius * shrink;
       world.style.borderRadius = `${r / scaleX}px / ${r / scaleY}px`;
       // Dim the disk as it becomes the card's backdrop, so the question mark
       // and titles read clearly in front of it.
@@ -143,7 +162,7 @@ export default function ServiceCarousel() {
       if (!row || !view || !box) return;
       const shrink = smooth(total);
       const titles = smooth(total - 1);
-      box.style.setProperty("--frame", shrink.toFixed(4));
+      sweep.style.setProperty("--ribbon-opacity", shrink.toFixed(4));
       box.style.setProperty("--titles", titles.toFixed(4));
       const step = Math.max(total - PRE, 0);
       // Step 0→1: the service cards slide in beside the still intro card.
@@ -169,7 +188,22 @@ export default function ServiceCarousel() {
           slide.style.opacity = `${1 - 0.45 * Math.min(Math.abs(k - position), 1)}`;
       });
       setActive(Math.round(position));
-      frameWorld(shrink);
+      const introBounds = intro.getBoundingClientRect();
+      frameWorld(shrink, introBounds);
+      if (shrink > 0) {
+        // Follow the shrinking picture until it lands on the intro card.
+        const silhouette = shrink < 1 && world
+          ? world.getBoundingClientRect()
+          : introBounds;
+        const bounds = sweep.getBoundingClientRect();
+        if (silhouette.right > bounds.left && silhouette.left < bounds.right) {
+          const outer = `M 0 0 H ${bounds.width} V ${bounds.height} H 0 Z`;
+          const cutout = cardCutout(silhouette, bounds, cornerRadius * shrink);
+          sweep.style.clipPath = `path(evenodd, "${outer} ${cutout}")`;
+        } else {
+          sweep.style.clipPath = "";
+        }
+      }
     };
 
     const tick = (now: number) => {
@@ -244,7 +278,7 @@ export default function ServiceCarousel() {
       aria-label="Services"
     >
       <div className="service-sticky">
-        <LightSweep variant="rise" />
+        <LightSweep variant="rise" sweepRef={sweepLayer} />
         <div ref={stage} className="service-viewport">
           {/* Shared live form, fixed behind the centred card. */}
           <div className="service-art" data-mode={mode} aria-hidden="true">

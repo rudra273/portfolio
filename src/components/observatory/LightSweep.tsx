@@ -1,3 +1,5 @@
+import type { RefObject } from "react";
+
 /**
  * A flowing bundle of light ribbons that sits behind a section's content,
  * giving the liquid-glass panels something bright to refract.
@@ -26,15 +28,17 @@ function strandPath(base: number[], i: number) {
 export default function LightSweep({
   variant = "rise",
   className = "",
+  sweepRef,
 }: {
   variant?: Variant;
   className?: string;
+  sweepRef?: RefObject<HTMLDivElement>;
 }) {
   const base = curves[variant];
   const core = strandPath(base, (STRANDS - 1) / 2);
   const id = `sweep-${variant}`;
   return (
-    <div className={`light-sweep ${className}`} aria-hidden="true">
+    <div ref={sweepRef} className={`light-sweep ${className}`} aria-hidden="true">
       <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id={`${id}-gold`} x1="0" x2="1" y1="0" y2="0">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Arrow from "./observatory/Arrow";
+import DockRefraction from "./observatory/DockRefraction";
 
 const destinations = [
   { id: "expertise", label: "Services" },
@@ -14,6 +15,7 @@ const destinations = [
 export default function Navbar() {
   const pathname = usePathname();
   const dialog = useRef<HTMLDialogElement>(null);
+  const dock = useRef<HTMLElement>(null);
   const [docked, setDocked] = useState(false);
   const [active, setActive] = useState("expertise");
   const close = () => dialog.current?.close();
@@ -65,10 +67,12 @@ export default function Navbar() {
       </header>
       {pathname === "/" && (
         <nav
-          className={`orbital-dock liquid-glass ${docked ? "is-visible" : ""}`}
+          ref={dock}
+          className={`orbital-dock ${docked ? "is-visible" : ""}`}
           aria-label="Page sections"
           {...(!docked ? { "aria-hidden": true } : {})}
         >
+          <DockRefraction dock={dock} />
           <a className="dock-home" href="#top" aria-label="Home">
             <svg
               width="22"

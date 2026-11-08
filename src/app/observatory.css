@@ -177,6 +177,7 @@ p {
   margin-left: 5px;
 }
 .orbital-dock {
+  --dock-tint: #111820eb;
   position: fixed;
   z-index: 60;
   bottom: 25px;
@@ -185,9 +186,8 @@ p {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 7px;
-  border-radius: 40px;
-  background-color: #15171bbf;
+  padding: 8px;
+  border-radius: 999px;
   opacity: 0;
   visibility: hidden;
   transition:
@@ -195,9 +195,40 @@ p {
     transform 0.4s,
     visibility 0.4s;
   white-space: nowrap;
+  box-shadow: 0 10px 26px -9px #0009;
+}
+.orbital-dock::before,
+.orbital-dock::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.orbital-dock::before {
+  -webkit-backdrop-filter: blur(2px) saturate(1.45) brightness(0.58);
+  backdrop-filter: blur(2px) saturate(1.45) brightness(0.58);
+}
+.orbital-dock::after {
+  background:
+    radial-gradient(ellipse at 15% 0%, #e3f0ff21, transparent 60%),
+    radial-gradient(ellipse at 87% 100%, #ffe9ca19, transparent 57%),
+    var(--dock-tint);
   box-shadow:
-    0 12px 40px #0008,
-    inset 0 1px #fff2;
+    inset 0 0 0 1px #e5efff35,
+    inset 0 1.5px 1.5px -0.5px #f4f9ff9c,
+    inset 0 -1.5px 1.5px -0.5px #fff0db60;
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .orbital-dock {
+    --dock-tint: #10172038;
+  }
+}
+.orbital-dock[data-refractive]::after {
+  backdrop-filter: url("#dock-refraction");
+}
+.dock-refraction {
+  position: absolute;
 }
 .orbital-dock.is-visible {
   opacity: 1;
@@ -205,24 +236,32 @@ p {
   visibility: visible;
 }
 .orbital-dock a {
+  position: relative;
+  z-index: 1;
   font-size: 11px;
   letter-spacing: 0.01em;
-  color: #a6abb3;
+  color: #e4e9f0;
   padding: 12px 19px;
   border-radius: 30px;
+  text-shadow: 0 1px 3px #05080dc7;
   transition:
     color 0.25s,
     background 0.25s;
 }
 .orbital-dock a:hover {
   color: white;
+  background-color: #ffffff14;
+}
+.orbital-dock a:focus-visible {
+  outline-offset: -1px;
 }
 .orbital-dock a.active {
-  background: linear-gradient(140deg, #ffffff25, #ffffff0a);
+  background: linear-gradient(155deg, #ffffff28, #ffffff0b 65%, #ffffff15);
   color: #fff;
   box-shadow:
-    inset 0 1px #ffffff25,
-    0 2px 8px #0004;
+    inset 0 1px #ffffff4d,
+    inset 0 0 0 1px #ffffff17,
+    0 2px 8px #0003;
 }
 .orbital-dock .dock-home {
   font-size: 23px;
@@ -230,7 +269,11 @@ p {
   border-right: 1px solid #fff2;
   border-radius: 0;
   margin-right: 4px;
-  color: #d3d7dc;
+  color: inherit;
+}
+.orbital-dock .dock-home:hover {
+  background-color: transparent;
+  color: #fff;
 }
 .orbital-menu {
   padding: 0;
@@ -1556,7 +1599,7 @@ body:has(.orbital-menu[open]) {
   }
   .orbital-dock {
     bottom: calc(16px + env(safe-area-inset-bottom));
-    padding: 6px;
+    padding: 7px;
     gap: 2px;
     max-width: calc(100% - 24px);
   }
@@ -1674,9 +1717,6 @@ body:has(.orbital-menu[open]) {
 @supports not (backdrop-filter: blur(1px)) {
   .liquid-glass {
     background: #151b25;
-  }
-  .orbital-dock {
-    background: #1b222e;
   }
 }
 .contact-socials {
@@ -2781,9 +2821,9 @@ body:has(.orbital-menu[open]) {
 .hole-journey .expertise-section::before {
   display: none;
 }
-/* Gold lines appear around the card as the view shrinks into it. */
+/* Fade in the ribbons as the view shrinks into the card. */
 .service-sticky .light-sweep {
-  opacity: var(--frame, 1);
+  opacity: var(--ribbon-opacity, 0);
 }
 /* The intro card is a window onto the black hole: no glass fill or blur,
    just an edge that appears as the frame settles. */
