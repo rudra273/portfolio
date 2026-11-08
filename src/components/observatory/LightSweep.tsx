@@ -9,7 +9,8 @@ type Variant = "rise" | "fall" | "arc";
 const STRANDS = 16;
 
 // Each variant: start, two control points, end (viewBox 1600 x 900).
-const curves: Record<Variant, number[]> = {
+// Exported so other parts (the project cards riding the lines) can follow them.
+export const curves: Record<Variant, number[]> = {
   rise: [-150, 760, 420, 520, 900, 900, 1750, 330],
   fall: [-150, 260, 520, 620, 1050, 180, 1750, 640],
   arc: [-150, 620, 500, 260, 1100, 980, 1750, 420],

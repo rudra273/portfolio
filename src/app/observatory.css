@@ -2833,3 +2833,18 @@ body:has(.orbital-menu[open]) {
     margin-top: 0;
   }
 }
+
+/* Work heading sits over the stream until the first card lifts off. */
+.bay-heading {
+  position: absolute;
+  z-index: 3;
+  top: 13vh;
+  left: 0;
+  right: 0;
+  margin: 0;
+}
+.is-static .bay-heading {
+  position: relative;
+  top: auto;
+  margin-bottom: 40px;
+}

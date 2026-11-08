@@ -126,19 +126,24 @@ export default function Portfolio({
         className="work-section section-shell"
         aria-labelledby="work-title"
       >
-        <div className="section-heading">
-          <div>
-            <h2 id="work-title">
-              Ideas, brought
-              <br />
-              <span className="muted">into the real world.</span>
-            </h2>
-          </div>
-          <Link className="text-link" href="/projects">
-            All projects <Arrow diagonal />
-          </Link>
-        </div>
-        <ProjectBay projects={selected} summaries={summaries} />
+        <ProjectBay
+          projects={selected}
+          summaries={summaries}
+          heading={
+            <>
+              <div>
+                <h2 id="work-title">
+                  Ideas, brought
+                  <br />
+                  <span className="muted">into the real world.</span>
+                </h2>
+              </div>
+              <Link className="text-link" href="/projects">
+                All projects <Arrow diagonal />
+              </Link>
+            </>
+          }
+        />
       </section>
 
       <section
