@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,33 +39,69 @@ export default function Portfolio({
     .map((id) => projects.find((p) => String(p.id) === id))
     .filter((p): p is PortfolioProject => !!p);
   const selected = featured.length ? featured : projects.slice(0, 3);
+  const heroDive = useRef<HTMLElement>(null);
+
+  // Publish dive progress (0 → 1 while the hero is pinned) as --dive, so the
+  // headline can fade away as the camera flies into the disk.
+  useEffect(() => {
+    const section = heroDive.current;
+    if (!section) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const travel = section.offsetHeight - window.innerHeight;
+      const top = -section.getBoundingClientRect().top;
+      const dive = travel > 0 ? Math.min(Math.max(top / travel, 0), 1) : 0;
+      section.style.setProperty("--dive", dive.toFixed(4));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
   return (
     <div className="observatory">
-      <section id="top" className="orbital-hero" aria-labelledby="hero-title">
-        <div className="hero-stars" aria-hidden="true" />
-        <div className="blackhole-fallback" aria-hidden="true" />
-        <BlackHoleScene />
-        <div className="hero-shade" aria-hidden="true" />
-        <div className="hero-copy">
-          <h1 id="hero-title">
-            Engineering
-            <br />
-            <span>beyond the ordinary.</span>
-          </h1>
-          <p className="hero-description">
-            AI systems. Backend engineering. A curiosity without limits.
-          </p>
-          <a className="light-button hero-button" href="#work">
-            Explore my work
-            <Arrow diagonal />
-          </a>
-        </div>
-        <div className="hero-foot">
-          <span>BASED ON EARTH. THINKING BEYOND.</span>
-          <a href="#work">
-            Scroll to discover <span aria-hidden="true">↓</span>
-          </a>
-          <span>PORTFOLIO / 2026</span>
+      {/* The outer section adds scroll room; the hero inside stays pinned
+          while the camera dives into the black hole's disk. */}
+      <section
+        id="top"
+        ref={heroDive}
+        className="hero-dive"
+        aria-labelledby="hero-title"
+      >
+        <div className="orbital-hero">
+          <div className="hero-stars" aria-hidden="true" />
+          <div className="blackhole-fallback" aria-hidden="true" />
+          <BlackHoleScene />
+          <div className="hero-shade" aria-hidden="true" />
+          <div className="hero-copy">
+            <h1 id="hero-title">
+              Engineering
+              <br />
+              <span>beyond the ordinary.</span>
+            </h1>
+            <p className="hero-description">
+              AI systems. Backend engineering. A curiosity without limits.
+            </p>
+            <a className="light-button hero-button" href="#work">
+              Explore my work
+              <Arrow diagonal />
+            </a>
+          </div>
+          <div className="hero-foot">
+            <span>BASED ON EARTH. THINKING BEYOND.</span>
+            <a href="#work">
+              Scroll to discover <span aria-hidden="true">↓</span>
+            </a>
+            <span>PORTFOLIO / 2026</span>
+          </div>
         </div>
       </section>
 

@@ -10,7 +10,9 @@ import SceneViewport from "./SceneViewport";
 /** Starting render resolution: full on desktop, a little under on phones. */
 function startDpr() {
   if (typeof window === "undefined") return 1;
-  const phone = window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+  const phone = window.matchMedia(
+    "(max-width: 760px), (pointer: coarse)",
+  ).matches;
   return phone ? 1 : Math.min(window.devicePixelRatio || 1, 1.25);
 }
 
@@ -42,6 +44,7 @@ const fragmentShader = (steps: number) => /* glsl */ `
   uniform vec2 uPointer;
   uniform vec2 uCenter;   // where the hole sits on screen, in screen-height units
   uniform float uZoom;    // camera focal length
+  uniform float uTilt;    // extra camera elevation while diving in
   varying vec2 vUv;
 
   float hash12(vec2 p) {
@@ -147,7 +150,7 @@ const fragmentShader = (steps: number) => /* glsl */ `
     // Camera about 2° above the disk plane (the near edge-on view that gives
     // the halo over the top and the thin arc under), nudged by the pointer.
     float azimuth = -0.35 + uPointer.x * 0.06;
-    float elevation = 0.04 + uPointer.y * 0.012;
+    float elevation = 0.04 + uTilt + uPointer.y * 0.012;
     float dist = 24.0;
     vec3 ro = dist * vec3(cos(elevation) * sin(azimuth), sin(elevation), -cos(elevation) * cos(azimuth));
     vec3 forward = normalize(-ro);
@@ -215,6 +218,7 @@ function Hole({ steps }: { steps: number }) {
     uPointer: { value: new THREE.Vector2(0, 0) },
     uCenter: { value: new THREE.Vector2(0, -0.27) },
     uZoom: { value: 1.25 },
+    uTilt: { value: 0 },
   }));
   const material = useMemo(
     () =>
@@ -237,8 +241,30 @@ function Hole({ steps }: { steps: number }) {
     pointer.y = THREE.MathUtils.damp(pointer.y, state.pointer.y, 1.5, delta);
     // Phones are portrait: pull the camera back so the disk still fits.
     const portrait = size.width < size.height;
-    uniforms.uZoom.value = portrait ? 0.62 : 1.15;
-    uniforms.uCenter.value.y = portrait ? -0.22 : -0.27;
+    const zoom = portrait ? 0.62 : 1.15;
+    const centerY = portrait ? -0.22 : -0.27;
+
+    // Dive: while the hero is pinned, scrolling flies the camera into the
+    // disk. The hole slides aside and grows until the disk's bright strands
+    // sweep across the whole screen, handing over to the gold lines below.
+    const hero = document.getElementById("top");
+    let dive = 0;
+    if (hero) {
+      const travel = hero.offsetHeight - window.innerHeight;
+      if (travel > 0)
+        dive = THREE.MathUtils.clamp(
+          -hero.getBoundingClientRect().top / travel,
+          0,
+          1,
+        );
+    }
+    const e = dive * dive * (3 - 2 * dive);
+    const zoomEnd = zoom * 3;
+    uniforms.uZoom.value = THREE.MathUtils.lerp(zoom, zoomEnd, e);
+    // Aim at the disk about 7 units left of the hole (0.29 = 7 / 24 distance).
+    uniforms.uCenter.value.x = 0.29 * uniforms.uZoom.value * e;
+    uniforms.uCenter.value.y = THREE.MathUtils.lerp(centerY, 0, e);
+    uniforms.uTilt.value = 0.015 * e;
   });
 
   return (

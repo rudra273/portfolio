@@ -2489,3 +2489,26 @@ body:has(.orbital-menu[open]) {
   opacity: 0;
   transition: opacity 1s;
 }
+
+/* ── Hero dive: pinned hero, camera flies into the disk ─────────────── */
+.hero-dive {
+  position: relative;
+  /* Extra scroll room for the dive; the hero below stays pinned through it. */
+  padding-bottom: 110vh;
+}
+.hero-dive > .orbital-hero {
+  position: sticky;
+  top: 0;
+}
+/* Headline and footer fade and lift away as the dive begins. */
+.hero-dive .hero-copy,
+.hero-dive .hero-foot {
+  opacity: clamp(0, calc(1 - var(--dive, 0) * 3.2), 1);
+  transform: translateY(calc(var(--dive, 0) * -70px));
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No pinned dive: the black hole is a still image then anyway. */
+  .hero-dive {
+    padding-bottom: 0;
+  }
+}
