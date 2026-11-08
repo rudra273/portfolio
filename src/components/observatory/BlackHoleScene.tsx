@@ -259,12 +259,12 @@ function Hole({ steps }: { steps: number }) {
         );
     }
     const e = dive * dive * (3 - 2 * dive);
-    const zoomEnd = zoom * 3;
+    const zoomEnd = zoom * 8; // deep inside the disk before the shrink to the card
     uniforms.uZoom.value = THREE.MathUtils.lerp(zoom, zoomEnd, e);
     // Aim at the disk about 7 units left of the hole (0.29 = 7 / 24 distance).
     uniforms.uCenter.value.x = 0.29 * uniforms.uZoom.value * e;
     uniforms.uCenter.value.y = THREE.MathUtils.lerp(centerY, 0, e);
-    uniforms.uTilt.value = 0.015 * e;
+    uniforms.uTilt.value = 0.05 * e;
   });
 
   return (

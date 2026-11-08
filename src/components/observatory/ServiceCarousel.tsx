@@ -111,8 +111,10 @@ export default function ServiceCarousel() {
         world.style.visibility = "";
         return;
       }
-      // The layer's untransformed box is the viewport (it is pinned at top 0).
-      const width = window.innerWidth;
+      // The layer's own untransformed size (pinned at the top-left). Not
+      // window.innerWidth: that includes the scrollbar, which made the picture
+      // land a few pixels short of the card's right edge.
+      const width = world.offsetWidth;
       const height = world.offsetHeight;
       const c = card.getBoundingClientRect();
       if (shrink > 0.999 && c.right < 0) {
