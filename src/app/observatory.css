@@ -110,7 +110,7 @@ p {
   -webkit-backdrop-filter: blur(24px);
 }
 .orbital-header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -120,6 +120,7 @@ p {
   align-items: center;
   z-index: 50;
   padding: 0 56px;
+  pointer-events: none;
 }
 .wordmark {
   position: relative;
@@ -130,17 +131,12 @@ p {
   font-weight: 500;
   padding-left: 0.32em;
   color: #f3f4f6;
+  text-shadow: 0 1px 8px #000;
+  pointer-events: auto;
 }
-.wordmark-orbit {
+.orbital-header.hero-menu {
   position: absolute;
-  left: 39px;
-  top: 6px;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #fff8;
-  border-radius: 50%;
-  transform: rotate(-30deg) scaleX(1.3);
-  opacity: 0.55;
+  justify-content: flex-end;
 }
 .menu-trigger {
   display: inline-flex;
@@ -153,13 +149,10 @@ p {
   border-radius: 30px;
   background: #ffffff05;
   transition: background 0.2s;
+  pointer-events: auto;
 }
 .menu-trigger:hover {
   background: #ffffff12;
-}
-.orbital-header > .menu-trigger {
-  position: absolute;
-  right: 56px;
 }
 .menu-lines {
   display: grid;
@@ -405,14 +398,12 @@ body:has(.orbital-menu[open]) {
   margin-bottom: 25px;
 }
 .hero-copy h1 {
-  font-weight: 300;
+  font-weight: 200;
   font-size: clamp(55px, 7.3vw, 110px);
-  line-height: 1.04;
-  letter-spacing: -0.052em;
+  line-height: 1.06;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
   color: #eef1f6;
-}
-.hero-copy h1 > span {
-  color: #c2cbd7;
 }
 .hero-description {
   font-size: 13px;
@@ -1251,9 +1242,6 @@ body:has(.orbital-menu[open]) {
   .orbital-header {
     padding: 0 32px;
   }
-  .orbital-header > .menu-trigger {
-    right: 32px;
-  }
   .hero-foot {
     left: 32px;
     right: 32px;
@@ -1321,15 +1309,6 @@ body:has(.orbital-menu[open]) {
   .wordmark {
     font-size: 19px;
   }
-  .wordmark-orbit {
-    left: 32px;
-    top: 5px;
-    width: 17px;
-    height: 17px;
-  }
-  .orbital-header > .menu-trigger {
-    right: 20px;
-  }
   .menu-trigger {
     font-size: 11px;
     padding: 10px 15px;
@@ -1349,9 +1328,7 @@ body:has(.orbital-menu[open]) {
     margin-bottom: 26px;
   }
   .hero-copy h1 {
-    font-size: clamp(45px, 8.4vw, 65px);
-    line-height: 1.09;
-    letter-spacing: -0.05em;
+    font-size: clamp(32px, 9.5vw, 65px);
   }
   .hero-description {
     font-size: 12px;
@@ -1657,9 +1634,6 @@ body:has(.orbital-menu[open]) {
   }
 }
 @media (max-width: 380px) {
-  .hero-copy h1 {
-    font-size: 42px;
-  }
   .hero-copy {
     padding-top: 170px;
   }

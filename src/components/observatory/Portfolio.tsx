@@ -90,9 +90,9 @@ export default function Portfolio({
             <div className="hero-shade" aria-hidden="true" />
             <div className="hero-copy">
               <h1 id="hero-title">
-                Engineering
+                Rudrapratap
                 <br />
-                <span>beyond the ordinary.</span>
+                Mohanty
               </h1>
               <p className="hero-description">
                 AI systems. Backend engineering. A curiosity without limits.
