@@ -2089,7 +2089,7 @@ body:has(.orbital-menu[open]) {
   --slide-h: 430px;
   position: relative;
   /* Scroll distance that drives the slides: one screen plus ~80vh per step. */
-  height: 520vh;
+  height: 710vh;
 }
 .service-sticky {
   position: sticky;
@@ -2483,8 +2483,8 @@ body:has(.orbital-menu[open]) {
   );
   filter: blur(3px);
 }
-.orbital-hero:has(.scene-ready) .blackhole-fallback,
-.orbital-hero:has(.scene-ready) .hero-stars {
+.hole-journey:has(.hole-world .scene-ready) .blackhole-fallback,
+.hole-journey:has(.hole-world .scene-ready) .hero-stars {
   /* The shader draws its own sparse stars; the CSS dots are fallback only. */
   opacity: 0;
   transition: opacity 1s;
@@ -2493,8 +2493,14 @@ body:has(.orbital-menu[open]) {
 /* ── Hero dive: pinned hero, camera flies into the disk ─────────────── */
 .hero-dive {
   position: relative;
-  /* Extra scroll room for the dive; the hero below stays pinned through it. */
-  padding-bottom: 110vh;
+}
+/* Extra scroll room for the dive; the hero above stays pinned through it.
+   A real block, not padding: sticky elements can't use their parent's
+   padding, so padding gave the hero no room to stay pinned. */
+.hero-dive::after {
+  content: "";
+  display: block;
+  height: 110vh;
 }
 .hero-dive > .orbital-hero {
   position: sticky;
@@ -2508,8 +2514,8 @@ body:has(.orbital-menu[open]) {
 }
 @media (prefers-reduced-motion: reduce) {
   /* No pinned dive: the black hole is a still image then anyway. */
-  .hero-dive {
-    padding-bottom: 0;
+  .hero-dive::after {
+    display: none;
   }
 }
 
@@ -2741,3 +2747,94 @@ body:has(.orbital-menu[open]) {
 .is-static .bay-info:nth-child(3) { order: 6; }
 .is-static .bay-slab:nth-child(4) { order: 7; }
 .is-static .bay-info:nth-child(4) { order: 8; }
+
+/* ── Hero → Services: one view of the black hole, shrunk into a card ── */
+.hole-journey {
+  /* Must match the hero's pinned height (.orbital-hero). */
+  --hero-h: min(max(700px, 100svh), 1200px);
+  position: relative;
+}
+/* The shared black hole layer: pinned behind the hero and Services. It takes
+   no space (negative margin), so the sections scroll over it. */
+.hole-world {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  height: 100svh;
+  margin-bottom: -100vh;
+  margin-bottom: -100svh;
+  overflow: hidden;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.hole-journey .orbital-hero {
+  background: transparent;
+}
+/* Services starts its pinned stage exactly when the hero's dive ends. */
+.hole-journey .expertise-section {
+  margin-top: calc(-1 * var(--hero-h));
+  padding-top: 0;
+  background: none;
+}
+.hole-journey .expertise-section::before {
+  display: none;
+}
+/* Gold lines appear around the card as the view shrinks into it. */
+.service-sticky .light-sweep {
+  opacity: var(--frame, 1);
+}
+/* The intro card is a window onto the black hole: no glass fill or blur,
+   just an edge that appears as the frame settles. */
+.service-intro__card {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  /* The outline only appears in the last moment, once the picture has
+     become the card, so there is never a second rectangle inside it. */
+  border-color: rgba(
+    233,
+    206,
+    160,
+    calc(max(0, var(--frame, 1) - 0.85) * 2)
+  ) !important;
+  box-shadow: none !important;
+}
+.service-intro__card::before {
+  opacity: calc(max(0, var(--frame, 1) - 0.85) * 6.6);
+}
+/* The hero's dark bottom fade would slide over the black hole as the hero
+   scrolls away; it is gone by the end of the dive. */
+.hero-dive .hero-shade {
+  opacity: calc(1 - var(--dive, 0));
+}
+.service-intro__aside {
+  opacity: var(--titles, 1);
+}
+/* The question mark forms in front of the disk once the titles are in. */
+.service-viewport .service-art {
+  opacity: var(--titles, 1);
+}
+/* Titles slide out from behind the card's top and bottom edges. */
+.intro-reveal {
+  overflow: hidden;
+  padding: 0.08em 0 0.14em;
+}
+.intro-reveal.top > * {
+  transform: translateY(calc((1 - var(--titles, 1)) * 115%));
+}
+.intro-reveal.bottom > * {
+  transform: translateY(calc((1 - var(--titles, 1)) * -115%));
+}
+@media (max-width: 760px) {
+  .hole-journey {
+    --hero-h: min(max(740px, 100svh), 1000px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No pinned dive, so no overlap either. */
+  .hole-journey .expertise-section {
+    margin-top: 0;
+  }
+}

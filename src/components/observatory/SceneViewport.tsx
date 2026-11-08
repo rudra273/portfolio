@@ -84,6 +84,10 @@ export default function SceneViewport({
             camera={{ position: camera, fov }}
             dpr={dpr}
             frameloop={visible && awake ? "always" : "never"}
+            // Measure the layout size, not the on-screen size: a CSS scale on
+            // a parent (the black hole shrinking into a card) must not shrink
+            // the canvas itself, or the picture would be scaled twice.
+            resize={{ offsetSize: true }}
             gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
             fallback={<span />}
           >

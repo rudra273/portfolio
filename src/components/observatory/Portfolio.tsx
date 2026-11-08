@@ -69,50 +69,57 @@ export default function Portfolio({
   }, []);
   return (
     <div className="observatory">
-      {/* The outer section adds scroll room; the hero inside stays pinned
-          while the camera dives into the black hole's disk. */}
-      <section
-        id="top"
-        ref={heroDive}
-        className="hero-dive"
-        aria-labelledby="hero-title"
-      >
-        <div className="orbital-hero">
-          <div className="hero-stars" aria-hidden="true" />
-          <div className="blackhole-fallback" aria-hidden="true" />
+      {/* One journey: the hero dives into the black hole, then the same
+          view shrinks into the Services intro card. The black hole lives in
+          one shared layer pinned behind both sections. */}
+      <div className="hole-journey">
+        <div id="hole-world" className="hole-world" aria-hidden="true">
+          <div className="blackhole-fallback" />
           <BlackHoleScene />
-          <div className="hero-shade" aria-hidden="true" />
-          <div className="hero-copy">
-            <h1 id="hero-title">
-              Engineering
-              <br />
-              <span>beyond the ordinary.</span>
-            </h1>
-            <p className="hero-description">
-              AI systems. Backend engineering. A curiosity without limits.
-            </p>
-            <a className="light-button hero-button" href="#work">
-              Explore my work
-              <Arrow diagonal />
-            </a>
-          </div>
-          <div className="hero-foot">
-            <span>BASED ON EARTH. THINKING BEYOND.</span>
-            <a href="#expertise">
-              Scroll to discover <span aria-hidden="true">↓</span>
-            </a>
-            <span>PORTFOLIO / 2026</span>
-          </div>
         </div>
-      </section>
+        {/* The outer section adds scroll room; the hero inside stays pinned
+          while the camera dives into the black hole's disk. */}
+        <section
+          id="top"
+          ref={heroDive}
+          className="hero-dive"
+          aria-labelledby="hero-title"
+        >
+          <div className="orbital-hero">
+            <div className="hero-stars" aria-hidden="true" />
+            <div className="hero-shade" aria-hidden="true" />
+            <div className="hero-copy">
+              <h1 id="hero-title">
+                Engineering
+                <br />
+                <span>beyond the ordinary.</span>
+              </h1>
+              <p className="hero-description">
+                AI systems. Backend engineering. A curiosity without limits.
+              </p>
+              <a className="light-button hero-button" href="#work">
+                Explore my work
+                <Arrow diagonal />
+              </a>
+            </div>
+            <div className="hero-foot">
+              <span>BASED ON EARTH. THINKING BEYOND.</span>
+              <a href="#expertise">
+                Scroll to discover <span aria-hidden="true">↓</span>
+              </a>
+              <span>PORTFOLIO / 2026</span>
+            </div>
+          </div>
+        </section>
 
-      <section
-        id="expertise"
-        className="expertise-section"
-        aria-labelledby="expertise-title"
-      >
-        <ServiceCarousel />
-      </section>
+        <section
+          id="expertise"
+          className="expertise-section"
+          aria-labelledby="expertise-title"
+        >
+          <ServiceCarousel />
+        </section>
+      </div>
 
       <section
         id="work"
