@@ -2221,7 +2221,7 @@ body:has(.orbital-menu[open]) {
 .service-slide {
   position: relative;
   flex: 0 0 var(--slide-w);
-  /* Every card, intro included, shares one size. */
+  /* The intro and service cards share a baseline height. */
   height: var(--slide-h);
   border-radius: 24px;
   overflow: hidden;
@@ -2340,6 +2340,7 @@ body:has(.orbital-menu[open]) {
   .service-carousel {
     --slide-w: calc(100vw - 48px);
     --slide-gap: 14px;
+    --slide-h: 400px;
   }
   .service-controls {
     flex-direction: column;
@@ -2355,18 +2356,26 @@ body:has(.orbital-menu[open]) {
   .service-track {
     padding-block: 16px;
   }
-  .service-carousel {
-    --slide-h: 520px;
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: var(--slide-h);
   }
   .service-slide__body {
-    padding: 30px 24px 70px;
+    padding: 22px 24px 16px;
   }
   .service-slide__body h3 {
     font-size: 30px;
+    margin-block: 10px;
+  }
+  .service-points {
+    margin: 12px 0 14px;
+    gap: 6px;
   }
   .service-viewport .service-art {
     /* Centred in the intro card, then lower behind the service copy. */
-    top: calc(50% + 150px * var(--art-shift, 1));
+    top: calc(50% + 120px * var(--art-shift, 1));
     left: calc(50% + 10vw * var(--art-shift, 1));
     width: 110vw;
     height: 420px;
@@ -2374,10 +2383,10 @@ body:has(.orbital-menu[open]) {
     opacity: 0.75;
   }
   .service-slide .service-caption {
-    left: 24px;
-    right: 24px;
+    position: static;
+    margin-top: auto;
+    padding: 0 24px 18px;
     justify-content: flex-start;
-    bottom: 22px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
